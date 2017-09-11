@@ -9,7 +9,7 @@ ___Note: Impelon currently maintains this project___
 The project is (hopefully) well documented and includes most basic widgets. 
 
 ## Help Wanted
-Suggestions (,also requests), bug-reports and contributions are welcome. Specifically I currently need help with Issues #2 and #3 to make PyGVisuals more user-friendly. If you have any ideas how to help me with this please comment on the respecive Issue.
+Suggestions (& requests), bug-reports and contributions are welcome. Specifically I currently need help with Issues #2 and #3 to make PyGVisuals more user-friendly. If you have any ideas how to help me with this please comment on the respecive Issue.
 
 I would be happy to see you use the contens of this repository. You are encouraged to open up a page on the Wiki showing how you use PyGVisuals in your projects.
 
@@ -21,7 +21,7 @@ The current [UML-Class-Diagram](GUI-System.class.violet.html) can be viewed here
 _A screenshot taken from the bintree-gui_
 
 ## Usage
-According to the [BSD-Licence](LICENSE) PyGVisuals is using you can use the contens of this repository to your liking as long as you follow the licence's terms and conditions. If you want to include PyGVisuals or parts of it in your own project, include the files you need into your project's package (be sure to also include the [license](LICENSE)). You can also add PyGVisuals to your python-modules (see Impelon/PyGVisuals#3).
+According to the [BSD-Licence](LICENSE) PyGVisuals is using, you can use the contens of this repository to your liking as long as you follow the licence's terms and conditions. If you want to include PyGVisuals or parts of it in your own project, include the files you need into your project's package (be sure to also include the [license](LICENSE)). You can also add PyGVisuals to your python-modules (see Impelon/PyGVisuals#3).
 
 If you need help with using PyGVisuals, you can open an Issue and I will try to help.
 Also if you need any other features, you can also open an Issue and add the label 'request'. I will work on new features that I thing are worth adding. 
