@@ -1,5 +1,5 @@
 # PyGVisuals
-A collection of Classes to create GUI's and more based purely on PyGame (https://www.pygame.org/news).
+A collection of Classes to create GUI's and more based purely on pygame (https://www.pygame.org/news).
 
 _This is a byproduct of a larger, currently unactive and incomplete [project](https://github.com/AlinaGri/CoolesSpiel). 
 The classes now in PyGVisuals were developed by Impelon and kjkriegel._
@@ -28,4 +28,4 @@ Also if you need any other features, you can also open an Issue and add the labe
 
 Currently, because PyGVisuals is not actively used anywhere (I do not even use it myself, because I do not work on any python projects atm.), I do not have much motivation to add new features without any reasons.
 
-__PyGVisuals requires [PyGame](https://www.pygame.org/news) and obviously [Python](https://www.python.org/) to work__
+__PyGVisuals requires [pygame](https://www.pygame.org/news) and obviously [python](https://www.python.org/) to work__
