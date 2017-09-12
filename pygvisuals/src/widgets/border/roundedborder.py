@@ -29,15 +29,17 @@ class RoundedBorder(coloredborder.ColoredBorder):
         parameters:     pygame.Surface the image to be bordered
         return values:  pygame.Surface the bordered result
         """
-        if isinstance(surface, pygame.Surface) and not self.isEmptyBorder():
-            rect            = surface.get_rect()
-            size            = self.getBounds(rect)
-            bordered        = pygame.Surface(size.size, 0, surface)
-            bordered.blit(self._getRoundRect(size, self.color), size)
-            bordered.blit(self._getRoundRect(rect, (255, 255, 255, 255)), (self.left, self.top), special_flags = pygame.BLEND_RGBA_SUB)
-            bordered.blit(surface, (self.left, self.top))
-            return bordered
-        return surface
+        try:
+            if not self.isEmptyBorder():
+                rect            = surface.get_rect()
+                size            = self.getBounds(rect)
+                bordered        = pygame.Surface(size.size, 0, surface)
+                bordered.blit(self._getRoundRect(size, self.color), size)
+                bordered.blit(self._getRoundRect(rect, (255, 255, 255, 255)), (self.left, self.top), special_flags = pygame.BLEND_RGBA_SUB)
+                bordered.blit(surface, (self.left, self.top))
+                return bordered
+        except:
+            return surface
 
     def _getRoundRect(self, rect, color):
         """

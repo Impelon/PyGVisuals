@@ -29,6 +29,8 @@ class CompoundBorder(border.Border):
         parameters:     pygame.Surface the image to be bordered
         return values:  pygame.Surface the bordered result
         """
-        if isinstance(surface, pygame.Surface) and not self.isEmptyBorder():
-            return self.outer.getBorderedImage(self.inner.getBorderedImage(surface))
-        return surface
+        try:
+            if not self.isEmptyBorder():
+                return self.outer.getBorderedImage(self.inner.getBorderedImage(surface))
+        except:
+            return surface

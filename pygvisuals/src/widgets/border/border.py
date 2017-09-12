@@ -18,16 +18,16 @@ class Border(object):
         return values:  -
         """
         super(Border, self).__init__()
-        if isinstance(width, tuple):
+        try:
             self.left   = width[0]
             self.width  = width[1]
-        else:
+        except:
             self.left   = width
             self.width  = width
-        if isinstance(height, tuple):
+        try:
             self.top    = height[0]
             self.height = height[1]
-        else:
+        except:
             self.top    = height
             self.height = height
 
@@ -38,15 +38,17 @@ class Border(object):
         parameters:     pygame.Surface the image to be bordered
         return values:  pygame.Surface the bordered result
         """
-        if isinstance(surface, pygame.Surface) and not self.isEmptyBorder():
-            rect            = surface.get_rect()
-            size            = self.getBounds(rect)
-            bordered        = pygame.Surface(size.size, 0, surface)
-            bordered.fill((0, 0, 0))
-            bordered.fill((0, 0, 0, 0), rect.move(self.left, self.top))
-            bordered.blit(surface, (self.left, self.top))
+        try:
+            if not self.isEmptyBorder():
+                rect            = surface.get_rect()
+                size            = self.getBounds(rect)
+                bordered        = pygame.Surface(size.size, 0, surface)
+                bordered.fill((0, 0, 0))
+                bordered.fill((0, 0, 0, 0), rect.move(self.left, self.top))
+                bordered.blit(surface, (self.left, self.top))
             return bordered
-        return surface
+        except:
+            return surface
 
     def getBounds(self, rect):
         """
@@ -55,12 +57,13 @@ class Border(object):
         parameters:     pygame.Rect the original bounds
         return values:  pygame.Rect the adjusted bounds
         """
-        if isinstance(rect, pygame.Rect):
+        try:
             bordered = rect.inflate(self.width + self.left, self.height + self.top)
             bordered.top = rect.top - self.top
             bordered.left = rect.left - self.left
             return bordered
-        return rect
+        except:
+            return rect
 
     def isEmptyBorder(self):
         """
