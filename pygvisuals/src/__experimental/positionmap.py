@@ -80,10 +80,10 @@ def scale(m, scale = 1):
                     int/tuple the scalar or a tuple containing a scalar for each dimension
     return values:  PositionMap the result
     """
-    if isinstance(scale, tuple):
+    try:
         scaleX = abs(scale[0])
         scaleY = abs(scale[1])
-    else:
+    except:
         scaleX = abs(scale)
         scaleY = abs(scale)
     resolution = (int(m.getWidth() * scaleX), int(m.getHeight() * scaleY))
