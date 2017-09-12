@@ -28,12 +28,14 @@ class ColoredBorder(border.Border):
         parameters:     pygame.Surface the image to be bordered
         return values:  pygame.Surface the bordered result
         """
-        if isinstance(surface, pygame.Surface) and not self.isEmptyBorder():
-            rect        = surface.get_rect()
-            size        = self.getBounds(rect)
-            bordered    = pygame.Surface(size.size, 0, surface)
-            bordered.fill(self.color)
-            bordered.fill((0, 0, 0, 0), rect.move(self.left, self.top))
-            bordered.blit(surface, (self.left, self.top))
-            return bordered
-        return surface
+        try:
+            if not self.isEmptyBorder():
+                rect        = surface.get_rect()
+                size        = self.getBounds(rect)
+                bordered    = pygame.Surface(size.size, 0, surface)
+                bordered.fill(self.color)
+                bordered.fill((0, 0, 0, 0), rect.move(self.left, self.top))
+                bordered.blit(surface, (self.left, self.top))
+                return bordered
+        except:
+            return surface
