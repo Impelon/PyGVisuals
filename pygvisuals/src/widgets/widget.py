@@ -238,7 +238,7 @@ class Widget(pygame.sprite.DirtySprite):
         """
         if self.isActive() and len(args) > 0:
             event = args[0]
-            if event.type == pygame.MOUSEBUTTONDOWN:
+            if event.type == pygame.MOUSEBUTTONDOWN and event.button in (1, 2, 3):
                 self.setFocused(self.rect.collidepoint(event.pos))
         if self.isDirty():
             self.rect   = self._border.getBounds(self._bounds)

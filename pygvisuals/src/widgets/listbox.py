@@ -5,6 +5,8 @@ import textwidget
 import pygame
 from selectiontextwidget import *
 
+VIEWPOINT       = 'v'
+
 class Listbox(selectiontextwidget.SelectionTextWidget):
 
     """
@@ -27,6 +29,7 @@ class Listbox(selectiontextwidget.SelectionTextWidget):
         super(Listbox, self).__init__(x, y, width, height, "", font, selectioncolor = selectiontextwidget.defaultSelection)
         self._list      = []
         self._editable  = editable
+        self._viewpoint = self._cursor
 
     def setEditable(self, editable):
         """
@@ -46,6 +49,47 @@ class Listbox(selectiontextwidget.SelectionTextWidget):
         return values:  boolean is the Listbox editable
         """
         return self._editable
+
+    def setViewpoint(self, index):
+        """
+        Set the Listbox's viewpoint
+
+        parameters:     int the index the viewpoint should be set to
+        return values:  -
+        """
+        self._viewpoint = self.getActualIndex(index)
+        self.markDirty()
+
+    def getViewpoint(self):
+        """
+        Return the Listbox's viewpoint
+
+        parameters:     -
+        return values:  int the Listbox's viewpoint
+        """
+        return self._viewpoint
+
+    def moveViewpoint(self, index):
+        """
+        Move the Listbox's cursor-position by the given amount
+
+        parameters:     int the amount the viewpoint should be moved by
+        return values:  -
+        """
+        self.setViewpoint(min(max(self.getActualIndex(VIEWPOINT) + int(index), 0), self.getActualIndex(END)))
+
+    def setCursor(self, index):
+        """
+        Set the Listbox's cursor-position
+
+        parameters:     int the index the cursor should be set to
+        return values:  -
+        """
+        if self._indexToPos(index) < 0:
+            self.setViewpoint(index)
+        elif self._indexToPos(index) > self.rect.h:
+            self.setViewpoint(index - (self.rect.h / self._font.get_linesize()))
+        super(Listbox, self).setCursor(index)
 
     def setText(self, text):
         """
@@ -119,6 +163,8 @@ class Listbox(selectiontextwidget.SelectionTextWidget):
         """
         if index == END:
             return len(self._list)
+        if index == VIEWPOINT:
+            return self._viewpoint
         return super(Listbox, self).getActualIndex(index)
 
     def _indexToPos(self, index):
@@ -130,7 +176,7 @@ class Listbox(selectiontextwidget.SelectionTextWidget):
         parameters:     int index given
         return values:  int relative y-coordinate
         """
-        return self._font.get_linesize() * index
+        return self._font.get_linesize() * (index - self._viewpoint)
 
     def _posToIndex(self, y):
         """
@@ -139,9 +185,9 @@ class Listbox(selectiontextwidget.SelectionTextWidget):
         private function
 
         parameters:     int relative y-coordinate
-        return values:  int index given
+        return values:  int resulting index
         """
-        return y / self._font.get_linesize()
+        return (y / self._font.get_linesize()) + self._viewpoint
 
     def update(self, *args):
         """
@@ -166,11 +212,17 @@ class Listbox(selectiontextwidget.SelectionTextWidget):
                             self.delete(SELECTION, CURSOR)
                             self.setCursor(self._selection)
             elif event.type == pygame.MOUSEBUTTONUP:
-                if self.rect.collidepoint(event.pos):
-                    self.setSelection(CURSOR, self._posToIndex(event.pos[1] - self.rect.y))
+                if event.button in (1, 3):
+                    if self.rect.collidepoint(event.pos):
+                        self.setSelection(CURSOR, self._posToIndex(event.pos[1] - self.rect.y))
+                elif event.button == 4 and self.isFocused():
+                    self.moveViewpoint(-1)
+                elif event.button == 5 and self.isFocused():
+                    self.moveViewpoint(1)
             elif event.type == pygame.MOUSEBUTTONDOWN:
-                if self.rect.collidepoint(event.pos):
-                    self.setCursor(self._posToIndex(event.pos[1] - self.rect.y))
+                if event.button in (1, 3):
+                    if self.rect.collidepoint(event.pos):
+                        self.setCursor(self._posToIndex(event.pos[1] - self.rect.y))
         
         super(Listbox, self).update(*args)
 
@@ -186,12 +238,12 @@ class Listbox(selectiontextwidget.SelectionTextWidget):
         """
         surface     = super(Listbox, self)._getAppearance(*args)
         linesize    = self._font.get_linesize()
-        for n in range(len(self._list)):
-            surface.blit(self._font.render(str(self._list[n]), pygame.SRCALPHA, self._foreground), (0, linesize * n))
+        for n in range(self._viewpoint, len(self._list)):
+            surface.blit(self._font.render(str(self._list[n]), pygame.SRCALPHA, self._foreground), (0, linesize * (n - self._viewpoint)))
         if self.isFocused():
             s, e = self._sort(CURSOR, SELECTION)
             for n in range(s, e + 1):
                 selection = pygame.Surface((self._bounds.width, linesize), pygame.SRCALPHA, 32)
                 selection.fill(self._selectioncolor)
-                surface.blit(selection, (0, linesize * n))
+                surface.blit(selection, (0, linesize * (n - self._viewpoint)))
         return surface
