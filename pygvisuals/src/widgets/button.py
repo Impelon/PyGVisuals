@@ -124,14 +124,14 @@ class Button(textwidget.TextWidget, imagebox.Imagebox):
             self.markDirty()
         if len(args) > 0 and self.isActive():
             event = args[0]
-            if event.type == pygame.MOUSEBUTTONUP:
+            if event.type == pygame.MOUSEBUTTONUP and self.isFocused():
                 if self.rect.collidepoint(event.pos):
                     if event.button == 1:
                         try:
                             self._callback()
-                        except:
-                            pass
-            elif event.type == pygame.MOUSEBUTTONDOWN:
+                        except Exception as e:
+                            print repr(e)
+            elif event.type == pygame.MOUSEBUTTONDOWN and self.isFocused():
                 if self.rect.collidepoint(event.pos):
                     if event.button == 1:
                         self._state = 2

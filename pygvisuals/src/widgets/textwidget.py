@@ -21,7 +21,7 @@ class TextWidget(widget.Widget):
                         int y-coordinate of the TextWidget (top)
                         int width of the TextWidget
                         int height of the TextWidget
-                        string test of the TextWidget
+                        string text of the TextWidget
                         pygame.font.Font font of the TextWidget
         return values:  -
         """
