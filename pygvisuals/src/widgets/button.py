@@ -140,7 +140,7 @@ class Button(textwidget.TextWidget, imagebox.Imagebox):
                     self.markDirty()
             elif event.type == pygame.MOUSEMOTION:
                 if self.rect.collidepoint(event.pos):
-                    if event.buttons[0]:
+                    if event.buttons[0] and self.isFocused():
                         self._state = 2
                     else:
                         self._state = 1
