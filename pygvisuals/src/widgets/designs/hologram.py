@@ -3,17 +3,18 @@ import pygame.font as fnt
 from ..border import RoundedBorder, CompoundBorder
 
 """
-A cold design for PyGVisuals-widgets;
+A futuristic design for PyGVisuals-widgets;
+Good for HUDs, etc.
 """
 
-design = {"border": CompoundBorder(RoundedBorder(3, 3, (150, 190, 255, 200), 8), RoundedBorder(2, 2, (30, 90, 150), 8)),
-          "foreground": (255, 255, 255),
-          "background": (120, 160, 200),
-          "disabeledOverlay": (150, 150, 250, 150),
+design = {"border": CompoundBorder(RoundedBorder(2, 2, (50, 100, 255, 150), 4), RoundedBorder(4, 4, (50, 50, 50, 50), 4)),
+          "foreground": (50, 100, 255, 150),
+          "background": (50, 50, 50, 50),
+          "disabeledOverlay": (100, 100, 255, 150),
           "font": fnt.Font(None, 18),
-          "selection": (45, 110, 235, 120),
-          "hovered": (150, 200, 250, 50),
-          "pressed": (150, 200, 250, 100)}
+          "selection": (100, 100, 255, 100),
+          "hovered": (100, 100, 255, 50),
+          "pressed": (100, 100, 255, 100)}
 
 def applyDesign():
     """
