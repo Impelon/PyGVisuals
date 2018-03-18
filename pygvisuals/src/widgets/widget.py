@@ -238,15 +238,16 @@ class Widget(pygame.sprite.DirtySprite):
         """
         if self.isActive() and len(args) > 0:
             event = args[0]
-            if event.type == pygame.MOUSEBUTTONDOWN:
+            if event.type == pygame.MOUSEBUTTONDOWN and event.button in (1, 2, 3):
                 self.setFocused(self.rect.collidepoint(event.pos))
         if self.isDirty():
             self.rect   = self._border.getBounds(self._bounds)
-            self.image  = self._border.getBorderedImage(self._getAppearance(*args))
+            self.image  = self._getAppearance(*args)
             if not self.isActive():
                 inactive = self.image.copy()
                 inactive.fill(disabeledOverlay)
                 self.image.blit(inactive, (0, 0))
+            self.image  = self._border.getBorderedImage(self.image)
 
     def _getAppearance(self, *args):
         """

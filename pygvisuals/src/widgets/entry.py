@@ -88,9 +88,9 @@ class Entry(selectiontextwidget.SelectionTextWidget):
         parameters: tuple arguments for the update (first argument should be an instance pygame.event.Event)
         return values: -
         """
-        if len(args) > 0 and self.isActive():
+        if len(args) > 0 and self.isActive() and self.isFocused():
             event = args[0]
-            if event.type == pygame.KEYDOWN and self.isFocused():
+            if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_LEFT:
                     self.moveCursor(-1)
                 elif event.key == pygame.K_RIGHT:
