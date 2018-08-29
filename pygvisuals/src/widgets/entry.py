@@ -98,26 +98,30 @@ class Entry(selectiontextwidget.SelectionTextWidget):
                 elif event.key == pygame.K_BACKSPACE or event.key == pygame.K_DELETE:
                     if self._selection == self._cursor:
                         if event.key == pygame.K_DELETE:
-                            self.delete(self._selection + 1, CURSOR)
+                            if self._validation(self._text[:self._selection] + self._text[self._selection + 1:], self._text, self):
+                                self.delete(self._selection + 1, CURSOR)
                         else:
-                            self.delete(self._selection - 1, CURSOR)
-                            self.moveCursor(-1)
+                            if self._validation(self._text[:self._selection - 1] + self._text[self._selection:], self._text, self):
+                                self.delete(self._selection - 1, CURSOR)
+                                self.moveCursor(-1)
                     else:
-                        self.delete(SELECTION, CURSOR)
-                        self.setCursor(self._sort(SELECTION, CURSOR)[0])
+                        s, e = self._sort(SELECTION, CURSOR)
+                        if self._validation(self._text[:s] + self._text[e:], self._text, self):
+                            self.delete(SELECTION, CURSOR)
+                            self.setCursor(s)
                 else:
                     char = event.unicode.encode("ascii", "ignore")
-                    if (char != "" and (char == " " or not char.isspace())
-                    and self._validation(self._text + char, self._text, self)):
-                        self.delete(SELECTION, CURSOR)
-                        s = self._sort(SELECTION, CURSOR)[0]
-                        self.insert(s, char)
-                        self.setCursor(s + 1)
+                    if char != "" and (char == " " or not char.isspace()):
+                        s, e = self._sort(SELECTION, CURSOR)
+                        if self._validation(self._text[:s] + char + self._text[e:], self._text, self):
+                            self.delete(SELECTION, CURSOR)
+                            self.insert(s, char)
+                            self.setCursor(s + 1)
             elif event.type == pygame.MOUSEMOTION:
                 if self.rect.collidepoint(event.pos) and event.buttons[0]:
                     self.setSelection(SELECTION, self._posToIndex(event.pos[0] - self.rect.x))
             elif event.type == pygame.MOUSEBUTTONDOWN:
-                if self.rect.collidepoint(event.pos):
+                if self.rect.collidepoint(event.pos) and event.button != 2:
                     self.setCursor(self._posToIndex(event.pos[0] - self.rect.x))
         
         super(Entry, self).update(*args)
