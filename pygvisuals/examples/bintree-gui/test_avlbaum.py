@@ -2,7 +2,7 @@
 
 import unittest
 import random
-import avlbaum
+from . import avlbaum
 
 class TestAVLBaum(unittest.TestCase):
 

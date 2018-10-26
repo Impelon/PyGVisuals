@@ -1,6 +1,6 @@
 # -*- coding: cp1252 -*-
 
-import textwidget, imagebox
+from . import textwidget, imagebox
 import pygame
 
 defaultHovered    = (200, 200, 150, 50)
@@ -130,7 +130,7 @@ class Button(textwidget.TextWidget, imagebox.Imagebox):
                         try:
                             self._callback()
                         except Exception as e:
-                            print repr(e)
+                            print(repr(e))
             elif event.type == pygame.MOUSEBUTTONDOWN and self.isFocused():
                 if self.rect.collidepoint(event.pos):
                     if event.button == 1:

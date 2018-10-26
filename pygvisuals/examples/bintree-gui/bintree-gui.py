@@ -1,7 +1,7 @@
 # -*- coding: cp1252 -*-
 #Modules#
 
-import avlbaum as avltree
+from . import avlbaum as avltree
 
 import sys
 import random
@@ -62,7 +62,7 @@ def getDrawnTree(tree, colors = None, surface = None, current = None, pre = None
                 size += 400 / (2 ** n)
         surface = pygame.Surface((size, size), pygame.SRCALPHA, 32)
     if tree.root == None:
-        print "Tree is empty!"
+        print("Tree is empty!")
     else:
         if current == None:
             current = tree.root

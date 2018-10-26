@@ -1,6 +1,6 @@
 # -*- coding: cp1252 -*-
 
-import positionmap
+from . import positionmap
 import pygame, pygame.gfxdraw
 import sys, random, time
 from pygame.locals import *
@@ -147,8 +147,8 @@ def mapDrawPixel():
     global m, screen, rc, stop
     stop = False
     color = (250, 150, 100)
-    for x in xrange(m.getWidth()):
-        for y in xrange(m.getHeight()):
+    for x in range(m.getWidth()):
+        for y in range(m.getHeight()):
             if rc:
                 color = (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))
             if not m.isPositionValid(x, y):
@@ -168,8 +168,8 @@ def mapDrawPixelSlow():
     global m, screen, rc, stop
     stop = False
     color = (250, 150, 100)
-    for x in xrange(m.getWidth()):
-        for y in xrange(m.getHeight()):
+    for x in range(m.getWidth()):
+        for y in range(m.getHeight()):
             if rc:
                 color = (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))
             if not m.isPositionValid(x, y):
@@ -210,7 +210,7 @@ def printHelp():
     return values:  -
     """
     for ln in testhelp:
-        print ln
+        print(ln)
 
 def handleInput():
     """
@@ -225,12 +225,12 @@ def handleInput():
             pygame.quit()
             sys.exit()
         if event.type == pygame.KEYDOWN:
-            key = event.unicode.encode("ascii", "ignore").lower()
+            key = event.str.encode("ascii", "ignore").lower()
 
             if key == "t":
                 rc = not rc
             if key == "i":
-                print "invalid Positions:", m.getLengthInvalidPositions(), "possible Positions:", m.getWidth() * m.getHeight()
+                print("invalid Positions:", m.getLengthInvalidPositions(), "possible Positions:", m.getWidth() * m.getHeight())
             if key == "h":
                 printHelp()
             if key == "b":

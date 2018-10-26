@@ -1,6 +1,6 @@
 # -*- coding: cp1252 -*-
 
-import widget
+from . import widget
 import pygame
 import pygame.font as fnt
 
