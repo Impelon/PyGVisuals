@@ -1,6 +1,6 @@
 # -*- coding: cp1252 -*-
 
-from . import widget
+import widget
 import pygame
 
 class IconWidget(widget.Widget):

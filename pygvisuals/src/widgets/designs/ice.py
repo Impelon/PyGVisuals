@@ -1,4 +1,4 @@
-from . import __init__ as helper
+import __init__ as helper
 import pygame.font as fnt
 from ..border import RoundedBorder, CompoundBorder
 

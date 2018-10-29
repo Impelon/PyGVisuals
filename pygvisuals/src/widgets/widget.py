@@ -2,7 +2,7 @@
 
 import pygame.sprite
 import pygame
-from .border import Border
+from border import Border
 
 defaultBorder       = Border(0, 0)
 defaultForeground   = (255, 255, 255)

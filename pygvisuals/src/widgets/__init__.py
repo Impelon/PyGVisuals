@@ -4,15 +4,15 @@
 Package for interactive GUI-objects with PyGame
 """
 
-from . import widget
+import widget
 Widget = widget.Widget
-from . import label
+import label
 Label = label.Label
-from . import entry
+import entry
 Entry = entry.Entry
-from . import listbox
+import listbox
 Listbox = listbox.Listbox
-from . import imagebox
+import imagebox
 Imagebox = imagebox.Imagebox
-from . import button
+import button
 Button = button.Button

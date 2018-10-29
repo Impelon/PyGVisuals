@@ -34,8 +34,8 @@ def createBySurface(surface):
     surface = pygame.PixelArray(surface)
     m.setWidth(size[0])
     m.setHeight(size[1])
-    for x in range(size[0]):
-        for y in range(size[1]):
+    for x in xrange(size[0]):
+        for y in xrange(size[1]):
             try:
                 if surface[x][y] == black:
                     invalid.add((x, y))
@@ -60,9 +60,9 @@ def createByList(l = []):
         m.setWidth(1)
         m.setHeight(1)
         return m
-    for y in range(len(l)):
+    for y in xrange(len(l)):
         ln = str(l[y])
-        for x in range(len(ln)):
+        for x in xrange(len(ln)):
             if ln[x] != " ":
                 invalid.add((x, y))
         if len(ln) > w:
@@ -179,8 +179,8 @@ class PositionMap:
         parameter:      pygame.Rect the area/rect to check
         return values:  bool whether the area/rect is completely valid according to the PositionMap
         """
-        for x in range(rect.width):
-            for y in range(rect.height):
+        for x in xrange(rect.width):
+            for y in xrange(rect.height):
                 if not self.isPositionValid(x + rect.x, y + rect.y):
                     return False
         return True

@@ -4,4 +4,4 @@
 Basepackage for PyGVisuals
 """
 
-from .src import *
+from src import *

@@ -1,6 +1,6 @@
 # -*- coding: cp1252 -*-
 
-from . import textwidget
+import textwidget
 import pygame
 
 

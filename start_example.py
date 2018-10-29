@@ -41,28 +41,28 @@ for root, dirs, files in os.walk(os.path.join("pygvisuals", "examples")):
         if has_main_loop(os.path.join(root, f)):
                  examples.append(os.path.join(root, f))
 
-print("List of executable examples:")
+print "List of executable examples:"
 for e in range(len(examples)):
-    print(str(e) + ":", examples[e])
+    print str(e) + ":", examples[e]
 
 ### Handle User-Input ###
 
-print("")
-print("Choose an example to execute with its index! (type 'exit' to exit)")
+print ""
+print "Choose an example to execute with its index! (type 'exit' to exit)"
 
 index = None
 while index == None:
-    userinput = input("index: ")
+    userinput = raw_input("index: ")
     if userinput.lower() == "exit":
         sys.exit()
         break
     try:
         index = int(userinput)
         if index >= len(examples) or index < 0:
-            print("Could not find example of index", index)
+            print "Could not find example of index", index
             index = None
     except:
-        print("Invalid index!")
+        print "Invalid index!"
         index = None
-print("Executing:", examples[index])
+print "Executing:", examples[index]
 __import__(examples[index].replace(os.sep, "."))

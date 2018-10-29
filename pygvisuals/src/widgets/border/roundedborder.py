@@ -1,7 +1,7 @@
 # -*- coding: cp1252 -*-
 
 import pygame
-from . import coloredborder
+import coloredborder
 
 class RoundedBorder(coloredborder.ColoredBorder):
 

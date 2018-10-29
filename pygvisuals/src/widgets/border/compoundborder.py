@@ -1,7 +1,7 @@
 # -*- coding: cp1252 -*-
 
 import pygame
-from . import border
+import border
 
 class CompoundBorder(border.Border):
 

@@ -1,5 +1,5 @@
 # -*- coding: cp1252 -*-
-from .avlbaum import AVLBaum
+from avlbaum import AVLBaum
 import random
 
 derBaum = AVLBaum()
@@ -25,12 +25,12 @@ for i in range(0, anzahl):
 for element in liste:
     derBaum.einfuegen(element)
 
-print("Folgende Liste wurde in den Baum eingefügt:")
-print(liste, "\n")
-print("Das traversieren in-order ergibt:")
-print(derBaum.traversieren("in"), "\n")
-print("Das traversieren pre-order ergibt:")
-print(derBaum.traversieren("pre"), "\n")
+print "Folgende Liste wurde in den Baum eingefügt:"
+print liste, "\n"
+print "Das traversieren in-order ergibt:"
+print derBaum.traversieren("in"), "\n"
+print "Das traversieren pre-order ergibt:"
+print derBaum.traversieren("pre"), "\n"
 
 ##derBaum.loeschen(13)
 ##print "13 wurde entfernt!"
@@ -42,14 +42,14 @@ print(derBaum.traversieren("pre"), "\n")
 
 for i in range(0, len(liste)):
     derBaum.loeschen(liste[i])
-    print(liste[i], "wurde entfernt!")
-    print("Das traversieren in-order ergibt:")
-    print(derBaum.traversieren("in"))
-    print("Das traversieren pre-order ergibt:")
-    print(derBaum.traversieren("pre"), "\n")
-    print("Die Balance des Baumes ergibt:")
-    print(derBaum.root.holeKBalance(), "\n")
+    print liste[i], "wurde entfernt!"
+    print "Das traversieren in-order ergibt:"
+    print derBaum.traversieren("in")
+    print "Das traversieren pre-order ergibt:"
+    print derBaum.traversieren("pre"), "\n"
+    print "Die Balance des Baumes ergibt:"
+    print derBaum.root.holeKBalance(), "\n"
     assert derBaum.root.holeKBalance() in [0, 1, -1]
 
-print("Das traversieren in-order ergibt:")
-print(derBaum.traversieren("in"), "\n")
+print "Das traversieren in-order ergibt:"
+print derBaum.traversieren("in"), "\n"

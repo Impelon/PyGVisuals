@@ -1,9 +1,9 @@
 # -*- coding: cp1252 -*-
 
-from . import selectiontextwidget
-from . import textwidget
+import selectiontextwidget
+import textwidget
 import pygame
-from .selectiontextwidget import *
+from selectiontextwidget import *
 
 VIEWPOINT       = 'v'
 
