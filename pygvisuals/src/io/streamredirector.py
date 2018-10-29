@@ -1,26 +1,26 @@
 # -*- coding: cp1252 -*-
 
-import time
+import io, time
 
-class StreamRedirector():
+class StreamRedirector(io.IOBase):
 
     """
-    Manager for redirecting a stream to a insertable object
+    Manager for redirecting a stream to a callback-function
     """
     
-    def __init__(self, stream, insertable, usePrefix = True):
+    def __init__(self, stream, callback, usePrefix = True):
         """
         Initialisation of a StreamRedirector
 
         parameters:     object the stream to redirect
-                        object the object to insert the contents of the stream to
+                        function a callback that recieves data as a string (single parameter)
                         boolean should a prefix be used
         return values:  -
         """
         self._usePrefix     = usePrefix
         self._buffer        = ""
         self._stream        = stream
-        self._insertable    = insertable
+        self._callback      = callback
     
     def getCurrentDate(self):
         """
@@ -67,9 +67,19 @@ class StreamRedirector():
         """
         self._stream.close()
     
+    
+    def flush(self):
+        """
+        Flush all streams
+
+        parameters:     -
+        return values:  -
+        """
+        self._stream.flush()
+    
     def write(self, string):
         """
-        Write to both the stream and the object
+        Write to both the stream and the callback
 
         parameters:     string data to write
         return values:  -
@@ -80,7 +90,7 @@ class StreamRedirector():
                 prefix = ""
                 if self._usePrefix:
                     prefix = "[" + self.getCurrentTime() + "] "
-                self._insertable.insert(1, prefix + self._buffer)
+                self._callback(prefix + self._buffer)
                 self._buffer = ""
         except:
             pass

@@ -11,7 +11,7 @@ import os, sys
 import pygame
 import pygvisuals.src.widgets as gui
 import pygvisuals.src.widgets.border as brd
-from pygvisuals.src.__experimental import StreamRedirector
+from pygvisuals.src.io import StreamRedirector
 from pygame.locals import *
 
 pygame.init()
@@ -47,7 +47,7 @@ def main_loop():
     x = gui.Listbox(50, 150, 250, 100).setBackground((255, 155, 0)).setBorder(brd.RoundedBorder(4, 4, (0, 0, 0), 15)).setList([w, e, b, l])
     i = gui.Imagebox(350, 150, 150, 100, image).setBackground((255, 155, 0)).setBorder(brd.RoundedBorder(4, 4, (0, 0, 0), 15))
 
-    sys.stdout = StreamRedirector(sys.stdout, x)
+    sys.stdout = StreamRedirector(sys.stdout, (lambda s: x.insert(1, s)))
 
     group = pygame.sprite.LayeredDirty([w, e, b, l, x, i])
     
