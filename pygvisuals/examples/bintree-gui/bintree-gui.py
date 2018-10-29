@@ -16,6 +16,7 @@ from pygame.locals import *
 pygame.init()
 
 tree = None
+update = False
 
 #Functions#
 
@@ -26,7 +27,7 @@ def main_loop():
     parameters:     -
     return values:  -
     """
-    global tree
+    global tree, update
     going = True
     while going:
         for event in pygame.event.get():
@@ -34,9 +35,11 @@ def main_loop():
                 going = False
             group.update(event)
         screen.blit(background, (0, 0))
-        if tree != None and tree.root != None:
+        if tree != None and tree.root != None and update:
+            print("HI")
             screen.blit(pygame.transform.scale(getDrawnTree(tree, ((50, 55, 155, 200), (100, 155, 255, 200), (100, 155, 255, 200), (255, 0, 0, 200))), (600, 600)), (0, 0))
             #screen.blit(getDrawnTree(tree, ((50, 55, 155, 200), (100, 155, 255, 200), (100, 155, 255, 200), (255, 0, 0, 200))), (0, 0))
+            update = False
         group.draw(screen)
         pygame.display.update()
         pygame.time.wait(50)
@@ -59,10 +62,10 @@ def getDrawnTree(tree, colors = None, surface = None, current = None, pre = None
         if tree.root != None:
             size = 0
             for n in range(tree.holeHoehe() + 1):
-                size += 400 / (2 ** n)
+                size += 400 // (2 ** n)
         surface = pygame.Surface((size, size), pygame.SRCALPHA, 32)
     if tree.root == None:
-        print "Tree is empty!"
+        print("Tree is empty!")
     else:
         if current == None:
             current = tree.root
@@ -70,16 +73,16 @@ def getDrawnTree(tree, colors = None, surface = None, current = None, pre = None
         s = 2 ** (h - 1)
         n = 2 ** (h - 2)
         if pre == None:
-            x = surface.get_width() / 2 - ((400 / s) / 2)
+            x = surface.get_width() // 2 - ((400 // s) // 2)
             y = 0
         else:
             if pre[0].holeLinks() == current:
-                x = pre[1][0] - ((400 / s) / 2)
+                x = pre[1][0] - ((400 // s) // 2)
             else:
-                x = pre[1][0] + (400 / max(n, 1)) - ((400 / s) / 2)
-            y = pre[1][1] + (400 / max(n, 1))
+                x = pre[1][0] + (400 // max(n, 1)) - ((400 // s) // 2)
+            y = pre[1][1] + (400 // max(n, 1))
 
-        surface.blit(pygame.transform.smoothscale(getDrawnNode(current, colors), (400 / s, 400 / s)), (x, y))
+        surface.blit(pygame.transform.smoothscale(getDrawnNode(current, colors), (400 // s, 400 // s)), (x, y))
         if current.holeLinks() != None:
             surface = getDrawnTree(tree, colors, surface, current.holeLinks(), (current, (x, y)))
         if current.holeRechts() != None:
@@ -125,7 +128,7 @@ def getDrawnNode(node, colors = None):
         value = str(int(float(value)))
     font    = pygame.font.Font(None, int(400 / len(value) ** 0.75))
     fsize   = font.size(value)
-    surface.blit(font.render(value, False, color), (200 - fsize[0] / 2, 200 - fsize[1] / 2))
+    surface.blit(font.render(value, False, color), (200 - fsize[0] // 2, 200 - fsize[1] // 2))
 
     return surface
 
@@ -136,13 +139,14 @@ def addToTree():
     parameters:     -
     return values:  -
     """
-    global tree
+    global tree, update
     v = e_value.getText()
     if len(v) <= 0:
         return
     if tree == None:
         tree = avltree.AVLBaum()
     tree.einfuegen(float(v))
+    update = True
 
 def deleteFromTree():
     """
@@ -151,12 +155,13 @@ def deleteFromTree():
     parameters:     -
     return values:  -
     """
-    global tree
+    global tree, update
     v = e_value.getText()
     if len(v) <= 0:
         return
     if tree != None:
         tree.loeschen(float(v))
+    update = True
 
 def createRandomTree():
     """
@@ -165,7 +170,7 @@ def createRandomTree():
     parameters:     -
     return values:  -
     """
-    global tree
+    global tree, update
     l       = []
     length  = int(e_length.getText())
     for n in range(length):
@@ -177,6 +182,7 @@ def createRandomTree():
     tree = avltree.AVLBaum()
     for element in l:
         tree.einfuegen(element)
+    update = True
 
 def isNumber(newtext, oldtext, entry):
     """
@@ -220,13 +226,13 @@ gui.widget.defaultBackground    = (120, 160, 200)
 w_w                             = 130
 w_h                             = 25
 
-w_bg        = gui.Widget(w * 0.8571428571428571 - w_w / 2 - 20, 10, w_w / 2 + w * 0.14285714285714285, h - 20).setBackground((220, 220, 250))
-l           = gui.Label(w * 0.8571428571428571 - w_w / 2, 10, w_w, w_h, "Tree-GUI").setBackground((0, 0, 0, 0)).setForeground((50, 50, 50)).setBorder(brd.Border(0, 0))
-e_value     = gui.Entry(w * 0.8571428571428571 - w_w / 2, h * 0.125, w_w, w_h).setValidation(isNumber).setText("1")
-b_add       = gui.Button(w * 0.8571428571428571 - w_w / 2, h * 0.25, w_w, w_h, "Add to Tree", callback = addToTree)
-b_delete    = gui.Button(w * 0.8571428571428571 - w_w / 2, h * 0.375, w_w, w_h, "Delete From Tree", callback = deleteFromTree)
-e_length    = gui.Entry(w * 0.8571428571428571 - w_w / 2, h * 0.5, w_w, w_h).setValidation(isSmallNumber).setText("100")
-b_create    = gui.Button(w * 0.8571428571428571 - w_w / 2, h * 0.625, w_w, w_h, "Create Random Tree", callback = createRandomTree)
+w_bg        = gui.Widget(w * 0.8571428571428571 - w_w // 2 - 20, 10, w_w // 2 + w * 0.14285714285714285, h - 20).setBackground((220, 220, 250))
+l           = gui.Label(w * 0.8571428571428571 - w_w // 2, 10, w_w, w_h, "Tree-GUI").setBackground((0, 0, 0, 0)).setForeground((50, 50, 50)).setBorder(brd.Border(0, 0))
+e_value     = gui.Entry(w * 0.8571428571428571 - w_w // 2, h * 0.125, w_w, w_h).setValidation(isNumber).setText("1")
+b_add       = gui.Button(w * 0.8571428571428571 - w_w // 2, h * 0.25, w_w, w_h, "Add to Tree", callback = addToTree)
+b_delete    = gui.Button(w * 0.8571428571428571 - w_w // 2, h * 0.375, w_w, w_h, "Delete From Tree", callback = deleteFromTree)
+e_length    = gui.Entry(w * 0.8571428571428571 - w_w // 2, h * 0.5, w_w, w_h).setValidation(isSmallNumber).setText("100")
+b_create    = gui.Button(w * 0.8571428571428571 - w_w // 2, h * 0.625, w_w, w_h, "Create Random Tree", callback = createRandomTree)
 group = pygame.sprite.LayeredUpdates([w_bg, l, e_value, b_add, b_delete, e_length, b_create])
 
 #Automatic Start#
