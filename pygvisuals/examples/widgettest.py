@@ -11,7 +11,7 @@ import os, sys
 import pygame
 import pygvisuals.src.widgets as gui
 import pygvisuals.src.widgets.border as brd
-from pygvisuals.src.__experimental import StreamRedirector
+from pygvisuals.src.io import StreamRedirector
 from pygame.locals import *
 
 pygame.init()
