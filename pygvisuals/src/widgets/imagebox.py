@@ -1,6 +1,6 @@
 # -*- coding: cp1252 -*-
 
-import iconwidget
+from . import iconwidget
 import pygame
 
 

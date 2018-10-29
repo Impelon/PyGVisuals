@@ -78,7 +78,7 @@ class AVLBaum:
 
     def holeHoehe(self, kbaum=None):
         if self.root==None:
-            print "Baum ist leer!"
+            print("Baum ist leer!")
             return None
         if kbaum==None:
             kbaum=self.root
@@ -122,7 +122,7 @@ class AVLBaum:
     def loeschen(self, wert, kbaum=None, vg=None):
         if kbaum == None:
             if self.root == None:
-                print "Baum ist leer!"
+                print("Baum ist leer!")
                 return
             kbaum = self.root
         if wert > kbaum.holeWert():
@@ -169,25 +169,25 @@ class AVLBaum:
             #rechtsRotationen
             links = kbaum.holeLinks()
             if links.holeKBalance() <= 0:
-                print "dpR"
+                print("dpR")
                 self.doppeltRechtsRotation(kbaum, vg)
             else:
-                print "eR"
+                print("eR")
                 self.einfachRechtsRotation(kbaum, vg)
         elif balance < -1:
             #linksRotationen
             rechts = kbaum.holeRechts()
             if rechts.holeKBalance() >= 0:
-                print "dpL"
+                print("dpL")
                 self.doppeltLinksRotation(kbaum, vg)
             else:
-                print "eL"
+                print("eL")
                 self.einfachLinksRotation(kbaum, vg)
     
     def einfachLinksRotation(self, kbaum, vg):
         if kbaum == None:
             if self.root == None:
-                print "Baum ist leer!"
+                print("Baum ist leer!")
                 return
             kbaum = self.root
         rechts = kbaum.holeRechts()
@@ -205,7 +205,7 @@ class AVLBaum:
     def einfachRechtsRotation(self, kbaum, vg):
         if kbaum == None:
             if self.root == None:
-                print "Baum ist leer!"
+                print("Baum ist leer!")
                 return
             kbaum = self.root
         links = kbaum.holeLinks()
@@ -223,7 +223,7 @@ class AVLBaum:
     def doppeltLinksRotation(self, kbaum, vg):
         if kbaum == None:
             if self.root == None:
-                print "Baum ist leer!"
+                print("Baum ist leer!")
                 return
             kbaum = self.root
         rechts = kbaum.holeRechts()
@@ -233,7 +233,7 @@ class AVLBaum:
     def doppeltRechtsRotation(self, kbaum, vg):
         if kbaum == None:
             if self.root == None:
-                print "Baum ist leer!"
+                print("Baum ist leer!")
                 return
             kbaum = self.root
         links = kbaum.holeLinks()
@@ -243,27 +243,27 @@ class AVLBaum:
     
     def traversieren(self, order="pre", kbaum=None):
         if self.root==None:
-            print "Baum ist leer!"
+            print("Baum ist leer!")
         else:
             if kbaum==None:
                 kbaum=self.root
             erg=[]
             if order=="pre":
                 erg=erg+[(kbaum.holeInhalt(),kbaum.holeKHoehe())]
-                if kbaum.holeLinks()<>None:
+                if kbaum.holeLinks()!=None:
                     erg=erg+(self.traversieren(order,kbaum.holeLinks()))
-                if kbaum.holeRechts()<>None:
+                if kbaum.holeRechts()!=None:
                     erg=erg+(self.traversieren(order,kbaum.holeRechts()))
             elif order=="in":
-                if kbaum.holeLinks()<>None:
+                if kbaum.holeLinks()!=None:
                     erg=erg+self.traversieren(order,kbaum.holeLinks())
                 erg=erg+[(kbaum.holeInhalt(),kbaum.holeKHoehe())]
-                if kbaum.holeRechts()<>None:
+                if kbaum.holeRechts()!=None:
                     erg=erg+self.traversieren(order,kbaum.holeRechts())
             else:
-                if kbaum.holeLinks()<>None:
+                if kbaum.holeLinks()!=None:
                     erg=erg+self.traversieren(order,kbaum.holeLinks())
-                if kbaum.holeRechts()<>None:
+                if kbaum.holeRechts()!=None:
                     erg=erg+self.traversieren(order,kbaum.holeRechts())
                 erg=erg+[(kbaum.holeInhalt(),kbaum.holeKHoehe())]
                 
@@ -274,7 +274,7 @@ class AVLBaum:
         
     def suchen(self, wert, kbaum=None):
         if self.root==None:
-            print "Baum ist leer!"
+            print("Baum ist leer!")
             return None
         else:
             if kbaum==None:
@@ -283,22 +283,22 @@ class AVLBaum:
             if wert==kbaum.holeWert():
                 return kbaum.holeInhalt()
             elif wert<kbaum.holeWert():
-                if kbaum.holeLinks()<>None:
+                if kbaum.holeLinks()!=None:
                     return self.suchen(wert, kbaum.holeLinks())
                 else:
                     return None
-                    print "Element nicht gefunden!"
+                    print("Element nicht gefunden!")
                     
             else:
-                if kbaum.holeRechts()<>None:
+                if kbaum.holeRechts()!=None:
                     return self.suchen(wert ,kbaum.holeRechts())
                 else:
                     return None
-                    print "Element nicht gefunden!"
+                    print("Element nicht gefunden!")
 
     def holeTiefe(self, knoten, kbaum=None, h = 1):
         if self.root==None:
-            print "Baum ist leer!"
+            print("Baum ist leer!")
             return 0
         else:
             if kbaum==None:
@@ -310,14 +310,14 @@ class AVLBaum:
                     return self.holeTiefe(knoten, kbaum.holeLinks(), h + 1)
                 else:
                     return 0
-                    print "Element nicht gefunden!"
+                    print("Element nicht gefunden!")
                     
             elif knoten.holeWert()>kbaum.holeWert():
                 if kbaum.holeRechts()!=None:
                     return self.holeTiefe(knoten, kbaum.holeRechts(), h + 1)
                 else:
                     return 0
-                    print "Element nicht gefunden!"
+                    print("Element nicht gefunden!")
             else:
                 if kbaum.holeLinks()!=None:
                     t = self.holeTiefe(knoten, kbaum.holeLinks(), h + 1)

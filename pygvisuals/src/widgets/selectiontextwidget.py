@@ -1,6 +1,6 @@
 # -*- coding: cp1252 -*-
 
-import textwidget
+from . import textwidget
 import pygame
 
 START       = 0
@@ -146,10 +146,10 @@ class SelectionTextWidget(textwidget.TextWidget):
         index   = 0
         n       = 0
         if self._text:
-            for n in xrange(max(min(int(x / (self._font.size(self._text)[0] / length)), length - 1), 0), 0, -1):
+            for n in range(max(min(int(x / (self._font.size(self._text)[0] / length)), length - 1), 0), 0, -1):
                 if self._font.size(self._text[:n])[0] + self._font.size(self._text[n])[0] < x:
                     break
-            for index in xrange(n, length):
+            for index in range(n, length):
                 if self._font.size(self._text[:index])[0] + (self._font.size(self._text[index])[0] * 1.5) > x:
                     break
             else:

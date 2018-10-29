@@ -4,7 +4,7 @@
 Package for features not fully fleshed out that will eventually be incorporated
 """
 
-import shaderoverlay
+from . import shaderoverlay
 ShaderOverlay = shaderoverlay.ShaderOverlay
-import streamredirector
+from . import streamredirector
 StreamRedirector = streamredirector.StreamRedirector

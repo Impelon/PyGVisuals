@@ -5,13 +5,13 @@ Package for Borders compatible with PyGame's Surfaces;
 intended for use together with Widget
 """
 
-import border
+from . import border
 Border = border.Border
-import coloredborder
+from . import coloredborder
 ColoredBorder = coloredborder.ColoredBorder
-import compoundborder
+from . import compoundborder
 CompoundBorder = compoundborder.CompoundBorder
-import bevelborder
+from . import bevelborder
 BevelBorder = bevelborder.BevelBorder
-import roundedborder
+from . import roundedborder
 RoundedBorder = roundedborder.RoundedBorder

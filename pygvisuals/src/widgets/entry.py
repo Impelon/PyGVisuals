@@ -1,9 +1,9 @@
 # -*- coding: cp1252 -*-
 
-import selectiontextwidget
-import textwidget
+from . import selectiontextwidget
+from . import textwidget
 import pygame
-from selectiontextwidget import *
+from .selectiontextwidget import *
 
 class Entry(selectiontextwidget.SelectionTextWidget):
 
@@ -110,7 +110,7 @@ class Entry(selectiontextwidget.SelectionTextWidget):
                             self.delete(SELECTION, CURSOR)
                             self.setCursor(s)
                 else:
-                    char = event.unicode.encode("ascii", "ignore")
+                    char = event.str.encode("ascii", "ignore")
                     if char != "" and (char == " " or not char.isspace()):
                         s, e = self._sort(SELECTION, CURSOR)
                         if self._validation(self._text[:s] + char + self._text[e:], self._text, self):

@@ -1,7 +1,7 @@
 # -*- coding: cp1252 -*-
 
 import pygame
-import border
+from . import border
 
 class ColoredBorder(border.Border):
 
