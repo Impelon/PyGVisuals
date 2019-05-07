@@ -14,7 +14,7 @@ Suggestions (& requests), bug-reports and contributions are welcome. Specificall
 I would be happy to see you use the contens of this repository. You are encouraged to open up a page on the Wiki showing how you use PyGVisuals in your projects.
 
 ## UML-Class-Diagram
-The current [UML-class-diagram](GUI-System.class.violet.html) can be viewed here: https://htmlpreview.github.io/?https://github.com/Impelon/PyGVisuals/blob/master/GUI-System.class.violet.html#
+The current [UML-class-diagram](GUI-System.class.violet.html) can be viewed here: https://htmlpreview.github.io/?https://github.com/Impelon/PyGVisuals/blob/python-2/GUI-System.class.violet.html
 
 ## Screenshots/Examples
 ![bintree-gui](pygvisuals/examples/bintree-gui/screenshot.png)
