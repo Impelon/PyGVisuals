@@ -1,10 +1,26 @@
+# This page is a placeholder
+
+**This page is a placeholder and under development.** Currently there is not a lot of content here.
+All of the next sections can be ignored has they are the default-template.
+Here is a temporary collection of usefull stuff:
+
+- [UML-Class-Diagram](docs/GUI-System.class.violet.html)
+- ...
+
+
+
+
+
+
+
+
+
+
 ## Welcome to GitHub Pages
 
 You can use the [editor on GitHub](https://github.com/Impelon/PyGVisuals/edit/master/index.md) to maintain and preview the content for your website in Markdown files.
 
 Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
-
-[UML-Diagram](docs/GUI-System.class.violet.html)
 
 ### Markdown
 
