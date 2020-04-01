@@ -1,20 +1,12 @@
 # This page is a placeholder
 
 **This page is a placeholder and under development.** Currently there is not a lot of content here.
-All of the next sections can be ignored has they are the default-template.
 Here is a temporary collection of usefull stuff:
 
 - [UML-Class-Diagram](docs/GUI-System.class.violet.html)
 - ...
 
-
-
-
-
-
-
-
-
+{--
 
 ## Welcome to GitHub Pages
 
@@ -53,3 +45,6 @@ Your Pages site will use the layout and styles from the Jekyll theme you have se
 ### Support or Contact
 
 Having trouble with Pages? Check out our [documentation](https://help.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
+
+
+--}
