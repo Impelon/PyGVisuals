@@ -1,8 +1,10 @@
-import os, sys
+import os
+import sys
 
 """
 Script to execute example-files from outside the pygvisuals-package
 """
+
 
 def has_main_loop(f):
     """
@@ -10,7 +12,7 @@ def has_main_loop(f):
     """
     if not f.lower().endswith(".py"):
         return False
-    
+
     try:
         descriptor = open(f)
     except:
@@ -34,12 +36,17 @@ def has_main_loop(f):
 
 ### Scan Directory ###
 
+example_directories = [os.path.join(os.path.split(__file__)[0], "pygvisuals", "examples")]
+
+print("Searching in: " + ", ".join(example_directories))
+
 examples = []
 
-for root, dirs, files in os.walk(os.path.join("pygvisuals", "examples")):
-    for f in files:
-        if has_main_loop(os.path.join(root, f)):
-                 examples.append(os.path.join(root, f))
+for path in example_directories:
+    for root, dirs, files in os.walk(path):
+        for f in files:
+            if has_main_loop(os.path.join(root, f)):
+                examples.append(os.path.join(root, f))
 
 print("List of executable examples:")
 for e in range(len(examples)):
@@ -65,4 +72,8 @@ while index == None:
         print("Invalid index!")
         index = None
 print("Executing:", examples[index])
-__import__(examples[index].replace(os.sep, "."))
+
+import importlib.util
+spec = importlib.util.spec_from_file_location(os.path.split(examples[index])[1], examples[index])
+module = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(module)

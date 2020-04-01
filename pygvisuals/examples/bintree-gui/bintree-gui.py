@@ -7,8 +7,8 @@ import sys
 import random
 
 import pygame
-import pygvisuals.src.widgets as gui
-import pygvisuals.src.widgets.border as brd
+import pygvisuals.widgets as gui
+import pygvisuals.widgets.border as brd
 from pygame.locals import *
 
 #Initialization#
@@ -114,7 +114,7 @@ def getDrawnNode(node, colors = None):
         color = colors[balance]
     else:
         color = colors
-    
+
     pygame.draw.circle(surface, color, (200, 200), 200)
     pygame.draw.circle(surface, (0, 0, 0, 0), (200, 200), 160)
 
@@ -354,7 +354,7 @@ def getDrawnNode(node, colors = None):
         color = colors[balance]
     else:
         color = colors
-    
+
     pygame.draw.circle(surface, color, (200, 200), 200)
     pygame.draw.circle(surface, (0, 0, 0, 0), (200, 200), 160)
 
@@ -477,4 +477,3 @@ group = pygame.sprite.LayeredUpdates([w_bg, l, e_value, b_add, b_delete, e_lengt
 if __name__ == "__main__":
     main_loop()
 main_loop()
-

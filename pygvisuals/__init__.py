@@ -3,5 +3,3 @@
 """
 Basepackage for PyGVisuals
 """
-
-from .src import *
