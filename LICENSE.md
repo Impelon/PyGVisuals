@@ -1,6 +1,6 @@
 BSD 2-Clause License
 
-Copyright (c) 2017-2018, Ovi T. (Impelon) & Kai (kjkriegel)
+Copyright (c) 2017-2020, Ovi T. (Impelon) & Kai (kjkriegel)
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
