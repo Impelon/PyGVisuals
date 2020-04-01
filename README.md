@@ -7,14 +7,12 @@ The classes now in PyGVisuals were developed by Impelon and kjkriegel._
 ___Note: Impelon currently maintains this project___
 
 The project is (hopefully) well documented and includes most basic widgets.
+For Documentation look here: https://impelon.github.io/PyGVisuals/
 
 ## Help Wanted
 Suggestions (& requests), bug-reports and contributions are welcome. If you have any ideas how to help me with this please comment on the respective issue.
 
 I would be happy to see you use the contents of this repository. You are encouraged to open up a page on the Wiki showing how you use PyGVisuals in your projects.
-
-## UML-Class-Diagram
-The current [UML-class-diagram](docs/GUI-System.class.violet.html) can be viewed here: https://htmlpreview.github.io/?https://github.com/Impelon/PyGVisuals/blob/python-3/docs/GUI-System.class.violet.html
 
 ## Screenshots/Examples
 ![bintree-gui](pygvisuals/examples/bintree-gui/screenshot.png)
