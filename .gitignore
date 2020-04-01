@@ -1,0 +1,10 @@
+*
+
+!*.html
+!*.md
+!*.yml
+!*.json
+!*.txt
+!*.gitignore
+
+!docs*
