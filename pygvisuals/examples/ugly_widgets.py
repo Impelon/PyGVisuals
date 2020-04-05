@@ -99,7 +99,7 @@ def isNumber(newtext, oldtext, widget):
         widget: The Entry affected by this change/validation.
 
     Returns:
-        A boolean indicting whether the change should be made / is valid.
+        A boolean indicating whether the change should be made / is valid.
     """
     # some side-effects for fun
     global b

@@ -1,157 +1,182 @@
-# -*- coding: cp1252 -*-
-
-import pygame.sprite
+# --- imports
+# pygame imports
 import pygame
+import pygame.sprite
+
+# local imports
 from .border import Border
 
-defaultBorder       = Border(0, 0)
-defaultForeground   = (255, 255, 255)
-defaultBackground   = (0, 0, 0)
-disabeledOverlay    = (150, 150, 150, 150)
+defaultBorder = Border(0, 0)
+"""Border to be used by default."""
+defaultForeground = (255, 255, 255)
+"""Color to be used by default for the foreground of a widget."""
+defaultBackground = (0, 0, 0)
+"""Color to be used by default for the background of a widget."""
+disabeledOverlay = (150, 150, 150, 150)
+"""Color to overlay when a widget is disabled."""
+
 
 class Widget(pygame.sprite.DirtySprite):
 
     """
     Underlying class for interactive GUI-objects with PyGame;
-    extends pygame.sprite.DirtySprite
-    intended for use together with pygame.sprite.LayeredDirty
+    intended for use together with pygame.sprite.LayeredDirty.
     """
-    
+
     def __init__(self, x, y, width, height):
         """
-        Initialisation of a Widget
+        Initialisation of a basic Widget.
+        The unit for the following lengths is pixel.
 
-        parameters:     int x-coordinate of the Widget (left)
-                        int y-coordinate of the Widget (top)
-                        int width of the Widget
-                        int height of the Widget
-        return values:  -
+        Args:
+            x: An integer specifing the x-coordinate of the widget.
+                This is the horizontal distance from the left reference point.
+            y: An integer specifing the y-coordinate of the widget.
+                This is the vertical distance from the top reference point.
+            width: An integer specifing the width of the widget.
+            height: An integer specifing the height of the widget.
         """
         super(Widget, self).__init__()
-        self.image          = pygame.Surface((width, height), pygame.SRCALPHA, 32)
-        self._bounds        = self.image.get_rect().move(x, y)
-        self.rect           = self._bounds.copy()
-        self._border        = defaultBorder
-        self._focus         = False
-        self._active        = True
-        self._foreground    = defaultForeground
-        self._background    = defaultBackground
+        self.image = pygame.Surface((width, height), pygame.SRCALPHA, 32)
+        self._bounds = self.image.get_rect().move(x, y)
+        self.rect = self._bounds.copy()
+        self._border = defaultBorder
+        self._focus = False
+        self._active = True
+        self._foreground = defaultForeground
+        self._background = defaultBackground
 
-    def markDirty(self):
+    def markDirty(self, overwriteDirtyForever=False):
         """
-        Mark the Widget as dirty and therefore to be redrawn in the next cycle
+        Mark the widget as dirty and therefore to be redrawn in the next draw-cycle.
 
-        parameters:     -
-        return values:  -
+        Args:
+            overwriteDirtyForever: A boolean indicating whether this should overwrite the dirty-forever state.
+                The default is False meaning that a widget which is marked as dirty-forever
+                will not be clean after the next cycle when this method was called on it.
         """
-        if not self.isDirtyForever():
+        if not self.isDirtyForever() or overwriteDirtyForever:
             self.dirty = 1
 
     def markDirtyForever(self):
         """
-        Mark the Widget as constantly dirty and therefore to be redrawn periodically
-
-        parameters:     -
-        return values:  -
+        Mark the widget as constantly dirty and therefore to be redrawn periodically with every draw-cycle.
         """
         self.dirty = 2
 
     def markClean(self):
         """
-        Mark the Widget as clean and therefore not to be redrawn in the next cycle
-
-        parameters:     -
-        return values:  -
+        Mark the widget as clean and therefore not to be redrawn in the next draw-cycle.
         """
         self.dirty = 0
 
     def isDirty(self):
         """
-        Return if the Widget is dirty and will be redrawn in the next cycle
-
-        parameters:     -
-        return values:  boolean is the Widget dirty
+        Return if the widget is dirty and will be redrawn in the next draw-cycle.
         """
         return self.dirty >= 1
 
     def isDirtyForever(self):
         """
-        Return if the Widget is constantly dirty and will be redrawn periodically
-
-        parameters:     -
-        return values:  boolean is the Widget constantly dirty
+        Return if the widget is constantly dirty and will be redrawn periodically with every draw-cycle.
         """
         return self.dirty >= 2
 
     def setVisible(self, visible):
         """
-        Set the Widget as visible
+        Set the widget's visibility.
+        Invisible widgets will not be drawn and are inactive.
 
-        parameters:     boolean if the Widget should be visible
-        return values:  Widget Widget returned for convenience
+        Args:
+            visible: A boolean indicating whether the widget should be visible.
+
+        Returns:
+            Itsself (the widget) for convenience.
         """
-        if self.visible != bool(visible):
-            self.visible = bool(visible)
-            self.setActive(bool(visible))
+        visible = bool(visible)
+        if self.visible != visible:
+            self.visible = visible
+            self.setActive(visible)
         return self
-    
+
     def isVisible(self):
         """
-        Return if the Widget is visible
+        Return whether the widget is visible.
+        Invisible widgets will not be drawn and are inactive.
 
-        parameters:     -
-        return values:  boolean is the Widget visible
+        Returns:
+            A boolean indicating whether the widget is declared visible.
         """
         return self.visible
 
     def setFocused(self, focused):
         """
-        Set the Widget as focused
+        Set whether the widget is focused.
 
-        parameters:     boolean if the Widget should be focused
-        return values:  Widget Widget returned for convenience
+        A widget will be focused automatically if it is clicked on.
+        Although the default implementation does not process this information,
+        subclasses may use this information to determine if the user-interaction
+        was meant to be processed by them or not.
+
+        Args:
+            visible: A boolean indicating whether the widget should be focused.
+
+        Returns:
+            Itsself (the widget) for convenience.
         """
-        if self._focus != bool(focused):
-            self._focus = bool(focused)
+        focused = bool(focused)
+        if self._focus != focused:
+            self._focus = focused
             self.markDirty()
         return self
 
     def isFocused(self):
         """
-        Return if the Widget is focused
+        Return whether the widget is focused.
+        A widget will be focused automatically if it is clicked on.
 
-        parameters:     -
-        return values:  boolean is the Widget focused
+        Returns:
+            A boolean indicating whether the widget is declared focused.
         """
         return self._focus
 
     def setActive(self, active):
         """
-        Set the Widget as active and therefore as interactive
+        Set the widget as active and therefore as interactive.
+        An inactive widget should not be interactable and will have an overlay painted on.
 
-        parameters:     boolean if the Widget should be active
-        return values:  Widget Widget returned for convenience
+        Args:
+            active: A boolean indicating whether the widget should be active
+
+        Returns:
+            Itsself (the widget) for convenience.
         """
-        if self._active != bool(active):
-            self._active = bool(active)
+        active = bool(active)
+        if self._active != active:
+            self._active = active
             self.markDirty()
         return self
 
     def isActive(self):
         """
-        Return if the Widget is active
+        Return whether the widget is active.
+        An inactive widget should not be interactable and will have an overlay painted on.
 
-        parameters:     -
-        return values:  boolean is the Widget active
+        Returns:
+            A boolean indicating whether the widget is active.
         """
         return self._active
 
     def setBounds(self, rect):
         """
-        Set the Widget's bounds
+        Set the widget's bounds according to a pygame.Rect.
+        This can be used to change the position of the widget or its size.
 
-        parameters:     pygame.Rect the Rect to be set
-        return values:  Widget Widget returned for convenience
+        Args:
+            rect: A pygame.Rect with the according position and size.
+
+        Returns:
+            Itsself (the widget) for convenience.
         """
         self._bounds = rect
         self.markDirty()
@@ -159,19 +184,22 @@ class Widget(pygame.sprite.DirtySprite):
 
     def getBounds(self):
         """
-        Return the Widget's bounds
+        Return the widget's bounds (position and size).
 
-        parameters:     -
-        return values:  pygame.Rect the bounds of the Widget
+        Returns:
+            A pygame.Rect with the bounds of the widget.
         """
         return self._bounds
 
     def setBorder(self, border):
         """
-        Set the Widget's border
+        Set the widget's border.
 
-        parameters:     border.Border the Border to be set
-        return values:  Widget Widget returned for convenience
+        Args:
+            border: A PyGVisuals-Border to be set.
+
+        Returns:
+            Itsself (the widget) for convenience.
         """
         if isinstance(border, Border):
             self._border = border
@@ -180,19 +208,22 @@ class Widget(pygame.sprite.DirtySprite):
 
     def getBorder(self):
         """
-        Return the Widget's border
+        Return the widget's border.
 
-        parameters:     -
-        return values:  border.Border the Widget's border
+        Returns:
+            A PyGVisuals-Border belonging to the widget.
         """
         return self._border
 
     def setForeground(self, color):
         """
-        Set the Widget's foreground-color (not used by basic implementation)
+        Set the widget's foreground-color (not used by basic implementation).
 
-        parameters:     tuple tuple of format pygame.Color representing the color to be set
-        return values:  Widget Widget returned for convenience
+        Args:
+            color: A color-like object that can be interpreted as a color by pygame (such as a tuple with RGB values).
+
+        Returns:
+            Itsself (the widget) for convenience.
         """
         self._foreground = color
         self.markDirty()
@@ -200,10 +231,13 @@ class Widget(pygame.sprite.DirtySprite):
 
     def setBackground(self, color):
         """
-        Set the Widget's background-color
+        Set the widget's background-color.
 
-        parameters:     tuple a tuple of format pygame.Color representing the color to be set
-        return values:  Widget Widget returned for convenience
+        Args:
+            color: A color-like object that can be interpreted as a color by pygame (such as a tuple with RGB values).
+
+        Returns:
+            Itsself (the widget) for convenience.
         """
         self._background = color
         self.markDirty()
@@ -211,53 +245,58 @@ class Widget(pygame.sprite.DirtySprite):
 
     def getForeground(self):
         """
-        Return the Widget's foreground-color (not used by basic implementation)
+        Return the widget's foreground-color (not used by basic implementation).
 
-        parameters:     -
-        return values:  tuple of format pygame.Color representing the Widget's foreground-color
+        Returns:
+            A color-like object that represents the widget's foreground color.
         """
         return self._foreground
 
     def getBackground(self):
         """
-        Return the Widget's background-color 
+        Return the widget's background-color.
 
-        parameters:     -
-        return values:  tuple of format pygame.Color representing the Widget's background-color
+        Returns:
+            A color-like object that represents the widget's background color.
         """
         return self._background
 
     def update(self, *args):
         """
-        Perform any updates on the Widget if needed;
-        basic implementation of focus, active-state and border-rendering;
-        used for interaction in more advanced, derivated Widget-classes
+        Perform any updates on the widget if needed.
 
-        parameters:     tuple arguments for the update (first argument should be an instance pygame.event.Event)
-        return values:  -
+        This is a basic implementation of focus, active-state and border-rendering;
+        used for interaction in more advanced widget-classes.
+
+        Args:
+            *args: Any argument needed for the update. This can include an optional pygame.event.Event to process.
         """
         if self.isActive() and len(args) > 0:
             event = args[0]
             if event.type == pygame.MOUSEBUTTONDOWN and event.button in (1, 2, 3):
                 self.setFocused(self.rect.collidepoint(event.pos))
         if self.isDirty():
-            self.rect   = self._border.getBounds(self._bounds)
-            self.image  = self._getAppearance(*args)
+            self.rect = self._border.getBounds(self._bounds)
+            self.image = self._getAppearance(*args)
             if not self.isActive():
                 inactive = self.image.copy()
                 inactive.fill(disabeledOverlay)
                 self.image.blit(inactive, (0, 0))
-            self.image  = self._border.getBorderedImage(self.image)
+            self.image = self._border.getBorderedImage(self.image)
 
     def _getAppearance(self, *args):
         """
-        Return the underlying Widget's appearance;
-        basic implementation of background-coloring
+        Return the underlying widget's appearance.
 
-        private function
+        This includes a basic implementation of background-coloring.
 
-        parameters:     tuple arguments for the update (first argument should be an instance pygame.event.Event)
-        return values:  pygame.Surface the underlying Widget's appearance
+        This is an internal function.
+
+        Args:
+            *args: Any argument needed for the update. This can include an optional pygame.event.Event to process.
+
+        Returns:
+            The underlying widget's appearance as a pygame.Surface.
         """
         surface = pygame.Surface(self._bounds.size, pygame.SRCALPHA)
         surface.fill(self._background)

@@ -1,15 +1,18 @@
-# -*- coding: cp1252 -*-
-
 """
 Package for design templates for application with widgets
 """
 
 from os.path import dirname, basename, isfile
 import glob
-modules = glob.glob(dirname(__file__) + "/*.py")
-__all__ = [ basename(f)[:-3] for f in modules if isfile(f) and not f.endswith('__init__.py')]
+
+def listDesigns():
+    modules = glob.glob(dirname(__file__) + "/*.py")
+    return [basename(f)[:-3] for f in modules if isfile(f) and not f.endswith('__init__.py')]
+
+__all__ = ["applyDesign", "applyDesignAsDefault", "applyDesignToWidgets", "applyDesignToWidget"] + listDesigns()
 
 from ...widgets import *
+
 
 def applyDesign(design, widgets = None):
     """
@@ -82,4 +85,3 @@ def applyDesignToWidget(design, w):
         w.setPressedColor(design["pressed"])
     except: pass
     w.markDirty()
-    

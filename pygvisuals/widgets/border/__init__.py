@@ -1,17 +1,13 @@
-# -*- coding: cp1252 -*-
-
 """
 Package for Borders compatible with PyGame's Surfaces;
-intended for use together with Widget
+intended for useage together with PyGVisuals' Widgets.
 """
 
-from . import border
-Border = border.Border
-from . import coloredborder
-ColoredBorder = coloredborder.ColoredBorder
-from . import compoundborder
-CompoundBorder = compoundborder.CompoundBorder
-from . import bevelborder
-BevelBorder = bevelborder.BevelBorder
-from . import roundedborder
-RoundedBorder = roundedborder.RoundedBorder
+__all__ = ["Border", "ColoredBorder", "CompoundBorder", "BevelBorder", "RoundedBorder"]
+
+
+from .border import Border
+from .coloredborder import ColoredBorder
+from .compoundborder import CompoundBorder
+from .bevelborder import BevelBorder
+from .roundedborder import RoundedBorder

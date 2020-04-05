@@ -1,3 +1,3 @@
 """
-Basepackage for PyGVisuals
+Basepackage for PyGVisuals.
 """

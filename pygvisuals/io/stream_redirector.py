@@ -71,7 +71,7 @@ class StreamRedirector(io.IOBase):
         If a new line is found also call the callback-function with every line.
 
         Args:
-            input: An appropiate object for the underlying stream to write.
+            input: An appropriate object for the underlying stream to write.
         """
         try:
             self._buffer += input
