@@ -1,11 +1,9 @@
-# -*- coding: cp1252 -*-
-
-import widget
 import pygame
+import widget
 
-WHEN_NEEDED     = 0
-NEVER           = 1
-ALWAYS          = 2
+WHEN_NEEDED = 0
+NEVER = 1
+ALWAYS = 2
 
 defaultXBarDrawMode = WHEN_NEEDED
 defaultYBarDrawMode = WHEN_NEEDED
@@ -13,10 +11,11 @@ defaultYBarDrawMode = WHEN_NEEDED
 defaultXBarColor = (120, 120, 120, 120)
 defaultYBarColor = (120, 120, 120, 120)
 
+
 class ScrollWidget(widget.Widget):
 
     """
-    Underlaying class for Widgets using scrollable content;
+    Underlaying class for Widgets using scrollable content.
     """
 
     def __init__(self, x, y, width, height):
@@ -30,14 +29,14 @@ class ScrollWidget(widget.Widget):
         return values:  -
         """
         super(ScrollWidget, self).__init__(x, y, width, height)
-        self._xBarDrawMode  = defaultXBarDrawMode
-        self._yBarDrawMode  = defaultYBarDrawMode
-        self._xBarColor     = defaultXBarColor
-        self._yBarColor     = defaultYBarColor
-        self._xViewpoint    = 0
-        self._yViewpoint    = 0
-        self._xBarRect      = pygame.Rect(self.getXViewpoint() - 15, self.rect.h - 5, 30, 5)
-        self._yBarRect      = pygame.Rect(self.rect.w - 5, self.getYViewpoint() - 15, 5, 30)
+        self._xBarDrawMode = defaultXBarDrawMode
+        self._yBarDrawMode = defaultYBarDrawMode
+        self._xBarColor = defaultXBarColor
+        self._yBarColor = defaultYBarColor
+        self._xViewpoint = 0
+        self._yViewpoint = 0
+        self._xBarRect = pygame.Rect(self.getXViewpoint() - 15, self.rect.h - 5, 30, 5)
+        self._yBarRect = pygame.Rect(self.rect.w - 5, self.getYViewpoint() - 15, 5, 30)
 
     def setXScrollbarDrawMode(self, mode):
         """
@@ -205,10 +204,10 @@ class ScrollWidget(widget.Widget):
 
     def _drawXScrollbar(self, surface):
         surface.fill(self._xBarColor, self._xBarRect)
-    
+
     def _drawYScrollbar(self, surface):
         surface.fill(self._yBarColor, self._yBarRect)
-    
+
     def _getAppearance(self, *args):
         """
         Return the underlying Widget's appearance;
@@ -219,7 +218,7 @@ class ScrollWidget(widget.Widget):
         parameters:     tuple arguments for the update (first argument should be an instance pygame.event.Event)
         return values:  pygame.Surface the underlying Widget's appearance
         """
-        surface     = super(ScrollWidget, self)._getAppearance(*args)
+        surface = super(ScrollWidget, self)._getAppearance(*args)
         if self._xBarDrawMode == NEVER:
             pass
         elif self._xBarDrawMode == ALWAYS:
@@ -239,4 +238,3 @@ class ScrollWidget(widget.Widget):
                 if self._yBarRect.move(self._bounds.x, self._bounds.y).inflate(20, self.rect.h - self._yBarRect.h).collidepoint(event.pos):
                     self._drawYScrollbar(surface)
         return surface
-

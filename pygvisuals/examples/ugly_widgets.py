@@ -1,22 +1,24 @@
-# -*- coding: cp1252 -*-
-
 """
-Simple and ugly testscript that shows most of PyGVisuals' widgets
+Simple and ugly testscript that shows most of PyGVisuals' widgets.
 """
 
-# Modules #
-
+# --- imports
+# preinstalled python libraries
 import random
 import os, sys
+
+# pygame imports
 import pygame
+from pygame.locals import *
+
+# local imports
 import pygvisuals.widgets as gui
 import pygvisuals.widgets.border as brd
 from pygvisuals.io import StreamRedirector
-from pygame.locals import *
 
 pygame.init()
 
-# Setting Display #
+# setting display
 
 screen = pygame.display.set_mode((700,400),0|DOUBLEBUF|RESIZABLE,32)
 pygame.mouse.set_visible(1)
@@ -37,33 +39,34 @@ def main_loop():
     """
     global i, b
     # You can create various widgets; do not worry about the complicated values,
-    # they are just there to show off the different functionalities available
+    # they are just there to show off the different functionalities available.
 
-    # This is a generic Widget with no additional functions
+    # This is a generic Widget with no additional functions.
     w = gui.Widget(50, 50, 50, 50).setBackground((255, 0, 0)).setBorder(gui.border.RoundedBorder((10, 80), (5, 10), (0, 0, 0), 8))
-    # This is a Border consistent of 3 different borders; any widget can have borders
+    # This is a Border consistent of 3 different borders; any widget can have borders.
     r = brd.CompoundBorder(brd.CompoundBorder(brd.BevelBorder(2, 2, (30, 90, 150), (30, 190, 50)), brd.ColoredBorder(3, 3, (130, 190, 250, 200))), brd.ColoredBorder(2, 2, (30, 90, 150, 100)))
-    # This is an Entry; it accepts input from the user. Different things can be done with this; here we validate input to only accept numbers
+    # This is an Entry; it accepts input from the user. Different things can be done with this; here we validate input to only accept numbers.
     e = gui.Entry(10, 10, 100, 25).setBackground((0, 120, 255)).setBorder(r).setValidation(isNumber)
-    # This is a Button; it reacts to the user clicking on it and executes a callback-function if clicked
+    # This is a Button; it reacts to the user clicking on it and executes a callback-function if clicked.
     b = gui.Button(100, 100, 100, 50, "click", callback = button1).setBackground((255, 255, 0)).setForeground((0, 0, 0))
-    # This is a Label; it simply displays some text
+    # This is a Label; it simply displays some text.
     l = gui.Label(250, 50, 75, 50, "text").setBackground((0, 255, 0)).setForeground((0, 0, 0))
-    # This is a Listbox; It displays a given list as strings on new lines; in this example the list contains some widgets, but it can contain practically anything
+    # This is a Listbox; It displays a given list as strings on new lines/entries; in this example the list contains some widgets, but it can contain practically anything.
     x = gui.Listbox(50, 150, 250, 100).setBackground((255, 155, 0)).setBorder(brd.RoundedBorder(4, 4, (0, 0, 0), 15)).setList([w, e, b, l])
-    # This is an Imagebox; it displays a given Pygame-Surface. This could be an Image, but here it's just a Surface
+    # This is an Imagebox; it displays a given Pygame-Surface. This could be an actual Image, but here it's just a Surface.
     i = gui.Imagebox(350, 150, 150, 100, image).setBackground((255, 155, 0)).setBorder(brd.RoundedBorder(4, 4, (0, 0, 0), 15))
 
-    # Here we create and assign a StreamRedirector which takes a stream and computes a callback function on each line
-    # In this case we use it to copy output from the console to the Listbox created above
+    # Here we create and assign a StreamRedirector which takes a stream and computes a callback function on each line.
+    # In this case we use it to copy output from the console to the Listbox created above.
     sys.stdout = StreamRedirector(sys.stdout, (lambda s: x.insert(1, s)))
 
+    # Here we create a sprite-group to gather all of our widgets.
     group = pygame.sprite.LayeredDirty([w, e, b, l, x, i])
 
-    # Generic PyGame-Loop which draws and updates our sprite-group.
+    # generic PyGame-Loop which draws and updates our sprite-group
     going = True
     while going:
-        # Handle Input Events #
+        # handle input events
         for event in pygame.event.get():
             if event.type == QUIT:
                 going = False
@@ -80,7 +83,7 @@ def button1():
     This will toggle the Imagebox' visibility.
     """
     print("Button b clicked!")
-    # Some side-effects for fun
+    # some side-effects for fun
     global i
     if i != None:
         i.setVisible(not i.isVisible())
@@ -98,13 +101,11 @@ def isNumber(newtext, oldtext, widget):
     Returns:
         A boolean indicting whether the change should be made / is valid.
     """
-    # Some side-effects for fun
+    # some side-effects for fun
     global b
     if b != None:
         b.setActive(not b.isActive())
     return not newtext or newtext.isdigit()
-
-# Automatic Start #
 
 if __name__ == "__main__":
     main_loop()

@@ -1,8 +1,8 @@
-# -*- coding: cp1252 -*-
-
+# --- imports
+# pygame imports
 import pygame
 
-def createByImage(path = "map.png"):
+def createByImage(path):
     """
     Create a PositionMap by using a imagefile
     pixels with RGB-values of 0 (black) will be interpreted as invalid positions aka. obstacles
@@ -49,7 +49,7 @@ def createByList(l = []):
     Create a PositionMap by using a list of strings
     the length of each list element (string) and the length of the list correspond to the width and height of the PositionMap respectively
     all characters except spaces will be interpreted as invalid positions aka. obstacles
-    
+
     parameter:      list list of strings following the described format
     return values:  PositionMap the result
     """
@@ -75,7 +75,7 @@ def createByList(l = []):
 def scale(m, scale = 1):
     """
     Scale a PositionMap with a scalar (out-of-place)
-    
+
     parameter:      PositionMap the PositionMap, which should be scaled
                     int/tuple the scalar or a tuple containing a scalar for each dimension
     return values:  PositionMap the result
@@ -106,7 +106,7 @@ class PositionMap:
         self._width     = 0
         self._height    = 0
         self._invalidPositions = frozenset()
-    
+
     def getWidth(self):
         """
         Return the width of the PositionMap
@@ -171,7 +171,7 @@ class PositionMap:
         if y < 0:
             return False
         return not (x, y) in self._invalidPositions
-    
+
     def isRectValid(self, rect):
         """
         Return if an area/rect is completely valid according to the PositionMap, aka. if there are any obstacles inside the rect

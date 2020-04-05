@@ -1,5 +1,3 @@
-# -*- coding: cp1252 -*-
-
 """
 Package for the bintree-gui example
 

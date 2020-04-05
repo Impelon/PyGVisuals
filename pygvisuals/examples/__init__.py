@@ -1,5 +1,3 @@
-# -*- coding: cp1252 -*-
-
 """
-Package for various programs using PyGVisuals
+Package for various example-programs using PyGVisuals.
 """

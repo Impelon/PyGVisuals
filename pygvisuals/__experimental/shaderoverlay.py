@@ -1,6 +1,7 @@
-# -*- coding: cp1252 -*-
-
+# --- imports
+# pygame imports
 import pygame
+
 
 class ShaderOverlay():
 
@@ -8,15 +9,15 @@ class ShaderOverlay():
     Manager for creating a surface with shadows/lightsources
     """
 
-    def __init__(self, background = (0, 0, 0), positionmap = None):
+    def __init__(self, background=(0, 0, 0), positionmap=None):
         """
         Initialisation of a ShaderOverlay
 
         parameters:     -
         return values:  -
         """
-        self._lightsources  = dict()
-        self._background    = background
+        self._lightsources = dict()
+        self._background = background
         try:
             positionmap.isPositionValid(0, 0)
             self._map = positionmap
@@ -63,7 +64,7 @@ class ShaderOverlay():
         """
         return self._map
 
-    def addLightsource(self, obj, radius, color = (255, 255, 255), intensity = 255, quality = 10):
+    def addLightsource(self, obj, radius, color=(255, 255, 255), intensity=255, quality=10):
         """
         Add a given object as a colored lightsource with specific radius
 
@@ -127,17 +128,17 @@ class ShaderOverlay():
         except:
             return pygame.Surface((0, 0), pygame.SRCALPHA, 32)
         surface.fill(self._background)
-        
-        shapes          = pygame.Surface(rect.size, pygame.SRCALPHA, 32)
-        lightsources    = pygame.Surface(rect.size, pygame.SRCALPHA, 32)
-        removeAfter     = []
+
+        shapes = pygame.Surface(rect.size, pygame.SRCALPHA, 32)
+        lightsources = pygame.Surface(rect.size, pygame.SRCALPHA, 32)
+        removeAfter = []
 
         for ls in self._lightsources:
-            quality     = self._lightsources[ls][3]
-            intensity   = self._lightsources[ls][2]
-            color       = self._lightsources[ls][1]
-            radius      = self._lightsources[ls][0]
-            r           = ls.rect
+            quality = self._lightsources[ls][3]
+            intensity = self._lightsources[ls][2]
+            color = self._lightsources[ls][1]
+            radius = self._lightsources[ls][0]
+            r = ls.rect
 
             polygon = []
             try:
@@ -151,7 +152,7 @@ class ShaderOverlay():
                     polygon.append(self.raycast(r.center, (r.left - radius, r.bottom + radius - y), rect, radius))
             except:
                 removeAfter.append(ls)
-            
+
             if polygon:
                 pygame.draw.polygon(shapes, color, polygon)
 
@@ -163,11 +164,11 @@ class ShaderOverlay():
             except:
                 removeAfter.append(ls)
 
-            shapes.blit(gradient, (0, 0), special_flags = pygame.BLEND_RGBA_MULT)
-            lightsources.blit(shapes, (0, 0), special_flags = pygame.BLEND_RGBA_MAX)
+            shapes.blit(gradient, (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
+            lightsources.blit(shapes, (0, 0), special_flags=pygame.BLEND_RGBA_MAX)
         surface.blit(lightsources, (0, 0))
 
         for ls in removeAfter:
             self.removeLightsource(ls)
-            
+
         return surface
