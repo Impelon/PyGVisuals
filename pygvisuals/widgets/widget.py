@@ -307,9 +307,9 @@ class Widget(pygame.sprite.DirtySprite):
         """
         Return the underlying widget's appearance.
 
-        This includes a basic implementation of background-coloring.
-
         This is an internal function.
+
+        This includes a basic implementation of background-coloring.
 
         Args:
             *args: Any argument needed for the update. This can include an optional pygame.event.Event to process.
