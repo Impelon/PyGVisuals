@@ -13,7 +13,7 @@ from pygame.locals import *
 
 # local imports
 import pygvisuals.widgets as gui
-import pygvisuals.widgets.border as brd
+import pygvisuals.border as brd
 from pygvisuals.io import StreamRedirector
 
 pygame.init()
@@ -42,7 +42,7 @@ def main_loop():
     # they are just there to show off the different functionalities available.
 
     # This is a generic Widget with no additional functions.
-    w = gui.Widget(50, 50, 50, 50).setBackground((255, 0, 0)).setBorder(gui.border.RoundedBorder((10, 80), (5, 10), (0, 0, 0), 8))
+    w = gui.Widget(50, 50, 50, 50).setBackground((255, 0, 0)).setBorder(brd.RoundedBorder((10, 80), (5, 10), (0, 0, 0), 8))
     # This is a Border consistent of 3 different borders; any widget can have borders.
     r = brd.CompoundBorder(brd.CompoundBorder(brd.BevelBorder(2, 2, (30, 90, 150), (30, 190, 50)), brd.ColoredBorder(3, 3, (130, 190, 250, 200))), brd.ColoredBorder(2, 2, (30, 90, 150, 100)))
     # This is an Entry; it accepts input from the user. Different things can be done with this; here we validate input to only accept numbers.
