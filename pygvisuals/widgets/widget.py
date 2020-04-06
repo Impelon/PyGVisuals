@@ -39,12 +39,12 @@ class Widget(pygame.sprite.DirtySprite):
         super(Widget, self).__init__()
         self.image = pygame.Surface((width, height), pygame.SRCALPHA, 32)
         self._bounds = self.image.get_rect().move(x, y)
-        self.rect = self._bounds.copy()
         self._border = defaultBorder
         self._focus = False
         self._active = True
         self._foreground = defaultForeground
         self._background = defaultBackground
+        self._updateRect()
 
     def markDirty(self, overwriteDirtyForever=False):
         """
@@ -169,7 +169,7 @@ class Widget(pygame.sprite.DirtySprite):
 
     def setBounds(self, rect):
         """
-        Set the widget's bounds according to a pygame.Rect.
+        Set the widget's base bounds according to a pygame.Rect.
         This can be used to change the position of the widget or its size.
 
         Args:
@@ -184,12 +184,21 @@ class Widget(pygame.sprite.DirtySprite):
 
     def getBounds(self):
         """
-        Return the widget's bounds (position and size).
+        Return the widget's base bounds (position and size).
 
         Returns:
             A pygame.Rect with the bounds of the widget.
         """
         return self._bounds
+
+    def getActualBounds(self):
+        """
+        Return the widget's actual bounds (position and size).
+
+        Returns:
+            A pygame.Rect with the bounds of the widget.
+        """
+        return self._rect
 
     def setBorder(self, border):
         """
@@ -276,13 +285,23 @@ class Widget(pygame.sprite.DirtySprite):
             if event.type == pygame.MOUSEBUTTONDOWN and event.button in (1, 2, 3):
                 self.setFocused(self.rect.collidepoint(event.pos))
         if self.isDirty():
-            self.rect = self._border.getBounds(self._bounds)
+            self._updateRect(*args)
             self.image = self._getAppearance(*args)
             if not self.isActive():
                 inactive = self.image.copy()
                 inactive.fill(disabeledOverlay)
                 self.image.blit(inactive, (0, 0))
-            self.image = self._border.getBorderedImage(self.image)
+            self.image = self.border.getBorderedImage(self.image)
+
+    def _updateRect(self, *args):
+        """
+        Update the actual position and size of the widget.
+        This is an internal function.
+
+        Args:
+            *args: Any argument needed for the update. This can include an optional pygame.event.Event to process.
+        """
+        self._rect = self.border.getBounds(self.bounds)
 
     def _getAppearance(self, *args):
         """
@@ -298,6 +317,14 @@ class Widget(pygame.sprite.DirtySprite):
         Returns:
             The underlying widget's appearance as a pygame.Surface.
         """
-        surface = pygame.Surface(self._bounds.size, pygame.SRCALPHA)
-        surface.fill(self._background)
+        surface = pygame.Surface(self.bounds.size, pygame.SRCALPHA)
+        surface.fill(self.background)
         return surface
+
+    foreground = property(getForeground, setForeground, doc="The widget's foreground color.")
+    background = property(getBackground, setBackground, doc="The widget's background color.")
+    border = property(getBorder, setBorder, doc="The widget's border (a PyGVisuals' border).")
+    bounds = property(getBounds, setBounds, doc="The widget's base position and size as a pygame.Rect.")
+    rect = property(getActualBounds, doc="The widget's actual position and size as a pygame.Rect.")
+    active = property(isActive, setActive, doc="The widget's active status as a boolean.\nAn inactive widget will should not respond to user-input and will have a grey overlay.")
+    focused = property(isFocused, setFocused, doc="The widget's focus status as a boolean.\nA widget will be focused automatically if it is clicked on.")
