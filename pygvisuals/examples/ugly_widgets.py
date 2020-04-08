@@ -5,7 +5,8 @@ Simple and ugly testscript that shows most of PyGVisuals' widgets.
 # --- imports
 # preinstalled python libraries
 import random
-import os, sys
+import os
+import sys
 
 # pygame imports
 import pygame
@@ -20,18 +21,19 @@ pygame.init()
 
 # setting display
 
-screen = pygame.display.set_mode((700,400),0|DOUBLEBUF|RESIZABLE,32)
+screen = pygame.display.set_mode((700, 400), 0 | DOUBLEBUF | RESIZABLE, 32)
 pygame.mouse.set_visible(1)
 pygame.key.set_repeat(1, 50)
 
-background = pygame.Surface((700,350))
-background.fill((255,255,255))
+background = pygame.Surface((700, 350))
+background.fill((255, 255, 255))
 
 image = pygame.Surface((250, 200))
 pygame.draw.ellipse(image, (255, 0, 255), pygame.Rect(0, 0, 250, 200))
 
 i = None
 b = None
+
 
 def main_loop():
     """
@@ -44,11 +46,12 @@ def main_loop():
     # This is a generic Widget with no additional functions.
     w = gui.Widget(50, 50, 50, 50).setBackground((255, 0, 0)).setBorder(brd.RoundedBorder((10, 80), (5, 10), (0, 0, 0), 8))
     # This is a Border consistent of 3 different borders; any widget can have borders.
-    r = brd.CompoundBorder(brd.CompoundBorder(brd.BevelBorder(2, 2, (30, 90, 150), (30, 190, 50)), brd.ColoredBorder(3, 3, (130, 190, 250, 200))), brd.ColoredBorder(2, 2, (30, 90, 150, 100)))
+    r = brd.CompoundBorder(brd.CompoundBorder(brd.BevelBorder(2, 2, (30, 90, 150), (30, 190, 50)),
+                                              brd.ColoredBorder(3, 3, (130, 190, 250, 200))), brd.ColoredBorder(2, 2, (30, 90, 150, 100)))
     # This is an Entry; it accepts input from the user. Different things can be done with this; here we validate input to only accept numbers.
     e = gui.Entry(10, 10, 100, 25).setBackground((0, 120, 255)).setBorder(r).setValidation(isNumber)
     # This is a Button; it reacts to the user clicking on it and executes a callback-function if clicked.
-    b = gui.Button(100, 100, 100, 50, "click", callback = button1).setBackground((255, 255, 0)).setForeground((0, 0, 0))
+    b = gui.Button(100, 100, 100, 50, "click", callback=button1).setBackground((255, 255, 0)).setForeground((0, 0, 0))
     # This is a Label; it simply displays some text.
     l = gui.Label(250, 50, 75, 50, "text").setBackground((0, 255, 0)).setForeground((0, 0, 0))
     # This is a Listbox; It displays a given list as strings on new lines/entries; in this example the list contains some widgets, but it can contain practically anything.
@@ -77,6 +80,7 @@ def main_loop():
     pygame.quit()
     sys.exit()
 
+
 def button1():
     """
     Callback function for the button.
@@ -87,6 +91,7 @@ def button1():
     global i
     if i != None:
         i.setVisible(not i.isVisible())
+
 
 def isNumber(newtext, oldtext, widget):
     """
@@ -106,6 +111,7 @@ def isNumber(newtext, oldtext, widget):
     if b != None:
         b.setActive(not b.isActive())
     return not newtext or newtext.isdigit()
+
 
 if __name__ == "__main__":
     main_loop()
