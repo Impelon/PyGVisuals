@@ -15,9 +15,9 @@ defaultSelection = (45, 110, 235, 120)
 class SelectionTextWidget(textwidget.TextWidget):
 
     """
-    Underlying class for Widgets using selectable text/strings with a cursor;
+    Underlying class for widgets using selectable text/strings with a cursor;
     """
-    
+
     def __init__(self, x, y, width, height, text = "", font = textwidget.defaultFont, selectioncolor = defaultSelection):
         """
         Initialisation of a SelectionTextWidget
@@ -82,7 +82,7 @@ class SelectionTextWidget(textwidget.TextWidget):
         return values:  -
         """
         self.setCursor(min(max(self.getActualIndex(CURSOR) + int(index), 0), self.getActualIndex(END)))
-        
+
     def setSelection(self, start, end):
         """
         Set the SelectionTextWidget's selection between the given bounds
@@ -134,7 +134,7 @@ class SelectionTextWidget(textwidget.TextWidget):
     def _posToIndex(self, x):
         """
         Return the index corresponding to the given relative x-coordinate
-        
+
         private function
 
         parameters:     int relative x-coordinate
@@ -159,7 +159,7 @@ class SelectionTextWidget(textwidget.TextWidget):
     def _sort(self, i, n):
         """
         Return the indices in ascending order
-        
+
         private function
 
         parameters:     int an index

@@ -1,6 +1,6 @@
 """
 Package for Borders compatible with pygame's Surfaces;
-intended for useage together with PyGVisuals' Widgets.
+intended for useage together with PyGVisuals' widgets.
 """
 
 __all__ = ["Border", "ColoredBorder", "CompoundBorder", "BevelBorder", "RoundedBorder"]

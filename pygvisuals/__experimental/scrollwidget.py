@@ -15,7 +15,7 @@ defaultYBarColor = (120, 120, 120, 120)
 class ScrollWidget(widget.Widget):
 
     """
-    Underlaying class for Widgets using scrollable content.
+    Underlaying class for widgets using scrollable content.
     """
 
     def __init__(self, x, y, width, height):

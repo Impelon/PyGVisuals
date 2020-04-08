@@ -6,9 +6,9 @@ import pygame
 class IconWidget(widget.Widget):
 
     """
-    Underlying class for Widgets using icons/surfaces/images;
+    Underlying class for widgets using icons/surfaces/images;
     """
-    
+
     def __init__(self, x, y, width, height, icon = None):
         """
         Initialisation of a IconWidget
@@ -24,7 +24,7 @@ class IconWidget(widget.Widget):
         if icon == None:
             icon = pygame.Surface((width, height), pygame.SRCALPHA, 32)
         self.setIcon(icon)
-        
+
     def setIcon(self, icon):
         """
         Set the IconWidget's icon/surface

@@ -11,7 +11,7 @@ defaultFont = fnt.Font(None, 18)
 class TextWidget(widget.Widget):
 
     """
-    Underlying class for Widgets using text/strings;
+    Underlying class for widgets using text/strings;
     """
 
     def __init__(self, x, y, width, height, text = "", font = defaultFont):
