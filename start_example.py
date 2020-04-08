@@ -36,7 +36,7 @@ def has_main_loop(f):
 
 ### Scan Directory ###
 
-example_directories = [os.path.join(os.path.split(__file__)[0], "pygvisuals", "examples")]
+example_directories = [os.path.join(os.path.split(__file__)[0], "examples")]
 
 print("Searching in: " + ", ".join(example_directories))
 
