@@ -7,7 +7,13 @@ The classes now in PyGVisuals were developed by Impelon and kjkriegel._
 ___Note: Impelon currently maintains this project___
 
 The project is (hopefully) well documented and includes most basic widgets.
-For Documentation look here: https://impelon.github.io/PyGVisuals/
+
+## Helpful Links
+
+- [Homepage](https://impelon.github.io/PyGVisuals/)
+- [Documentation](https://impelon.github.io/PyGVisuals/)
+- [GitHub](https://github.com/Impelon/PyGVisuals)
+- Also check out [Pygame GUI](https://github.com/MyreMylar/pygame_gui) for a more modern and extensive GUI Library for pygame.
 
 ## Help Wanted
 Suggestions (& requests), bug-reports and contributions are welcome. If you have any ideas how to help me with this please comment on the respective issue.
