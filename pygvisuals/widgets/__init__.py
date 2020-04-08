@@ -1,5 +1,5 @@
 """
-Package for interactive GUI-objects with PyGame.
+Package for interactive GUI-objects with pygame.
 """
 
 __all__ = ["Widget", "Label", "Entry", "Listbox", "Imagebox", "Button"]

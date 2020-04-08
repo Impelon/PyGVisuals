@@ -19,7 +19,7 @@ disabeledOverlay = (150, 150, 150, 150)
 class Widget(pygame.sprite.DirtySprite):
 
     """
-    Underlying class for interactive GUI-objects with PyGame;
+    Underlying class for interactive GUI-objects with pygame;
     intended for use together with pygame.sprite.LayeredDirty.
     """
 

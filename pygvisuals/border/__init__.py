@@ -1,5 +1,5 @@
 """
-Package for Borders compatible with PyGame's Surfaces;
+Package for Borders compatible with pygame's Surfaces;
 intended for useage together with PyGVisuals' Widgets.
 """
 

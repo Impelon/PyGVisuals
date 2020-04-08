@@ -56,7 +56,7 @@ def main_loop():
     l = gui.Label(250, 50, 75, 50, "text").setBackground((0, 255, 0)).setForeground((0, 0, 0))
     # This is a Listbox; It displays a given list as strings on new lines/entries; in this example the list contains some widgets, but it can contain practically anything.
     x = gui.Listbox(50, 150, 250, 100).setBackground((255, 155, 0)).setBorder(brd.RoundedBorder(4, 4, (0, 0, 0), 15)).setList([w, e, b, l])
-    # This is an Imagebox; it displays a given Pygame-Surface. This could be an actual Image, but here it's just a Surface.
+    # This is an Imagebox; it displays a given pygame-Surface. This could be an actual Image, but here it's just a Surface.
     i = gui.Imagebox(350, 150, 150, 100, image).setBackground((255, 155, 0)).setBorder(brd.RoundedBorder(4, 4, (0, 0, 0), 15))
 
     # Here we create and assign a StreamRedirector which takes a stream and computes a callback function on each line.
@@ -66,7 +66,7 @@ def main_loop():
     # Here we create a sprite-group to gather all of our widgets.
     group = pygame.sprite.LayeredDirty([w, e, b, l, x, i])
 
-    # generic PyGame-Loop which draws and updates our sprite-group
+    # generic pygame-Loop which draws and updates our sprite-group
     going = True
     while going:
         # handle input events
