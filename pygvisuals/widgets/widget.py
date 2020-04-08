@@ -14,7 +14,24 @@ defaultBackground = (0, 0, 0)
 """Color to be used by default for the background of a widget."""
 disabeledOverlay = (150, 150, 150, 150)
 """Color to overlay when a widget is disabled."""
+defaultScalingFunction = pygame.transform.smoothscale
+"""Function used to scale background images to widget-size."""
 
+def _getScalingFunctionForSmoothness(self, smooth):
+    """
+    Return an appropiate scaling-function for the smoothness given.
+
+    This is an internal function.
+
+    Args:
+        smooth: A boolean indicating whether the returned function should scale smoothly or not.
+
+    Returns:
+        A corresponding scaling-function which transforms a given surface (see pygame.transform.scale).
+    """
+    if smooth:
+        return pygame.transform.smoothscale
+    return pygame.transform.scale
 
 class Widget(pygame.sprite.DirtySprite):
 
@@ -44,6 +61,8 @@ class Widget(pygame.sprite.DirtySprite):
         self._active = True
         self._foreground = defaultForeground
         self._background = defaultBackground
+        self._background_image = None
+        self._scaling_function = defaultScalingFunction
         self._updateRect()
 
     def markDirty(self, overwriteDirtyForever=False):
@@ -270,6 +289,104 @@ class Widget(pygame.sprite.DirtySprite):
         """
         return self._background
 
+    def setBackgroundImage(self, image, smooth=None, scale_immediately=False):
+        """
+        Set the widget's background-image.
+
+        Args:
+            image: A surface-like object (e.g. pygame.Surface) that should be rendered as the background.
+                If this is a falsy value (e.g. None), there will be no background-image.
+            smooth: A boolean indicating whether the image should be scaled smoothly or not.
+                If this is None, the previous value will not be overwritten.
+                The default value is None, so the previous configuration will be kept.
+            scale_immediately: A boolean indicating whether the image should be scaled during this assignment.
+                Usually the image is rescaled every time the widget is drawn.
+                This is especially useful when the scaling-function is set to None
+                since the image will only be resized once during this assignment therefore increasing performance.
+                The default value is False, so the image will not be rescaled in this assignment which preserves image quality.
+
+        Returns:
+            Itsself (the widget) for convenience.
+        """
+        if image:
+            self._background_image = image.convert_alpha(self._getAppearance())
+            if smooth is None:
+                smooth = self.smooth_scaling
+            self.smooth_scaling = smooth
+            if scale_immediately:
+                scaling_function = self.scaling_function
+                if not scaling_function:
+                    scaling_function = _getScalingFunctionForSmoothness(smooth)
+                self._background_image = scaling_function(self._background_image, self.bounds.size)
+        else:
+            self._background_image = image
+        self.markDirty()
+        return self
+
+    def getBackgroundImage(self):
+        """
+        Return the widget's background-image.
+        A falsy value (e.g. None) indicates that there is no background-image to be drawn.
+
+        Returns:
+            A surface-like object that is rendered in the background of the widget
+            or a falsy value indicating that there is no such surface.
+        """
+        return self._background_image
+
+    def setSmoothScaling(self, smooth):
+        """
+        Set whether the widget's background-image will be scaled smoothly (with pygame.transform.smoothscale) or not.
+        For more control see the widget's 'scaling_function' property.
+
+        Args:
+            smooth: A boolean indicating whether the image should be scaled smoothly or not.
+
+        Returns:
+            Itsself (the widget) for convenience.
+        """
+        smooth = bool(smooth)
+        if smooth != self.smooth_scaling:
+            self.scaling_function = _getScalingFunctionForSmoothness(smooth)
+            self.markDirty()
+        return self
+
+    def hasSmoothScaling(self):
+        """
+        Return whether the background-image is known to be scaled smoothly or not.
+
+        Returns:
+            A boolean indicating whether the scaling-function is pygame.transform.smoothscale
+            and the background-image is therefore scaled smoothly.
+        """
+        return self._scaling_function is pygame.transform.smoothscale
+
+    def setScalingFunction(self, scaling_function):
+        """
+        Set the scaling-function used for scaling the background-image (to the widgets bounds).
+
+        Args:
+            scaling_function: A function that scales a given surface-like object
+                to a given size. See for example pygame.transform.scale.
+                If this is a falsy value (e.g. None), the image will not be rescaled when drawn.
+
+        Returns:
+            Itsself (the widget) for convenience.
+        """
+        self._scaling_function = scaling_function
+        self.markDirty()
+        return self
+
+    def getScalingFunction(self):
+        """
+        Return the scaling-function used for scaling the background-image (to the widgets bounds).
+
+        Returns:
+            A function that scales a given surface-like object to a given size (like pygame.transform.scale)
+            or a falsy value (e.g. None) if the background-image is not rescaled when drawn.
+        """
+        return self._scaling_function
+
     def update(self, *args):
         """
         Perform any updates on the widget if needed.
@@ -309,7 +426,7 @@ class Widget(pygame.sprite.DirtySprite):
 
         This is an internal function.
 
-        This includes a basic implementation of background-coloring.
+        This includes a basic implementation of background-coloring and display of background-image.
 
         Args:
             *args: Any argument needed for the update. This can include an optional pygame.event.Event to process.
@@ -319,12 +436,28 @@ class Widget(pygame.sprite.DirtySprite):
         """
         surface = pygame.Surface(self.bounds.size, pygame.SRCALPHA)
         surface.fill(self.background)
+        if self.background_image:
+            background_image = self.background_image
+            if self._scaling_function:
+                background_image = self._scaling_function(self.background_image, self.bounds.size)
+            surface.blit(background_image, (0, 0))
+
         return surface
 
     foreground = property(getForeground, setForeground, doc="The widget's foreground color.")
     background = property(getBackground, setBackground, doc="The widget's background color.")
+    background_image = property(getBackgroundImage, setBackgroundImage, doc="""The widget's background-image.
+        If this is a falsy value (e.g. None), no image will be drawn.""")
+    smooth_scaling = property(hasSmoothScaling, setSmoothScaling, doc="The widget's status as a boolean "
+        """regarding whether the background-image will be scaled smoothly (with pygame.transform.smoothscale).
+        Exact control of the scaling-function is given via the 'scaling_function' property.""")
+    scaling_function = property(getScalingFunction, setScalingFunction, doc="The widget's function used "
+        """for scaling the background-image (to the widgets bounds).
+        If this is a falsy value (e.g. None), the image will not be rescaled when drawn.""")
     border = property(getBorder, setBorder, doc="The widget's border (a PyGVisuals' border).")
     bounds = property(getBounds, setBounds, doc="The widget's base position and size as a pygame.Rect.")
     rect = property(getActualBounds, doc="The widget's actual position and size as a pygame.Rect.")
-    active = property(isActive, setActive, doc="The widget's active status as a boolean.\nAn inactive widget will should not respond to user-input and will have a grey overlay.")
-    focused = property(isFocused, setFocused, doc="The widget's focus status as a boolean.\nA widget will be focused automatically if it is clicked on.")
+    active = property(isActive, setActive,doc="""The widget's active status as a boolean.
+        An inactive widget will should not respond to user-input and will have a grey overlay.""")
+    focused = property(isFocused, setFocused, doc="""The widget's focus status as a boolean.
+        A widget will be focused automatically if it is clicked on.""")

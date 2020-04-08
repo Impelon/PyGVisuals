@@ -1,12 +1,12 @@
 # -*- coding: cp1252 -*-
 
-from . import textwidget, imagebox
+from . import textwidget
 import pygame
 
 defaultHovered    = (200, 200, 150, 50)
 defaultPressed    = (200, 200, 150, 100)
 
-class Button(textwidget.TextWidget, imagebox.Imagebox):
+class Button(textwidget.TextWidget):
 
     """
     Clickable buttons with alternatively an image added
