@@ -1,5 +1,6 @@
 # PyGVisuals
 A collection of classes to create GUI's and more based purely on pygame (https://www.pygame.org/news).
+(Works with both pygame 1.9.6 and pygame 2)
 
 _This is a byproduct of a larger, currently unactive and incomplete [project](https://github.com/AlinaGri/CoolesSpiel).
 The classes now in PyGVisuals were developed by Impelon and kjkriegel._
