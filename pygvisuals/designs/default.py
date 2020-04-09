@@ -1,6 +1,6 @@
 from . import __init__ as helper
 import pygame.font as fnt
-from ..border import Border
+from ..borders import Border
 
 """
 The default design hardcoded into PyGVisuals-widgets;

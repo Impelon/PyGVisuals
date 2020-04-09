@@ -1,6 +1,6 @@
 from . import __init__ as helper
 import pygame.font as fnt
-from ..border import RoundedBorder, CompoundBorder
+from ..borders import RoundedBorder, CompoundBorder
 
 """
 A futuristic design for PyGVisuals-widgets;

@@ -1,6 +1,6 @@
 from . import __init__ as helper
 import pygame.font as fnt
-from ..border import ColoredBorder, CompoundBorder
+from ..borders import ColoredBorder, CompoundBorder
 
 """
 A dark design for PyGVisuals-widgets;

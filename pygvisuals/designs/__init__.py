@@ -11,7 +11,7 @@ def listDesigns():
 
 __all__ = ["applyDesign", "applyDesignAsDefault", "applyDesignToWidgets", "applyDesignToWidget"] + listDesigns()
 
-from ...widgets import *
+from ..widgets import *
 
 
 def applyDesign(design, widgets = None):
