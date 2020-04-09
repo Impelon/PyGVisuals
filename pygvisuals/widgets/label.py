@@ -1,16 +1,16 @@
 # -*- coding: cp1252 -*-
 
-from . import textwidget
+from .text_widget import TextWidget, defaultFont
 import pygame
 
 
-class Label(textwidget.TextWidget):
+class Label(TextWidget):
 
     """
     Label for displaying text
     """
 
-    def __init__(self, x, y, width, height, text = "", font = textwidget.defaultFont):
+    def __init__(self, x, y, width, height, text = "", font = defaultFont):
         """
         Initialisation of a Label
 

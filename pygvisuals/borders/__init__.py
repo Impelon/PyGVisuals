@@ -7,7 +7,7 @@ __all__ = ["Border", "ColoredBorder", "CompoundBorder", "BevelBorder", "RoundedB
 
 
 from .border import Border
-from .coloredborder import ColoredBorder
-from .compoundborder import CompoundBorder
-from .bevelborder import BevelBorder
-from .roundedborder import RoundedBorder
+from .colored_border import ColoredBorder
+from .compound_border import CompoundBorder
+from .bevel_border import BevelBorder
+from .rounded_border import RoundedBorder

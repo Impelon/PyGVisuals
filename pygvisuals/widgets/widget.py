@@ -4,7 +4,7 @@ import pygame
 import pygame.sprite
 
 # local imports
-from ..border import Border
+from ..borders import Border
 
 defaultBorder = Border(0, 0)
 """Border to be used by default."""

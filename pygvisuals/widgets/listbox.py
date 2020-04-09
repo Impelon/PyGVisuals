@@ -1,19 +1,17 @@
 # -*- coding: cp1252 -*-
 
-from . import selectiontextwidget
-from . import textwidget
+from .selection_text_widget import *
 import pygame
-from .selectiontextwidget import *
 
 VIEWPOINT       = 'v'
 
-class Listbox(selectiontextwidget.SelectionTextWidget):
+class Listbox(SelectionTextWidget):
 
     """
     Listbox for displaying lists of multiple objects as strings
     """
-    
-    def __init__(self, x, y, width, height, editable = False, font = textwidget.defaultFont, selectioncolor = selectiontextwidget.defaultSelection):
+
+    def __init__(self, x, y, width, height, editable = False, font = defaultFont, selectioncolor = defaultSelection):
         """
         Initialisation of an Listbox
 
@@ -26,7 +24,7 @@ class Listbox(selectiontextwidget.SelectionTextWidget):
                         tuple of format pygame.Color representing the Listbox's selection-color
         return values:  -
         """
-        super(Listbox, self).__init__(x, y, width, height, "", font, selectioncolor = selectiontextwidget.defaultSelection)
+        super(Listbox, self).__init__(x, y, width, height, "", font, selectioncolor = defaultSelection)
         self._list      = []
         self._editable  = editable
         self._viewpoint = self._cursor
@@ -181,7 +179,7 @@ class Listbox(selectiontextwidget.SelectionTextWidget):
     def _posToIndex(self, y):
         """
         Return the index corresponding to the given relative y-coordinate
-        
+
         private function
 
         parameters:     int relative y-coordinate
@@ -223,7 +221,7 @@ class Listbox(selectiontextwidget.SelectionTextWidget):
                 if event.button in (1, 3):
                     if self.rect.collidepoint(event.pos):
                         self.setCursor(self._posToIndex(event.pos[1] - self.rect.y))
-        
+
         super(Listbox, self).update(*args)
 
     def _getAppearance(self, *args):

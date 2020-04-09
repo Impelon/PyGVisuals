@@ -1,6 +1,6 @@
 # -*- coding: cp1252 -*-
 
-from . import widget
+from .widget import Widget
 import pygame
 import pygame.font as fnt
 
@@ -8,7 +8,7 @@ fnt.init()
 defaultFont = fnt.Font(None, 18)
 """Font to be used by default by widgets displaying text."""
 
-class TextWidget(widget.Widget):
+class TextWidget(Widget):
 
     """
     Underlying class for widgets using text/strings;

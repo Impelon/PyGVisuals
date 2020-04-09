@@ -1,17 +1,15 @@
 # -*- coding: cp1252 -*-
 
-from . import selectiontextwidget
-from . import textwidget
 import pygame
-from .selectiontextwidget import *
+from .selection_text_widget import *
 
-class Entry(selectiontextwidget.SelectionTextWidget):
+class Entry(SelectionTextWidget):
 
     """
     Entry that accepts keyboard-input
     """
 
-    def __init__(self, x, y, width, height, text = "", font = textwidget.defaultFont, selectioncolor = selectiontextwidget.defaultSelection, validation = (lambda *x: True)):
+    def __init__(self, x, y, width, height, text = "", font = defaultFont, selectioncolor = defaultSelection, validation = (lambda *x: True)):
         """
         Initialisation of an Entry
 
@@ -25,7 +23,7 @@ class Entry(selectiontextwidget.SelectionTextWidget):
                         function function that validates input; validation(newtext, oldtext, entry) -> bool
         return values:  -
         """
-        super(Entry, self).__init__(x, y, width, height, text, font, selectioncolor = selectiontextwidget.defaultSelection)
+        super(Entry, self).__init__(x, y, width, height, text, font, selectioncolor = defaultSelection)
         self._validation = validation
 
     def setText(self, text):

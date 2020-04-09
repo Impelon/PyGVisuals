@@ -1,9 +1,9 @@
 # -*- coding: cp1252 -*-
 
 import pygame
-from . import border
+from .border import Border
 
-class CompoundBorder(border.Border):
+class CompoundBorder(Border):
 
     """
     Border composed of two other Border-instances

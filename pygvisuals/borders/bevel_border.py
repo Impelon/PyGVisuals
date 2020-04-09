@@ -3,10 +3,10 @@
 import pygame
 
 # local imports
-from . import border
+from .border import Border
 
 
-class BevelBorder(border.Border):
+class BevelBorder(Border):
 
     """
     Border with two colored lines, creating a simple bevel-effect.

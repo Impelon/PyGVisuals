@@ -1,18 +1,18 @@
 # -*- coding: cp1252 -*-
 
-from . import textwidget
+from .text_widget import TextWidget, defaultFont
 import pygame
 
 defaultHovered    = (200, 200, 150, 50)
 defaultPressed    = (200, 200, 150, 100)
 
-class Button(textwidget.TextWidget):
+class Button(TextWidget):
 
     """
     Clickable buttons with alternatively an image added
     """
 
-    def __init__(self, x, y, width, height, text = "", font = textwidget.defaultFont, callback = None):
+    def __init__(self, x, y, width, height, text = "", font = defaultFont, callback = None):
         """
         Initialisation of a Button
 

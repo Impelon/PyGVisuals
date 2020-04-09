@@ -1,9 +1,9 @@
 # -*- coding: cp1252 -*-
 
 import pygame
-from . import coloredborder
+from .colored_border import ColoredBorder
 
-class RoundedBorder(coloredborder.ColoredBorder):
+class RoundedBorder(ColoredBorder):
 
     """
     Border with rounded corners

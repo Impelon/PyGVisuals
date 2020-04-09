@@ -1,9 +1,9 @@
 # -*- coding: cp1252 -*-
 
 import pygame
-from . import border
+from .border import Border
 
-class ColoredBorder(border.Border):
+class ColoredBorder(Border):
 
     """
     Border with a color

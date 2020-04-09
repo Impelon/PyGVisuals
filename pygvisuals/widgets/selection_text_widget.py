@@ -1,6 +1,6 @@
 # -*- coding: cp1252 -*-
 
-from . import textwidget
+from .text_widget import TextWidget, defaultFont
 import pygame
 
 START       = 0
@@ -12,13 +12,13 @@ SELECTION   = 's'
 
 defaultSelection = (45, 110, 235, 120)
 
-class SelectionTextWidget(textwidget.TextWidget):
+class SelectionTextWidget(TextWidget):
 
     """
     Underlying class for widgets using selectable text/strings with a cursor;
     """
 
-    def __init__(self, x, y, width, height, text = "", font = textwidget.defaultFont, selectioncolor = defaultSelection):
+    def __init__(self, x, y, width, height, text = "", font = defaultFont, selectioncolor = defaultSelection):
         """
         Initialisation of a SelectionTextWidget
 

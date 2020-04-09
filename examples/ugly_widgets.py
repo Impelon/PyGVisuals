@@ -14,7 +14,7 @@ from pygame.locals import *
 
 # local imports
 import pygvisuals.widgets as gui
-import pygvisuals.border as brd
+import pygvisuals.borders as brd
 from pygvisuals.io import StreamRedirector
 
 pygame.init()
