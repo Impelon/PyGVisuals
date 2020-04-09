@@ -4,6 +4,7 @@
 Here is a temporary collection of usefull stuff:
 
 - [UML-Class-Diagram](docs/GUI-System.class.violet.html)
+- [Documentation](docs)
 - ...
 
 <!---
