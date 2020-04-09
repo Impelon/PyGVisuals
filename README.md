@@ -26,7 +26,9 @@ I would be happy to see you use the contents of this repository. You are encoura
 _A screenshot taken from the bintree-gui_
 
 ## Usage
-According to the [BSD-Licence](LICENSE) PyGVisuals is using, you can use the contens of this repository to your liking as long as you follow the licence's terms and conditions. If you want to include PyGVisuals or parts of it in your own project, include the files you need into your project's package (be sure to also include the [license](LICENSE)). You can also install pygvisuals via pip from source. See down below.
+According to the [BSD-Licence](LICENSE.md.) PyGVisuals is using, you can use the contens of this repository to your liking as long as you follow the licence's terms and conditions.
+If you want to include PyGVisuals or parts of it in your own project, include the files you need into your project's package (be sure to also include the [license](LICENSE.md)).
+You can also install pygvisuals via pip from source. See down below.
 
 ## Install
 
