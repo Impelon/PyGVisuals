@@ -1,42 +1,56 @@
-# -*- coding: cp1252 -*-
-
+# --- imports
+# pygame imports
 import pygame
+
+# local imports
 from . import border
+
 
 class BevelBorder(border.Border):
 
     """
-    Border with two colors, creating a bevel-effect
+    Border with two colored lines, creating a simple bevel-effect.
     """
 
-    def __init__(self, width, height, upper, lower):
+    def __init__(self, width, height, upper, lower, lower_has_right_side = False):
         """
-        Initialisation of a BevelBorder
+        Initialisation of a BevelBorder.
 
-        parameters:     int width of the BevelBorder on the left and right sides or tuple for each side specifically
-                        int height of the BevelBorder on the top and bottom sides or tuple for each side specifically
-                        tuple of format pygame.Color representing the BevelBorder's upper color
-                        tuple of format pygame.Color representing the BevelBorder's lower color
-        return values:  -
+        Args:
+            width: The width of the BevelBorder.
+                This can either be an integer for the width of both the left and right side
+                or a tuple for each side specifically (left, right).
+            height: The height of the BevelBorder.
+                This can either be an integer for the height of both the top and bottom side
+                or a tuple for each side specifically (top, bottom).
+            upper: A color-like object that can be interpreted as a color by pygame (such as a tuple with RGB values).
+                This will be used as the color for the upper (and left) side of the border.
+            lower: A color-like object that can be interpreted as a color by pygame (such as a tuple with RGB values).
+                This will be used as the color for the lower (and right) side of the border.
         """
         super(BevelBorder, self).__init__(width, height)
         self.upper = upper
         self.lower = lower
+        self.lower_has_right_side = lower_has_right_side
 
     def getBorderedImage(self, surface):
         """
-        Draw the BevelBorder and return the bordered result
+        Draw the border surrounding a given surface and return the bordered result.
 
         parameters:     pygame.Surface the image to be bordered
         return values:  pygame.Surface the bordered result
         """
         try:
             if not self.isEmptyBorder():
-                rect        = surface.get_rect()
-                size        = self.getBounds(rect)
-                bordered    = pygame.Surface(size.size, 0, surface)
+                rect = surface.get_rect()
+                size = self.getBounds(rect)
+                bordered = pygame.Surface(size.size, 0, surface)
                 bordered.fill(self.upper)
-                bordered.fill(self.lower, size.move(self.width + self.left, self.height + self.top))
+                lower_size = size.move(self.width + self.left, self.height + self.top)
+                if self.lower_has_right_side:
+                    lower_size.width -= self.width
+                    lower_size.left -= self.width
+                bordered.fill(self.lower, lower_size)
                 bordered.fill((0, 0, 0, 0), rect.move(self.left, self.top))
                 bordered.blit(surface, (self.left, self.top))
                 return bordered

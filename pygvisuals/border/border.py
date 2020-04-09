@@ -1,12 +1,12 @@
-# -*- coding: cp1252 -*-
-
+# --- imports
+# pygame imports
 import pygame
 
 class Border(object):
 
     """
-    Underlying class for Borders;
-    intended for use together with pygame.Surface
+    Underlying class for borders compatible with pygame's Surfaces.
+    Intended for useage together with PyGVisuals' widgets.
     """
 
     def __init__(self, width, height):

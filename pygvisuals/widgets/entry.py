@@ -10,7 +10,7 @@ class Entry(selectiontextwidget.SelectionTextWidget):
     """
     Entry that accepts keyboard-input
     """
-    
+
     def __init__(self, x, y, width, height, text = "", font = textwidget.defaultFont, selectioncolor = selectiontextwidget.defaultSelection, validation = (lambda *x: True)):
         """
         Initialisation of an Entry
@@ -123,7 +123,7 @@ class Entry(selectiontextwidget.SelectionTextWidget):
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 if self.rect.collidepoint(event.pos) and event.button != 2:
                     self.setCursor(self._posToIndex(event.pos[0] - self.rect.x))
-        
+
         super(Entry, self).update(*args)
 
     def _getAppearance(self, *args):
@@ -138,7 +138,7 @@ class Entry(selectiontextwidget.SelectionTextWidget):
         """
         surface = super(Entry, self)._getAppearance(*args)
         linesize = self._font.get_linesize()
-        surface.blit(self._font.render(str(self._text), pygame.SRCALPHA, self._foreground), (0, (self._bounds.height - linesize) / 2))
+        surface.blit(self._font.render(str(self._text), True, self._foreground), (0, (self._bounds.height - linesize) / 2))
         if self.isFocused():
             cursor = pygame.Surface((2, linesize))
             cursor.fill(self._foreground)
