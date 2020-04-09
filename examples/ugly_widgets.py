@@ -67,18 +67,20 @@ def main_loop():
     group = pygame.sprite.LayeredDirty([w, e, b, l, x, i])
 
     # generic pygame-Loop which draws and updates our sprite-group
-    going = True
-    while going:
-        # handle input events
-        for event in pygame.event.get():
-            if event.type == QUIT:
-                going = False
-            group.update(event)
-        group.draw(screen, background)
-        pygame.display.update()
-        pygame.time.wait(100)
-    pygame.quit()
-    sys.exit()
+    try:
+        going = True
+        while going:
+            # handle input events
+            for event in pygame.event.get():
+                if event.type == QUIT:
+                    going = False
+                group.update(event)
+            group.draw(screen, background)
+            pygame.display.update()
+            pygame.time.wait(100)
+    finally:
+        pygame.quit()
+        sys.exit()
 
 
 def button1():
