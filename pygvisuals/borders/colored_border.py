@@ -1,41 +1,36 @@
-# -*- coding: cp1252 -*-
-
-import pygame
+# --- imports
+# local imports
 from .border import Border
+from ..util import inherit_docstrings_from_superclass
+
 
 class ColoredBorder(Border):
 
     """
-    Border with a color
+    Border with a color.
     """
 
     def __init__(self, width, height, color):
         """
-        Initialisation of a ColoredBorder
+        Initialisation of a ColoredBorder.
 
-        parameters:     int width of the ColoredBorder on the left and right sides or tuple for each side specifically
-                        int height of the ColoredBorder on the top and bottom sides or tuple for each side specifically
-                        tuple of format pygame.Color representing the ColoredBorder's color
-        return values:  -
+        Args:
+            width: The width of the border.
+                This can either be an integer for the width of both the left and right side
+                or a tuple for each side specifically (left, right).
+            height: The height of the border.
+                This can either be an integer for the height of both the top and bottom side
+                or a tuple for each side specifically (top, bottom).
+            color: A color-like object that can be interpreted as a color by pygame (such as a tuple with RGB values).
+                This will be used as the color for the border.
         """
         super(ColoredBorder, self).__init__(width, height)
         self.color = color
 
-    def getBorderedImage(self, surface):
-        """
-        Draw the ColoredBorder and return the bordered result
+    def _drawBorder(self, surface, original_rect, bordered_rect):
+        surface.fill(self.color)
+        return surface
 
-        parameters:     pygame.Surface the image to be bordered
-        return values:  pygame.Surface the bordered result
-        """
-        try:
-            if not self.isEmptyBorder():
-                rect        = surface.get_rect()
-                size        = self.getBounds(rect)
-                bordered    = pygame.Surface(size.size, 0, surface)
-                bordered.fill(self.color)
-                bordered.fill((0, 0, 0, 0), rect.move(self.left, self.top))
-                bordered.blit(surface, (self.left, self.top))
-                return bordered
-        except:
-            return surface
+
+# inherit docs from superclass
+ColoredBorder = inherit_docstrings_from_superclass(ColoredBorder)

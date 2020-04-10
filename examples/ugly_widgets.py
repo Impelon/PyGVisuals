@@ -44,7 +44,7 @@ def main_loop():
     # they are just there to show off the different functionalities available.
 
     # This is a generic Widget with no additional functions.
-    w = gui.Widget(50, 50, 50, 50).setBackground((255, 0, 0)).setBorder(brd.RoundedBorder((10, 80), (5, 10), (0, 0, 0), 8))
+    w = gui.Widget(50, 50, 50, 50).setBackground((255, 0, 0, 100)).setBorder(brd.RoundedBorder((10, 80), (5, 10), (0, 0, 0), 8))
     # This is a Border consistent of 3 different borders; any widget can have borders.
     r = brd.CompoundBorder(brd.CompoundBorder(brd.BevelBorder(2, 2, (30, 90, 150), (30, 190, 50)),
                                               brd.ColoredBorder(3, 3, (130, 190, 250, 200))), brd.ColoredBorder(2, 2, (30, 90, 150, 100)))
@@ -78,6 +78,12 @@ def main_loop():
             group.draw(screen, background)
             pygame.display.update()
             pygame.time.wait(100)
+    except Exception:
+        # in case something does not work out...
+        import traceback
+        print("Something has gone wrong...")
+        print(traceback.format_exc())
+        print(screen, background, group)
     finally:
         pygame.quit()
         sys.exit()

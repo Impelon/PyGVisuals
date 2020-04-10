@@ -1,54 +1,57 @@
-# -*- coding: cp1252 -*-
-
+# --- imports
+# pygame imports
 import pygame
+
+# local imports
 from .colored_border import ColoredBorder
+from ..util import inherit_docstrings_from_superclass
+
 
 class RoundedBorder(ColoredBorder):
 
     """
-    Border with rounded corners
+    Border with rounded corners, which can be colored.
     """
 
     def __init__(self, width, height, color, radius):
         """
-        Initialisation of a RoundedBorder
+        Initialisation of a RoundedBorder.
+        The rounded rectangle is produced by placing 4 circles on the side of the rectangle as described here:
+        https://github.com/pygame/pygame/issues/1120
 
-        parameters:     int width of the RoundedBorder on the left and right sides or tuple for each side specifically
-                        int height of the RoundedBorder on the top and bottom sides or tuple for each side specifically
-                        tuple of format pygame.Color representing the RoundedBorder's color
-                        int radius of the circles on the corners of the RoundedBorder
-        return values:  -
+        Args:
+            width: The width of the border.
+                This can either be an integer for the width of both the left and right side
+                or a tuple for each side specifically (left, right).
+            height: The height of the border.
+                This can either be an integer for the height of both the top and bottom side
+                or a tuple for each side specifically (top, bottom).
+            color: A color-like object that can be interpreted as a color by pygame (such as a tuple with RGB values).
+                This will be used as the color for the border.
+            radius: An integer denoting the radius in pixels of the circles on the corners of the RoundedBorder.
         """
         super(RoundedBorder, self).__init__(width, height, color)
         self.radius = radius
+        self._remove_background_after_draw = False
 
-    def getBorderedImage(self, surface):
-        """
-        Draw the RoundedBorder and return the bordered result
-
-        parameters:     pygame.Surface the image to be bordered
-        return values:  pygame.Surface the bordered result
-        """
-        try:
-            if not self.isEmptyBorder():
-                rect            = surface.get_rect()
-                size            = self.getBounds(rect)
-                bordered        = pygame.Surface(size.size, 0, surface)
-                bordered.blit(self._getRoundRect(size, self.color), size)
-                bordered.blit(self._getRoundRect(rect, (255, 255, 255, 255)), (self.left, self.top), special_flags = pygame.BLEND_RGBA_SUB)
-                bordered.blit(surface, (self.left, self.top))
-                return bordered
-        except:
-            return surface
+    def _drawBorder(self, surface, original_rect, bordered_rect):
+        surface.blit(self._getRoundRect(bordered_rect, self.color), (0, 0))
+        surface.blit(self._getRoundRect(original_rect, (255, 255, 255, 255)), (self.left, self.top), special_flags=pygame.BLEND_RGBA_SUB)
+        return surface
 
     def _getRoundRect(self, rect, color):
         """
-        Draw a rectangle with rounded corners and return the bordered result
+        Draw a rectangle with rounded corners and return the result.
 
-        parameters:     pygame.Rect the bounds of the rectangle to be drawn
-                        tuple of format pygame.Color for the color to draw with
-        return values:  pygame.Surface the rectangle
+        Args:
+            rect: A rect-like object (e.g. pygame.Rect)
+                denoting the bounds of the rectangle to be drawn.
+            color: A color-like object that can be interpreted as a color by pygame (such as a tuple with RGB values).
+                This will be used as the color for the rectable.
+        Returns:
+            A pygame.Surface with the result.
         """
+        rect = rect.copy()
         rect.topleft = 0, 0
         surface = pygame.Surface(rect.size, pygame.SRCALPHA)
         surface.fill(color, rect.inflate(-2 * self.radius, 0))
@@ -59,3 +62,7 @@ class RoundedBorder(ColoredBorder):
         pygame.draw.circle(surface, color, corners.bottomleft, self.radius)
         pygame.draw.circle(surface, color, corners.bottomright, self.radius)
         return surface
+
+
+# inherit docs from superclass
+RoundedBorder = inherit_docstrings_from_superclass(RoundedBorder)
