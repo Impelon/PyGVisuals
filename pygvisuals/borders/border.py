@@ -24,7 +24,8 @@ class Border(object):
                 or a tuple for each side specifically (top, bottom).
         """
         super(Border, self).__init__()
-        self._remove_background_after_draw = True
+        self.remove_background_after_draw = True
+        self.draw_surface_above_border = True
         try:
             self.left = width[0]
             self.right = width[1]
@@ -52,11 +53,16 @@ class Border(object):
             if not self.isEmptyBorder():
                 rect = surface.get_rect()
                 size = self.getBounds(rect)
-                bordered = self._drawBorder(pygame.Surface(size.size, 0, surface), rect, size)
-                if self._remove_background_after_draw:
-                    bordered.fill((0, 0, 0, 0), rect.move(self.left, self.top))
-                bordered.blit(surface, (self.left, self.top))
-                return bordered
+                result = pygame.Surface(size.size, 0, surface)
+                border = result.copy()
+                border = self._drawBorder(border, rect, size)
+                if self.remove_background_after_draw:
+                    border.fill((0, 0, 0, 0), rect.move(self.left, self.top))
+                blit_sequence = [(border, (0, 0)), (surface, (self.left, self.top))]
+                if not self.draw_surface_above_border:
+                    blit_sequence.reverse()
+                result.blits(blit_sequence)
+                return result
         except:
             pass
         return surface

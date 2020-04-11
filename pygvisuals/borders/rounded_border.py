@@ -32,7 +32,8 @@ class RoundedBorder(ColoredBorder):
         """
         super(RoundedBorder, self).__init__(width, height, color)
         self.radius = radius
-        self._remove_background_after_draw = False
+        self.remove_background_after_draw = False
+        self.draw_surface_above_border = False
 
     def _drawBorder(self, surface, original_rect, bordered_rect):
         surface.blit(self._getRoundRect(bordered_rect, self.color), (0, 0))
