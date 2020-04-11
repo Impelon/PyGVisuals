@@ -12,8 +12,8 @@ defaultForeground = (255, 255, 255)
 """Color to be used by default for the foreground of a widget."""
 defaultBackground = (0, 0, 0)
 """Color to be used by default for the background of a widget."""
-disabeledOverlay = (150, 150, 150, 150)
-"""Color to overlay when a widget is disabled."""
+defaultDisabeledOverlay = (150, 150, 150, 150)
+"""Color used by default to overlay when a widget is disabled."""
 defaultScalingFunction = pygame.transform.smoothscale
 """Function used to scale background images to widget-size."""
 
@@ -62,6 +62,7 @@ class Widget(pygame.sprite.DirtySprite):
         self._foreground = defaultForeground
         self._background = defaultBackground
         self._background_image = None
+        self._disabeled_overlay = defaultDisabeledOverlay
         self._scaling_function = defaultScalingFunction
         self._updateRect()
 
@@ -334,6 +335,29 @@ class Widget(pygame.sprite.DirtySprite):
         """
         return self._background_image
 
+    def setDisabeledOverlay(self, color):
+        """
+        Set the widget's color to overlay when it is disabled.
+
+        Args:
+            color: A color-like object that can be interpreted as a color by pygame (such as a tuple with RGB values).
+
+        Returns:
+            Itsself (the widget) for convenience.
+        """
+        self._disabeled_overlay = color
+        self.markDirty()
+        return self
+
+    def getDisabeledOverlay(self):
+        """
+        Return the widget's color which is overlayed when it is disabled.
+
+        Returns:
+            A color-like object that represents the widget's disabeled color.
+        """
+        return self._disabeled_overlay
+
     def setSmoothScaling(self, smooth):
         """
         Set whether the widget's background-image will be scaled smoothly (with pygame.transform.smoothscale) or not.
@@ -406,7 +430,7 @@ class Widget(pygame.sprite.DirtySprite):
             self.image = self._getAppearance(*args)
             if not self.isActive():
                 inactive = self.image.copy()
-                inactive.fill(disabeledOverlay)
+                inactive.fill(self.disabeled_overlay)
                 self.image.blit(inactive, (0, 0))
             self.image = self.border.getBorderedImage(self.image)
 
@@ -448,6 +472,7 @@ class Widget(pygame.sprite.DirtySprite):
     background = property(getBackground, setBackground, doc="The widget's background color.")
     background_image = property(getBackgroundImage, setBackgroundImage, doc="""The widget's background-image.
         If this is a falsy value (e.g. None), no image will be drawn.""")
+    disabeled_overlay = property(getDisabeledOverlay, setDisabeledOverlay, doc="The widget's color to overlay when it is disabled.")
     smooth_scaling = property(hasSmoothScaling, setSmoothScaling, doc="The widget's status as a boolean "
         """regarding whether the background-image will be scaled smoothly (with pygame.transform.smoothscale).
         Exact control of the scaling-function is given via the 'scaling_function' property.""")
