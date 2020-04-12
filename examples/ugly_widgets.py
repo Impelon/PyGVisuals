@@ -83,7 +83,6 @@ def main_loop():
         import traceback
         print("Something has gone wrong...")
         print(traceback.format_exc())
-        print(screen, background, group)
     finally:
         pygame.quit()
         sys.exit()
