@@ -56,4 +56,7 @@ def inherit_docstrings_from_superclass(cls, doc_inheritance_specifier = "inherit
                     else:
                         func.__doc__ = superfunc.__doc__
                     break
+            else:
+                if func.__doc__:
+                    func.__doc__ = func.__doc__.replace(doc_inheritance_specifier, "")
     return cls
