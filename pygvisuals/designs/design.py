@@ -37,7 +37,7 @@ class Design(object):
 
         inherit_doc::
         """
-        if self.fallback:
+        if self.fallback and self.fallback is not self:
             return getattr(self.fallback, name)
         return getattr(super(Design, self), name)
 
