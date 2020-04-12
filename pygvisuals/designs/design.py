@@ -20,13 +20,13 @@ class Design(object):
 
         Args:
             fallback: An object with readable attributes to be used,
-                if a attribute was not found for this design.
+                if an attribute was not found for this design.
                 This will also be used when applying the design to widgets.
                 If this is a falsy value (e.g. None), there will be no fallback-design.
             **kwargs: Any key-value-pairs to add to this design's attributes.
         """
         super(Design, self).__init__()
-        self._fallback = fallback
+        self.fallback = fallback
         self.__dict__.update(kwargs)
 
     def __getattr__(self, name):
@@ -37,9 +37,26 @@ class Design(object):
 
         inherit_doc::
         """
-        if self._fallback:
-            return getattr(self._fallback, name)
+        if self.fallback:
+            return getattr(self.fallback, name)
         return getattr(super(Design, self), name)
+
+    def __copy__(self):
+        """
+        Create a shallow copy of this design.
+
+        Returns:
+            A new design-instance with the same attributes and fallback as this design.
+        """
+        return type(self)(self.fallback, **vars(self))
+
+    def copy(self):
+        """
+        This calls the underlying __copy__-function.
+        """
+        return self.__copy__()
+    # copy doc from __copy__-function
+    copy.__doc__ += __copy__.__doc__
 
     def applyToWidgets(self, widgets):
         """
@@ -62,13 +79,14 @@ class Design(object):
         Args:
             widgets: A widgets to apply the design to.
         """
-        for source in (self, self._fallback):
-            for name, value in vars(source).items():
-                try:
-                    if hasattr(widget, name):
-                        setattr(widget, name, value)
-                except:
-                    pass
+        for source in (self, self.fallback):
+            try:
+                for name, value in vars(source).items():
+                    try:
+                        if hasattr(widget, name):
+                            setattr(widget, name, value)
+                    except: pass
+            except: pass
 
 
 # inherit docs from superclass

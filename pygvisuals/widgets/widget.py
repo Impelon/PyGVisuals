@@ -5,16 +5,18 @@ import pygame.sprite
 
 # local imports
 from ..borders import Border
+from ..designs import getDefaultDesign, getFallbackDesign
 
-defaultBorder = Border(0, 0)
+# set defaults
+getFallbackDesign().border = Border(0, 0)
 """Border to be used by default."""
-defaultForeground = (255, 255, 255)
+getFallbackDesign().foreground = (255, 255, 255)
 """Color to be used by default for the foreground of a widget."""
-defaultBackground = (0, 0, 0)
+getFallbackDesign().background = (0, 0, 0)
 """Color to be used by default for the background of a widget."""
-defaultDisabeledOverlay = (150, 150, 150, 150)
+getFallbackDesign().disabeled_overlay = (150, 150, 150, 150)
 """Color used by default to overlay when a widget is disabled."""
-defaultScalingFunction = pygame.transform.smoothscale
+getFallbackDesign().scaling_function = pygame.transform.smoothscale
 """Function used to scale background images to widget-size."""
 
 def _getScalingFunctionForSmoothness(self, smooth):
@@ -56,14 +58,14 @@ class Widget(pygame.sprite.DirtySprite):
         super(Widget, self).__init__()
         self.image = pygame.Surface((width, height), pygame.SRCALPHA, 32)
         self._bounds = self.image.get_rect().move(x, y)
-        self._border = defaultBorder
+        self._border = getDefaultDesign().border
         self._focus = False
         self._active = True
-        self._foreground = defaultForeground
-        self._background = defaultBackground
+        self._foreground = getDefaultDesign().foreground
+        self._background = getDefaultDesign().background
         self._background_image = None
-        self._disabeled_overlay = defaultDisabeledOverlay
-        self._scaling_function = defaultScalingFunction
+        self._disabeled_overlay = getDefaultDesign().disabeled_overlay
+        self._scaling_function = getDefaultDesign().scaling_function
         self._updateRect()
 
     def markDirty(self, overwriteDirtyForever=False):
@@ -225,7 +227,7 @@ class Widget(pygame.sprite.DirtySprite):
         Set the widget's border.
 
         Args:
-            border: A PyGVisuals-Border to be set.
+            border: A PyGVisuals-border to be set.
 
         Returns:
             Itsself (the widget) for convenience.
@@ -240,7 +242,7 @@ class Widget(pygame.sprite.DirtySprite):
         Return the widget's border.
 
         Returns:
-            A PyGVisuals-Border belonging to the widget.
+            A PyGVisuals-border belonging to the widget.
         """
         return self._border
 
