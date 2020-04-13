@@ -150,6 +150,7 @@ class Widget(pygame.sprite.DirtySprite):
         if self._focus != focused:
             self._focus = focused
             self.markDirty()
+            self.update()
         return self
 
     def isFocused(self):
