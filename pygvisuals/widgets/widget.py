@@ -4,17 +4,17 @@ import pygame
 import pygame.sprite
 
 # local imports
-from ..borders import Border
+from ..borders import ColoredBorder, Border
 from ..designs import getDefaultDesign, getFallbackDesign
 
 # set defaults
-getFallbackDesign().border = Border(0, 0)
+getFallbackDesign().border = ColoredBorder(2, 2, (50, 50, 50))
 """Border to be used by default."""
 getFallbackDesign().foreground = (255, 255, 255)
 """Color to be used by default for the foreground of a widget."""
-getFallbackDesign().background = (0, 0, 0)
+getFallbackDesign().background = (100, 100, 100)
 """Color to be used by default for the background of a widget."""
-getFallbackDesign().disabeled_overlay = (150, 150, 150, 150)
+getFallbackDesign().disabeled_overlay = (200, 200, 200, 200)
 """Color used by default to overlay when a widget is disabled."""
 getFallbackDesign().scaling_function = pygame.transform.smoothscale
 """Function used to scale background images to widget-size."""

@@ -172,3 +172,5 @@ class SelectionTextWidget(TextWidget):
         if i > n:
             return n, i
         return i, n
+
+    selection_color = property(getSelectionColor, setSelectionColor)

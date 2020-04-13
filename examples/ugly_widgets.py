@@ -4,8 +4,6 @@ Simple and ugly testscript that shows most of PyGVisuals' widgets.
 
 # --- imports
 # preinstalled python libraries
-import random
-import os
 import sys
 
 # pygame imports
@@ -21,7 +19,7 @@ pygame.init()
 
 # setting display
 
-screen = pygame.display.set_mode((700, 400), 0 | DOUBLEBUF | RESIZABLE, 32)
+screen = pygame.display.set_mode((700, 400), 0 | DOUBLEBUF, 32)
 pygame.mouse.set_visible(1)
 pygame.key.set_repeat(1, 50)
 
@@ -55,7 +53,7 @@ def main_loop():
     # This is a Label; it simply displays some text.
     l = gui.Label(250, 50, 75, 50, "text").setBackground((0, 255, 0)).setForeground((0, 0, 0))
     # This is a Listbox; It displays a given list as strings on new lines/entries; in this example the list contains some widgets, but it can contain practically anything.
-    x = gui.Listbox(50, 150, 250, 100).setBackground((255, 155, 0)).setBorder(brd.RoundedBorder(4, 4, (0, 0, 0), 15)).setList([w, e, b, l])
+    x = gui.Listbox(50, 150, 250, 100).setBackground((255, 155, 0)).setBorder(brd.RoundedBorder(4, 4, (0, 0, 0), 15, True)).setList([w, e, b, l])
     # Any widget can display a pygame-Surface as a background-image. This could be an actual Image, but here it's just a Surface.
     i = gui.Entry(350, 150, 150, 100).setBackgroundImage(image).setBackground((255, 155, 0)).setBorder(brd.RoundedBorder(4, 4, (0, 100, 0), 15))
 

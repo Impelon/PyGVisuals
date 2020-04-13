@@ -87,7 +87,9 @@ class Design(object):
                             setattr(widget, name, value)
                     except: pass
             except: pass
-
+        try:
+            widget.update()
+        except: pass
 
 # inherit docs from superclass
 Design = inherit_docstrings_from_superclass(Design)

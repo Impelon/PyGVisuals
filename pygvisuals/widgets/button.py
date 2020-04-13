@@ -170,3 +170,6 @@ class Button(TextWidget):
                 overlay.fill(self._hoveredcolor)
             surface.blit(overlay, (0, 0))
         return surface
+
+    hovered_color = property(getHoveredColor, setHoveredColor)
+    pressed_color = property(getPressedColor, setPressedColor)
