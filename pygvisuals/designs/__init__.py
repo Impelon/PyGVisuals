@@ -1,5 +1,5 @@
 """
-Package for design templates for application with widgets
+Package providing design templates for applications with widgets.
 """
 
 __all__ = ["setDefaultDesign", "getDefaultDesign", "getFallbackDesign",

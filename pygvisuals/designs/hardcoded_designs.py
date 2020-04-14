@@ -1,13 +1,17 @@
-import pygame.font as fnt
-from ..borders import Border, BevelBorder, ColoredBorder, CompoundBorder, RoundedBorder
-from .design import Design
-
-
-fnt.init()
-
 """
 A collection of designs for PyGVisuals.
 """
+
+# --- imports
+# pygame imports
+import pygame.font as fnt
+
+# local imports
+from ..borders import Border, BevelBorder, ColoredBorder, CompoundBorder, RoundedBorder
+from .design import Design
+
+fnt.init()
+
 
 dark = Design(**{"border": CompoundBorder(ColoredBorder(1, 1, (200, 200, 200)), ColoredBorder(2, 2, (50, 50, 50))),
                  "foreground": (200, 200, 200),
