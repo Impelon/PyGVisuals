@@ -48,9 +48,9 @@ def main_loop():
     # Here we first create some widgets to show of the designs with.
 
     # This is a Label; it simply displays some text.
-    l = gui.Label(20, 20, 200, 50, "widgets for demonstration")
+    l = gui.Label(20, 20, 300, 50, "widgets for demonstration")
     # This is an Entry; it accepts input from the user.
-    e = gui.Entry(20, 90, 100, 20)
+    e = gui.Entry(20, 90, 300, 20)
     # Here we create a local function that toggles the active-status of the entry.
 
     def toggle(*args):
@@ -59,7 +59,7 @@ def main_loop():
     b = gui.Button(20, 130, 300, 50, "toggle active-status of entry above", callback=toggle)
     f = gui.Button(20, 200, 300, 50, "invert background color", callback=invert_background)
     # This is a Listbox; It displays a given list as strings on new lines/entries; in this example the list contains some widgets, but it can contain practically anything.
-    x = gui.Listbox(20, 270, 250, 100, editable=True)
+    x = gui.Listbox(20, 270, 300, 100, editable=True)
     x.setList(["test"] + list(range(1, 13, 3)))
 
     demo = [l, e, b, f, x]
