@@ -1,82 +1,108 @@
-# -*- coding: cp1252 -*-
-
-from .text_widget import TextWidget, defaultFont
+# --- imports
+# pygame imports
 import pygame
 
-defaultHovered    = (200, 200, 150, 50)
-defaultPressed    = (200, 200, 150, 100)
+# local imports
+from .label import Label
+from ..designs import getDefaultDesign, getFallbackDesign
+from ..util import inherit_docstrings_from_superclass
 
-class Button(TextWidget):
+# set defaults
+getFallbackDesign().hovered_overlay = (200, 200, 150, 50)
+"""Color used by default to overlay when a button is hovered over."""
+getFallbackDesign().pressed_overlay = (200, 200, 150, 100)
+"""Color used by default to overlay when a button is pressed."""
+
+
+class Button(Label):
 
     """
-    Clickable buttons with alternatively an image added
+    Clickable buttons with a simple text display.
     """
 
-    def __init__(self, x, y, width, height, text = "", font = defaultFont, callback = None):
+    def __init__(self, x, y, width, height, text="", font=getDefaultDesign().font, callback=None):
         """
-        Initialisation of a Button
+        Initialisation of a Button.
 
-        parameters:     int x-coordinate of the Button (left)
-                        int y-coordinate of the Button (top)
-                        int width of the Button
-                        int height of the Button
-                        string text of the Button
-                        pygame.font.Font font of the Button
-                        function callback function to be called when Button is pressed
-                return values:  -
-                """
+        Args:
+            x: An integer specifing the x-coordinate of the widget.
+                This is the horizontal distance from the left reference point.
+            y: An integer specifing the y-coordinate of the widget.
+                This is the vertical distance from the top reference point.
+            width: An integer specifing the width of the widget.
+            height: An integer specifing the height of the widget.
+            text: A string specifing the content of the widget.
+                The default value is an empty string.
+            font: A font-like object that can be interpreted by pygame.font as a Font.
+                The default value is the global default for fonts.
+            callback: A callable object to be called when the button is pressed.
+                There are no arguments passed and the return value will be ignored.
+                If this is a falsy value, no function will be called when the button is pressed;
+                The default value is None, meaning that the button will not have any special behaivour when pressed.
+        """
         super(Button, self).__init__(x, y, width, height, text, font)
-        self._callback      = callback
-        self._state         = 0
-        self._hoveredcolor  = defaultHovered
-        self._pressedcolor  = defaultPressed
+        self._state = 0
+        self.callback = callback
+        self.hovered_overlay = getDefaultDesign().hovered_overlay
+        self.pressed_overlay = getDefaultDesign().pressed_overlay
 
-    def setHoveredColor(self, color):
+    def setHoveredOverlay(self, color):
         """
-        Set the Buttons's color overlay when hovered over
+        Set the button's color to overlay when hovered over.
 
-        parameters:     tuple a tuple of format pygame.Color representing the color to be set
-        return values:  Widget Widget returned for convenience
+        Args:
+            color: A color-like object that can be interpreted as a color by pygame (such as a tuple with RGB values).
+
+        Returns:
+            Itsself (the widget) for convenience.
         """
-        self._hoveredcolor = color
+        self._hovered_overlay = color
         self.markDirty()
         return self
 
-    def getHoveredColor(self):
+    def getHoveredOverlay(self):
         """
-        Return the Buttons's color overlay when hovered over
+        Return the button's color to overlay when hovered over.
 
-        parameters:     -
-        return values:  tuple of format pygame.Color representing the Buttons's color overlay when hovered over
+        Returns:
+            A color-like object that represents the button's color overlay when hovered over.
         """
-        return self._hoveredcolor
+        return self._hovered_overlay
 
-    def setPressedColor(self, color):
+    def setPressedOverlay(self, color):
         """
-        Set the Buttons's color overlay when pressed
+        Set the button's color to overlay when pressed.
 
-        parameters:     tuple a tuple of format pygame.Color representing the color to be set
-        return values:  Widget Widget returned for convenience
+        Args:
+            color: A color-like object that can be interpreted as a color by pygame (such as a tuple with RGB values).
+
+        Returns:
+            Itsself (the widget) for convenience.
         """
-        self._pressedcolor = color
+        self._pressed_overlay = color
         self.markDirty()
         return self
 
-    def getPressedColor(self):
+    def getPressedOverlay(self):
         """
-        Return the Buttons's color overlay when pressed
+        Return the button's color to overlay when pressed.
 
-        parameters:     -
-        return values:  tuple of format pygame.Color representing the Buttons's color overlay when pressed
+        Returns:
+            A color-like object that represents the button's color overlay when pressed.
         """
-        return self._pressedcolor
+        return self._pressed_overlay
 
     def setCallback(self, callback):
         """
-        Set the Button's callback-function
+        Set the button's function to be called when it is pressed.
 
-        parameters:     function function that executes on click
-        return values:  Button Button returned for convenience
+        Args:
+            callback: A callable object to be called when the button is pressed.
+                If this is a falsy value, no function will be called when the button is pressed;
+                The default value is None, meaning that the button will not have any special behaivour when pressed.
+
+        Returns:
+            Itsself (the widget) for convenience.
         """
         if callable(callback):
             self._callback = callback
@@ -84,37 +110,36 @@ class Button(TextWidget):
 
     def getCallback(self):
         """
-        Return the Button's callback-function
+        Return the button's function to be called when it is pressed.
 
-        parameters:     -
-        return values:  function the Buttons's callback-function
+        Returns:
+            A callable object that is called when the button is pressed.
         """
         return self._callback
 
     def isHovered(self):
         """
-        Return if the Button is hovered over
+        Return whether the button is hovered over.
 
-        parameters:     -
-        return values:  boolean is the Button hovered over
+        Returns:
+            A boolean indicating whether the button is hovered over.
         """
         return self._state == 1
 
     def isPressed(self):
         """
-        Return if the Button is pressed
+        Return whether the button is pressed.
 
-        parameters:     -
-        return values:  boolean is the Button pressed
+        Returns:
+            A boolean indicating whether the button is pressed.
         """
         return self._state >= 2
 
     def update(self, *args):
         """
-        Handles the clicking of the Button and calls the function given in the constructor.
+        Handles the clicking of the Button and calls the callback-function.
 
-        parameters: tuple arguments for the update (first argument should be an instance pygame.event.Event)
-        return values: -
+        inherit_docstring::
         """
         if self._state:
             if self._state >= 2:
@@ -124,52 +149,44 @@ class Button(TextWidget):
             self.markDirty()
         if len(args) > 0 and self.isActive():
             event = args[0]
-            if event.type == pygame.MOUSEBUTTONUP and self.isFocused():
-                if self.rect.collidepoint(event.pos):
-                    if event.button == 1:
-                        try:
-                            self._callback()
-                        except Exception as e:
-                            print(repr(e))
-            elif event.type == pygame.MOUSEBUTTONDOWN and self.isFocused():
-                if self.rect.collidepoint(event.pos):
-                    if event.button == 1:
-                        self._state = 2
-                    else:
-                        self._state = 1
-                    self.markDirty()
+            pressed = None
+            if event.type in (pygame.MOUSEBUTTONUP, pygame.MOUSEBUTTONDOWN):
+                pressed = event.button == 1
             elif event.type == pygame.MOUSEMOTION:
-                if self.rect.collidepoint(event.pos):
-                    if event.buttons[0] and self.isFocused():
+                pressed = event.buttons[0]
+
+            if pressed is not None and self.rect.collidepoint(event.pos):
+                self._state = 1
+                if pressed:
+                    if event.type == pygame.MOUSEBUTTONUP:
+                        if self.isFocused():
+                            try:
+                                self.callback()
+                            except Exception as e:
+                                print(repr(e))
+                    elif event.type == pygame.MOUSEBUTTONDOWN or self.isFocused():
                         self._state = 2
-                    else:
-                        self._state = 1
-                    self.markDirty()
+                self.markDirty()
 
         super(Button, self).update(*args)
 
     def _getAppearance(self, *args):
-        """
-        Blits the text to the Button's Surface and returns the result.
-
-        private function
-
-        parameters:     tuple arguments for the update (first argument should be an instance pygame.event.Event)
-        return values:  pygame.Surface the underlying Widget's appearance
-        """
         surface = super(Button, self)._getAppearance(*args)
-        center  = surface.get_rect().center
-        size    = self._font.size(self._text)
-        coords  = (center[0] - size[0] / 2, center[1] - size[1] / 2)
-        surface.blit(self._font.render(str(self._text), pygame.SRCALPHA, self._foreground), coords)
-        if self._state:
-            overlay = surface.copy()
-            if self._state == 2:
-                overlay.fill(self._pressedcolor)
+        if self.pressed or self.hovered:
+            overlay = pygame.Surface(self.bounds.size, pygame.SRCALPHA)
+            if self.pressed:
+                overlay.fill(self.pressed_overlay)
             else:
-                overlay.fill(self._hoveredcolor)
+                overlay.fill(self.hovered_overlay)
             surface.blit(overlay, (0, 0))
         return surface
 
-    hovered_color = property(getHoveredColor, setHoveredColor)
-    pressed_color = property(getPressedColor, setPressedColor)
+    hovered_overlay = property(getHoveredOverlay, setHoveredOverlay, doc="The widget's color to overlay when it is hovered over.")
+    pressed_overlay = property(getPressedOverlay, setPressedOverlay, doc="The widget's color to overlay when it is pressed.")
+    callback = property(getCallback, setCallback, doc="The widget's function to be called when it is pressed.")
+    hovered = property(isHovered, doc="The widget's status as a boolean regarding whether it is hovered over.")
+    pressed = property(isPressed, doc="The widget's status as a boolean regarding whether it is pressed.")
+
+
+# inherit docs from superclass
+Button = inherit_docstrings_from_superclass(Button)

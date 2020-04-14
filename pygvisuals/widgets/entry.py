@@ -2,6 +2,7 @@
 
 import pygame
 from .selection_text_widget import *
+from ..designs import getDefaultDesign, getFallbackDesign
 
 class Entry(SelectionTextWidget):
 
@@ -9,7 +10,7 @@ class Entry(SelectionTextWidget):
     Entry that accepts keyboard-input
     """
 
-    def __init__(self, x, y, width, height, text = "", font = defaultFont, selectioncolor = defaultSelection, validation = (lambda *x: True)):
+    def __init__(self, x, y, width, height, text = "", font = getDefaultDesign().font, selectioncolor = getDefaultDesign().selection_color, validation = (lambda *x: True)):
         """
         Initialisation of an Entry
 
@@ -23,7 +24,7 @@ class Entry(SelectionTextWidget):
                         function function that validates input; validation(newtext, oldtext, entry) -> bool
         return values:  -
         """
-        super(Entry, self).__init__(x, y, width, height, text, font, selectioncolor = defaultSelection)
+        super(Entry, self).__init__(x, y, width, height, text, font, selectioncolor)
         self._validation = validation
 
     def setText(self, text):

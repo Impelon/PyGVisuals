@@ -45,7 +45,7 @@ class Widget(pygame.sprite.DirtySprite):
     def __init__(self, x, y, width, height):
         """
         Initialisation of a basic Widget.
-        The unit for the following lengths is pixel.
+        The units for the following lengths are pixel.
 
         Args:
             x: An integer specifing the x-coordinate of the widget.
@@ -56,16 +56,16 @@ class Widget(pygame.sprite.DirtySprite):
             height: An integer specifing the height of the widget.
         """
         super(Widget, self).__init__()
-        self.image = pygame.Surface((width, height), pygame.SRCALPHA, 32)
-        self._bounds = self.image.get_rect().move(x, y)
-        self._border = getDefaultDesign().border
-        self._focus = False
+        self._focused = False
         self._active = True
-        self._foreground = getDefaultDesign().foreground
-        self._background = getDefaultDesign().background
-        self._background_image = None
-        self._disabeled_overlay = getDefaultDesign().disabeled_overlay
-        self._scaling_function = getDefaultDesign().scaling_function
+        self.image = pygame.Surface((width, height), pygame.SRCALPHA, 32)
+        self.bounds = self.image.get_rect().move(x, y)
+        self.border = getDefaultDesign().border
+        self.foreground = getDefaultDesign().foreground
+        self.background = getDefaultDesign().background
+        self.background_image = None
+        self.disabeled_overlay = getDefaultDesign().disabeled_overlay
+        self.scaling_function = getDefaultDesign().scaling_function
         self._updateRect()
 
     def markDirty(self, overwriteDirtyForever=False):
@@ -147,10 +147,9 @@ class Widget(pygame.sprite.DirtySprite):
             Itsself (the widget) for convenience.
         """
         focused = bool(focused)
-        if self._focus != focused:
-            self._focus = focused
+        if self.focused != focused:
+            self._focused = focused
             self.markDirty()
-            self.update()
         return self
 
     def isFocused(self):
@@ -161,7 +160,7 @@ class Widget(pygame.sprite.DirtySprite):
         Returns:
             A boolean indicating whether the widget is declared focused.
         """
-        return self._focus
+        return self._focused
 
     def setActive(self, active):
         """
@@ -175,7 +174,7 @@ class Widget(pygame.sprite.DirtySprite):
             Itsself (the widget) for convenience.
         """
         active = bool(active)
-        if self._active != active:
+        if self.active != active:
             self._active = active
             self.markDirty()
             self.update()

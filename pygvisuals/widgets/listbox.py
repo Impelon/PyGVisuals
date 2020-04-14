@@ -1,6 +1,7 @@
 # -*- coding: cp1252 -*-
 
 from .selection_text_widget import *
+from ..designs import getDefaultDesign, getFallbackDesign
 import pygame
 
 VIEWPOINT       = 'v'
@@ -11,7 +12,7 @@ class Listbox(SelectionTextWidget):
     Listbox for displaying lists of multiple objects as strings
     """
 
-    def __init__(self, x, y, width, height, editable = False, font = defaultFont, selectioncolor = defaultSelection):
+    def __init__(self, x, y, width, height, editable = False, font = getDefaultDesign().font, selectioncolor = getDefaultDesign().selection_color):
         """
         Initialisation of an Listbox
 
@@ -24,7 +25,7 @@ class Listbox(SelectionTextWidget):
                         tuple of format pygame.Color representing the Listbox's selection-color
         return values:  -
         """
-        super(Listbox, self).__init__(x, y, width, height, "", font, selectioncolor = defaultSelection)
+        super(Listbox, self).__init__(x, y, width, height, "", font, selectioncolor)
         self._list      = []
         self._editable  = editable
         self._viewpoint = self._cursor
