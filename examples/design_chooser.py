@@ -83,9 +83,9 @@ def main_loop():
     selector_ui = [a, d, c]
 
     # We will also create a custom design here, to make the UI look nicer.
-    selector_ui_design = Design(border=brd.BevelBorder(4, 4, (215, 175, 245), (175, 125, 215)),
+    selector_ui_design = Design(border=brd.BevelBorder(4, 4, (255, 205, 75), (245, 175, 25)),
                                 foreground=(255, 245, 255),
-                                background=(175, 155, 185))
+                                background=(255, 185, 145))
 
     selector_ui_design.applyToWidgets(selector_ui)
 

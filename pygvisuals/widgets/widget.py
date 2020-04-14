@@ -230,10 +230,13 @@ class Widget(pygame.sprite.DirtySprite):
 
         Args:
             border: A PyGVisuals-border to be set.
+                If this is a falsy value a empty border will be used.
 
         Returns:
             Itsself (the widget) for convenience.
         """
+        if not border:
+            border = Border(0, 0)
         if isinstance(border, Border):
             self._border = border
             self.markDirty()
