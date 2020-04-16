@@ -247,11 +247,7 @@ class SelectionTextWidget(TextWidget):
             return j, i
         return i, j
 
-    selection_overlay = property(getSelectionOverlay, setSelectionOverlay,
-                                 doc="""The widget's color to overlay for content that has been selected.""")
-    selection_index = property(getSelectionIndex, setSelectionIndex,
-                               doc="""The widget's index representing an endpoint for the range of selected content.""")
-    cursor = property(getCursor, setCursor,
-                      doc="""The widget's position of the cursor as a index. This is another endpoint for the range of selected content.""")
-    selection = property(getSelection, lambda obj, tuple: obj.setSelection(
-        *tuple), doc="""The widget's indicies spanning the range of selected content.""")
+    selection_overlay = property(getSelectionOverlay, setSelectionOverlay, doc="""The widget's color to overlay for content that has been selected.""")
+    selection_index = property(getSelectionIndex, setSelectionIndex, doc="""The widget's index representing an endpoint for the range of selected content.""")
+    cursor = property(getCursor, setCursor, doc="""The widget's position of the cursor as a index. This is another endpoint for the range of selected content.""")
+    selection = property(getSelection, lambda obj, tuple: obj.setSelection(*tuple), doc="""The widget's indicies spanning the range of selected content.""")
