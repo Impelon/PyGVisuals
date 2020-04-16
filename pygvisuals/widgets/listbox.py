@@ -1,53 +1,48 @@
-# -*- coding: cp1252 -*-
-
-from .selection_text_widget import *
-from ..designs import getDefaultDesign, getFallbackDesign
+# --- imports
+# pygame imports
 import pygame
 
-VIEWPOINT       = 'v'
+# local imports
+from .selection_text_widget import *
+from ..designs import getDefaultDesign
+from ..util import inherit_docstrings_from_superclass
+
+
+# constants
+VIEWPOINT = 'v'
+
 
 class Listbox(SelectionTextWidget):
 
     """
-    Listbox for displaying lists of multiple objects as strings
+    Listbox for displaying lists of multiple objects as strings.
     """
 
-    def __init__(self, x, y, width, height, editable = False, font = getDefaultDesign().font, selection_overlay=getDefaultDesign().selection_overlay):
+    def __init__(self, x, y, width, height, font=getDefaultDesign().font, editable=False, selection_overlay=getDefaultDesign().selection_overlay):
         """
-        Initialisation of an Listbox
+        Initialisation of an Listbox.
 
-        parameters:     int x-coordinate of the Listbox (left)
-                        int y-coordinate of the Listbox (top)
-                        int width of the Listbox
-                        int height of the Listbox
-                        boolean if the Listbox should be editable
-                        pygame.font.Font font of the Listbox
-                        tuple of format pygame.Color representing the Listbox's selection-color
-        return values:  -
+        Args:
+            x: An integer specifing the x-coordinate of the widget.
+                This is the horizontal distance from the left reference point.
+            y: An integer specifing the y-coordinate of the widget.
+                This is the vertical distance from the top reference point.
+            width: An integer specifing the width of the widget.
+            height: An integer specifing the height of the widget.
+            text: A string specifing the content of the widget.
+                The default value is an empty string.
+            font: A font-like object that can be interpreted by pygame.font as a Font;
+                this is used as the font for rendering text.
+                The default value is the global default for fonts.
+            editable: A boolean indicating whether the widget's content is editable by the user.
+                The default value is False, meaning it can not be edited by user-input.
+            selection_overlay: A color-like object that can be interpreted as a color by pygame (such as a tuple with RGB values);
+                this is used as an overlay for content that has been selected.
+                The default value is the global default for the selection-color.
         """
-        super(Listbox, self).__init__(x, y, width, height, "", font, selection_overlay)
-        self._list      = []
-        self._editable  = editable
+        super(Listbox, self).__init__(x, y, width, height, "", font, editable, selection_overlay)
+        self._list = []
         self._viewpoint = self.cursor
-
-    def setEditable(self, editable):
-        """
-        Set Listbox as editable
-
-        parameters:     boolean if the Listbox should be editable
-        return values:  Listbox Listbox returned for convenience
-        """
-        self._editable = bool(editable)
-        return self
-
-    def isEditable(self):
-        """
-        Return if the Listbox should be editable
-
-        parameters:     -
-        return values:  boolean is the Listbox editable
-        """
-        return self._editable
 
     def setViewpoint(self, index):
         """
@@ -130,36 +125,16 @@ class Listbox(SelectionTextWidget):
         return self._list
 
     def insert(self, index, obj):
-        """
-        Insert a given object into the list at the given index
-
-        parameters:     int the index the object should be insterted at
-                        object the object to be inserted
-        return values:  -
-        """
         index = self.getActualIndex(index)
         self._list.append(obj)
         self.markDirty()
 
     def delete(self, startindex, endindex):
-        """
-        Deletes the Listbox's objects from the list between the two given indices
-
-        parameters:     int the index from which the objects should be deleted
-                        int the index till which the objects should be deleted
-        return values:  -
-        """
         startindex, endindex = self._sort(startindex, endindex)
         del self._list[startindex:endindex]
         self.markDirty()
 
     def getActualIndex(self, index):
-        """
-        Return the actual index corresponding to the given index-representation
-
-        parameters:     object object representing the index
-        return values:  int the actual index of the Listbox's text
-        """
         if index == END:
             return len(self._list)
         if index == VIEWPOINT:
@@ -168,32 +143,27 @@ class Listbox(SelectionTextWidget):
 
     def _indexToPos(self, index):
         """
-        Return the relative y-coordinate corresponding to the given index
+        Instead of the x-coordinate from the base implementation,
+        this uses the y-coordinate.
 
-        private function
-
-        parameters:     int index given
-        return values:  int relative y-coordinate
+        inherit_docstring::
         """
         return self.font.get_linesize() * (index - self._viewpoint)
 
     def _posToIndex(self, y):
         """
-        Return the index corresponding to the given relative y-coordinate
+        Instead of the x-coordinate from the base implementation,
+        this uses the y-coordinate.
 
-        private function
-
-        parameters:     int relative y-coordinate
-        return values:  int resulting index
+        inherit_docstring::
         """
         return (y / self.font.get_linesize()) + self._viewpoint
 
     def update(self, *args):
         """
-        Handles the selection
+        Handles the selection of content.
 
-        parameters: tuple arguments for the update (first argument should be an instance pygame.event.Event)
-        return values: -
+        inherit_docstring::
         """
         if len(args) > 0 and self.isActive() and self.isFocused():
             event = args[0]
@@ -227,16 +197,12 @@ class Listbox(SelectionTextWidget):
 
     def _getAppearance(self, *args):
         """
-        Return the underlying Widget's appearance;
-        Renders the Listbox's list and selection
+        Renders the listbox's list and selection.
 
-        private function
-
-        parameters:     tuple arguments for the update (first argument should be an instance pygame.event.Event)
-        return values:  pygame.Surface the underlying Widget's appearance
+        inherit_docstring::
         """
-        surface     = super(Listbox, self)._getAppearance(*args)
-        linesize    = self.font.get_linesize()
+        surface = super(Listbox, self)._getAppearance(*args)
+        linesize = self.font.get_linesize()
         for n in range(self._viewpoint, len(self._list)):
             surface.blit(self._render(str(self._list[n])), (0, linesize * (n - self._viewpoint)))
         if self.isFocused():
@@ -246,3 +212,7 @@ class Listbox(SelectionTextWidget):
                 selection.fill(self.selection_overlay)
                 surface.blit(selection, (0, linesize * (n - self._viewpoint)))
         return surface
+
+
+# inherit docs from superclass
+Listbox = inherit_docstrings_from_superclass(Listbox)

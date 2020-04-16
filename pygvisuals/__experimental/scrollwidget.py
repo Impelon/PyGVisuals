@@ -211,7 +211,7 @@ class ScrollWidget(widget.Widget):
     def _getAppearance(self, *args):
         """
         Return the underlying Widget's appearance;
-        Renders the ScrollWidget's Scrollbars
+        Renders the Scrollwidget' scrollbars
 
         private function
 

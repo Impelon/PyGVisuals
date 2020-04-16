@@ -44,7 +44,7 @@ class TextWidget(Widget):
 
     def setText(self, text):
         """
-        Set the widget's string-representation of its content.
+        Set the widget' string-representation of its content.
 
         Args:
             text: A string with the content to set.
@@ -58,7 +58,7 @@ class TextWidget(Widget):
 
     def getText(self):
         """
-        Return the widget's string-representation of its content.
+        Return the widget' string-representation of its content.
 
         Returns:
             A string representing the content of the widget.
@@ -139,7 +139,7 @@ class TextWidget(Widget):
             color = self.foreground
         return self.font.render(text, self.antialiased, color, background)
 
-    text = property(getText, setText, doc="""The widget's string-representation of its content.""")
+    text = property(getText, setText, doc="""The widget' string-representation of its content.""")
     font = property(getFont, setFont, doc="""The widget's font used when rendering text.""")
-    antialiased = property(isAntialiasing, setAntialiasing, doc="The widget's status as a boolean "
+    antialiased = property(isAntialiasing, setAntialiasing, doc="The widget' status as a boolean "
                            "regarding whether antialiasing is used when rendering text.")

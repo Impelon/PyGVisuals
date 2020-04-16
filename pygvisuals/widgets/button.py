@@ -185,8 +185,8 @@ class Button(Label):
     hovered_overlay = property(getHoveredOverlay, setHoveredOverlay, doc="The widget's color to overlay when it is hovered over.")
     pressed_overlay = property(getPressedOverlay, setPressedOverlay, doc="The widget's color to overlay when it is pressed.")
     callback = property(getCallback, setCallback, doc="The widget's function to be called when it is pressed.")
-    hovered = property(isHovered, doc="The widget's status as a boolean regarding whether it is hovered over.")
-    pressed = property(isPressed, doc="The widget's status as a boolean regarding whether it is pressed.")
+    hovered = property(isHovered, doc="The widget' status as a boolean regarding whether it is hovered over.")
+    pressed = property(isPressed, doc="The widget' status as a boolean regarding whether it is pressed.")
 
 
 # inherit docs from superclass

@@ -1,31 +1,46 @@
-# -*- coding: cp1252 -*-
-
+# --- imports
+# pygame imports
 import pygame
+
+# local imports
 from .selection_text_widget import *
-from ..designs import getDefaultDesign, getFallbackDesign
+from ..designs import getDefaultDesign
+from ..util import inherit_docstrings_from_superclass
 
 class Entry(SelectionTextWidget):
 
     """
-    Entry that accepts keyboard-input
+    Entry-fields that accept keyboard-input.
     """
 
-    def __init__(self, x, y, width, height, text = "", font = getDefaultDesign().font, selection_overlay=getDefaultDesign().selection_overlay, validation = (lambda *x: True)):
+    def __init__(self, x, y, width, height, text = "", font = getDefaultDesign().font, editable=True, selection_overlay=getDefaultDesign().selection_overlay, validation_function = (lambda *x: True)):
         """
-        Initialisation of an Entry
+        Initialisation of an Entry.
 
-        parameters:     int x-coordinate of the Entry (left)
-                        int y-coordinate of the Entry (top)
-                        int width of the Entry
-                        int height of the Entry
-                        string text of the Entry
-                        pygame.font.Font font of the Entry
-                        tuple of format pygame.Color representing the Entry's selection-color
-                        function function that validates input; validation(newtext, oldtext, entry) -> bool
-        return values:  -
+        Args:
+            x: An integer specifing the x-coordinate of the widget.
+                This is the horizontal distance from the left reference point.
+            y: An integer specifing the y-coordinate of the widget.
+                This is the vertical distance from the top reference point.
+            width: An integer specifing the width of the widget.
+            height: An integer specifing the height of the widget.
+            text: A string specifing the content of the widget.
+                The default value is an empty string.
+            font: A font-like object that can be interpreted by pygame.font as a Font;
+                this is used as the font for rendering text.
+                The default value is the global default for fonts.
+            editable: A boolean indicating whether the widget's content is editable by the user.
+                The default value is True, meaning it can be edited by user-input.
+            selection_overlay: A color-like object that can be interpreted as a color by pygame (such as a tuple with RGB values);
+                this is used as an overlay for content that has been selected.
+                The default value is the global default for the selection-color.
+            validation_function: A function that validates input.
+                It will receive three arguments (the new text, the old text and the entry-object)
+                and should return a boolean indicating whether the input is valid (True when valid).
+                The default value is a function that accepts every input.
         """
-        super(Entry, self).__init__(x, y, width, height, text, font, selection_overlay)
-        self._validation = validation
+        super(Entry, self).__init__(x, y, width, height, text, font, editable, selection_overlay)
+        self.validation_function = validation_function
 
     def setText(self, text):
         """
@@ -34,58 +49,42 @@ class Entry(SelectionTextWidget):
         parameters:     string the text to be set
         return values:  Entry Entry returned for convenience
         """
-        if self._validation(text, self.text, self):
+        if self.validation_function and self.validation_function(text, self.text, self):
             super(Entry, self).setText(text)
         return self
 
-    def setValidation(self, validation):
+    def setValidation(self, validation_function):
         """
-        Set the Entry's validation-function
+        Set the entry's validation-function.
 
-        parameters:     function function that validates input; validation(newtext, oldtext, entry) -> bool
-        return values:  Entry Entry returned for convenience
+        Args:
+            validation_function: A function that validates input.
+                It will receive three arguments (the new text, the old text and the entry-object)
+                and should return a boolean indicating whether the input is valid (True when valid).
+
+        Returns:
+            Itsself (the widget) for convenience.
         """
-        if callable(validation):
-            self._validation = validation
+        if callable(validation_function):
+            self._validation_function = validation_function
         return self
 
     def getValidation(self):
         """
-        Return the Entry's validation-function
+        Return the entry's validation-function.
 
-        parameters:     -
-        return values:  function the Entry's validation-function
+        Returns:
+            A function that validates input.
+            It receives three arguments (the new text, the old text and the entry-object)
+            and returns a boolean indicating whether the input is valid (True when valid).
         """
-        return self._validation
-
-    def insert(self, index, text):
-        """
-        Insert a given text at the given index
-
-        parameters:     int the index the text should be insterted at
-                        string the text to be insertet
-        return values:  -
-        """
-        index = self.getActualIndex(index)
-        self.setText(self.text[:index] + text + self.text[index:])
-
-    def delete(self, startindex, endindex):
-        """
-        Deletes the Entry's text between the two given indices
-
-        parameters:     int the index from which the text should be deleted
-                        int the index till which the text should be deleted
-        return values:  -
-        """
-        startindex, endindex = self._sort(startindex, endindex)
-        self.setText(self.text[:startindex] + self.text[endindex:])
+        return self._validation_function
 
     def update(self, *args):
         """
-        Handles the selection and keyboard-input
+        Handles the selection of content and keyboard-input.
 
-        parameters: tuple arguments for the update (first argument should be an instance pygame.event.Event)
-        return values: -
+        inherit_docstring::
         """
         if len(args) > 0 and self.isActive() and self.isFocused():
             event = args[0]
@@ -97,22 +96,22 @@ class Entry(SelectionTextWidget):
                 elif event.key == pygame.K_BACKSPACE or event.key == pygame.K_DELETE:
                     if self.selection_index == self.cursor:
                         if event.key == pygame.K_DELETE:
-                            if self._validation(self.text[:self.selection_index] + self.text[self.selection_index + 1:], self.text, self):
+                            if self._validation_function(self.text[:self.selection_index] + self.text[self.selection_index + 1:], self.text, self):
                                 self.delete(self.selection_index + 1, CURSOR)
                         else:
-                            if self._validation(self.text[:self.selection_index - 1] + self.text[self.selection_index:], self.text, self):
+                            if self._validation_function(self.text[:self.selection_index - 1] + self.text[self.selection_index:], self.text, self):
                                 self.delete(self.selection_index - 1, CURSOR)
                                 self.moveCursor(-1)
                     else:
                         s, e = self._sort(SELECTION, CURSOR)
-                        if self._validation(self.text[:s] + self.text[e:], self.text, self):
+                        if self._validation_function(self.text[:s] + self.text[e:], self.text, self):
                             self.delete(SELECTION, CURSOR)
                             self.setCursor(s)
                 else:
                     char = event.unicode
                     if char != "" and (char == " " or not char.isspace()):
                         s, e = self._sort(SELECTION, CURSOR)
-                        if self._validation(self.text[:s] + char + self.text[e:], self.text, self):
+                        if self._validation_function(self.text[:s] + char + self.text[e:], self.text, self):
                             self.delete(SELECTION, CURSOR)
                             self.insert(s, char)
                             self.setCursor(s + 1)
@@ -127,13 +126,9 @@ class Entry(SelectionTextWidget):
 
     def _getAppearance(self, *args):
         """
-        Return the underlying Widget's appearance;
-        Renders the Entry's text, cursor and selection
+        Renders the entry's text, cursor and selection.
 
-        private function
-
-        parameters:     tuple arguments for the update (first argument should be an instance pygame.event.Event)
-        return values:  pygame.Surface the underlying Widget's appearance
+        inherit_docstring::
         """
         surface = super(Entry, self)._getAppearance(*args)
         linesize = self.font.get_linesize()
@@ -146,3 +141,8 @@ class Entry(SelectionTextWidget):
             selection.fill(self.selection_overlay)
             surface.blit(selection, (self._sort(self._indexToPos(CURSOR), self._indexToPos(SELECTION))[0] , (self.bounds.height - linesize) / 2))
         return surface
+
+    validation_function = property(getValidation, setValidation, doc="""The widget's function used for validating input to its content.""")
+
+# inherit docs from superclass
+Entry = inherit_docstrings_from_superclass(Entry)

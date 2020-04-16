@@ -29,7 +29,7 @@ class SelectionTextWidget(TextWidget):
     Underlying class for widgets using selectable content.
     """
 
-    def __init__(self, x, y, width, height, text="", font=getDefaultDesign().font, selection_overlay=getDefaultDesign().selection_overlay):
+    def __init__(self, x, y, width, height, text="", font=getDefaultDesign().font, editable=False, selection_overlay=getDefaultDesign().selection_overlay):
         """
         Initialisation of a SelectionTextWidget.
 
@@ -45,6 +45,8 @@ class SelectionTextWidget(TextWidget):
             font: A font-like object that can be interpreted by pygame.font as a Font;
                 this is used as the font for rendering text.
                 The default value is the global default for fonts.
+            editable: A boolean indicating whether the widget's content is editable by the user.
+                The default value is False, meaning it can not be edited by user-input.
             selection_overlay: A color-like object that can be interpreted as a color by pygame (such as a tuple with RGB values);
                 this is used as an overlay for content that has been selected.
                 The default value is the global default for the selection-color.
@@ -52,7 +54,53 @@ class SelectionTextWidget(TextWidget):
         super(SelectionTextWidget, self).__init__(x, y, width, height, text, font)
         self._cursor = 0
         self._selection_index = 0
+        self.editable = editable
         self.selection_overlay = selection_overlay
+
+
+    def setEditable(self, editable):
+        """
+        Set whether the widget's content is editable by the user (via user-input).
+
+        Args:
+            editable: A boolean indicating whether the widget's content is editable by the user.
+
+        Returns:
+            Itsself (the widget) for convenience.
+        """
+        self._editable = bool(editable)
+        return self
+
+    def isEditable(self):
+        """
+        Return whether the widget's content is editable by the user (via user-input).
+
+        Returns:
+            A boolean indicating whether the widget's content is editable by the user.
+        """
+        return self._editable
+
+    def insert(self, index, text):
+        """
+        Insert a given text at the given index.
+
+        Args:
+            index: An integer (or known constant) representing the position the text should be insterted at.
+            text: A string specifing the content to add to the content of the widget.
+        """
+        index = self.getActualIndex(index)
+        self.setText(self.text[:index] + text + self.text[index:])
+
+    def delete(self, start, end):
+        """
+        Deletes the widget's content between the two given indices.
+
+        Args:
+            start: An integer representing the index from which the content should be deleted.
+            end: An integer representing the index until which the content should be deleted.
+        """
+        start, end = self._sort(start, end)
+        self.setText(self.text[:start] + self.text[end:])
 
     def setSelectionOverlay(self, color):
         """
@@ -112,7 +160,7 @@ class SelectionTextWidget(TextWidget):
 
     def setSelectionIndex(self, index):
         """
-        Set the widget's selection-index.
+        Set the widget' selection-index.
 
         Args:
             index: An integer (or known constant) representing the index the selection-index should be set to.
@@ -136,7 +184,7 @@ class SelectionTextWidget(TextWidget):
 
     def getSelectionIndex(self):
         """
-        Return the widget's selection-index.
+        Return the widget' selection-index.
 
         Returns:
             An integer representing the index the selection-index is at.
@@ -145,7 +193,7 @@ class SelectionTextWidget(TextWidget):
 
     def setSelection(self, selection_index, cursor):
         """
-        Set the widget's selection between the given bounds.
+        Set the widget' selection between the given bounds.
 
         Args:
             selection_index: An integer (or known constant) representing the index the selection should start.
@@ -165,7 +213,7 @@ class SelectionTextWidget(TextWidget):
 
     def getSelection(self):
         """
-        Return the widget's selection-range.
+        Return the widget' selection-range.
 
         Returns:
             A tuple (start, end) with the start- and end-index of the selection.
@@ -194,23 +242,29 @@ class SelectionTextWidget(TextWidget):
 
     def _indexToPos(self, index):
         """
-        Return the relative x-coordinate corresponding to the given index
+        Return the relative x-coordinate corresponding to the given index.
 
         This is an internal function.
 
-        parameters:     int index given
-        return values:  int relative x-coordinate
+        Args:
+            index: An integer (or known constant) to be converted.
+
+        Returns:
+            An integer representing a relative x-coordinate.
         """
         return self.font.size(self.text[:self.getActualIndex(index)])[0]
 
     def _posToIndex(self, x):
         """
-        Return the index corresponding to the given relative x-coordinate
+        Return the index corresponding to the given relative x-coordinate.
 
         This is an internal function.
 
-        parameters:     int relative x-coordinate
-        return values:  int index given
+        Args:
+            x: An integer representing a relative x-coordinate.
+
+        Returns:
+            An integer representing the index corresponding to the given relative x-coordinate.
         """
         length = len(self.text)
         x = min(float(x), (self.font.size(self.text[:-1])[0] +
@@ -247,6 +301,7 @@ class SelectionTextWidget(TextWidget):
             return j, i
         return i, j
 
+    editable = property(isEditable, setEditable, doc="""The widget' status as a boolean whether its content is editable by the user.""")
     selection_overlay = property(getSelectionOverlay, setSelectionOverlay, doc="""The widget's color to overlay for content that has been selected.""")
     selection_index = property(getSelectionIndex, setSelectionIndex, doc="""The widget's index representing an endpoint for the range of selected content.""")
     cursor = property(getCursor, setCursor, doc="""The widget's position of the cursor as a index. This is another endpoint for the range of selected content.""")
