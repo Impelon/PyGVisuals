@@ -33,7 +33,8 @@ class TextWidget(Widget):
             height: An integer specifing the height of the widget.
             text: A string specifing the content of the widget.
                 The default value is an empty string.
-            font: A font-like object that can be interpreted by pygame.font as a Font.
+            font: A font-like object that can be interpreted by pygame.font as a Font;
+                this is used as the font for rendering text.
                 The default value is the global default for fonts.
         """
         super(TextWidget, self).__init__(x, y, width, height)

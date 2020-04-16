@@ -10,7 +10,7 @@ class Entry(SelectionTextWidget):
     Entry that accepts keyboard-input
     """
 
-    def __init__(self, x, y, width, height, text = "", font = getDefaultDesign().font, selectioncolor = getDefaultDesign().selection_color, validation = (lambda *x: True)):
+    def __init__(self, x, y, width, height, text = "", font = getDefaultDesign().font, selection_overlay=getDefaultDesign().selection_overlay, validation = (lambda *x: True)):
         """
         Initialisation of an Entry
 
@@ -24,7 +24,7 @@ class Entry(SelectionTextWidget):
                         function function that validates input; validation(newtext, oldtext, entry) -> bool
         return values:  -
         """
-        super(Entry, self).__init__(x, y, width, height, text, font, selectioncolor)
+        super(Entry, self).__init__(x, y, width, height, text, font, selection_overlay)
         self._validation = validation
 
     def setText(self, text):
@@ -34,7 +34,7 @@ class Entry(SelectionTextWidget):
         parameters:     string the text to be set
         return values:  Entry Entry returned for convenience
         """
-        if self._validation(text, self._text, self):
+        if self._validation(text, self.text, self):
             super(Entry, self).setText(text)
         return self
 
@@ -67,7 +67,7 @@ class Entry(SelectionTextWidget):
         return values:  -
         """
         index = self.getActualIndex(index)
-        self.setText(self._text[:index] + text + self._text[index:])
+        self.setText(self.text[:index] + text + self.text[index:])
 
     def delete(self, startindex, endindex):
         """
@@ -78,7 +78,7 @@ class Entry(SelectionTextWidget):
         return values:  -
         """
         startindex, endindex = self._sort(startindex, endindex)
-        self.setText(self._text[:startindex] + self._text[endindex:])
+        self.setText(self.text[:startindex] + self.text[endindex:])
 
     def update(self, *args):
         """
@@ -95,24 +95,24 @@ class Entry(SelectionTextWidget):
                 elif event.key == pygame.K_RIGHT:
                     self.moveCursor(1)
                 elif event.key == pygame.K_BACKSPACE or event.key == pygame.K_DELETE:
-                    if self._selection == self._cursor:
+                    if self.selection_index == self.cursor:
                         if event.key == pygame.K_DELETE:
-                            if self._validation(self._text[:self._selection] + self._text[self._selection + 1:], self._text, self):
-                                self.delete(self._selection + 1, CURSOR)
+                            if self._validation(self.text[:self.selection_index] + self.text[self.selection_index + 1:], self.text, self):
+                                self.delete(self.selection_index + 1, CURSOR)
                         else:
-                            if self._validation(self._text[:self._selection - 1] + self._text[self._selection:], self._text, self):
-                                self.delete(self._selection - 1, CURSOR)
+                            if self._validation(self.text[:self.selection_index - 1] + self.text[self.selection_index:], self.text, self):
+                                self.delete(self.selection_index - 1, CURSOR)
                                 self.moveCursor(-1)
                     else:
                         s, e = self._sort(SELECTION, CURSOR)
-                        if self._validation(self._text[:s] + self._text[e:], self._text, self):
+                        if self._validation(self.text[:s] + self.text[e:], self.text, self):
                             self.delete(SELECTION, CURSOR)
                             self.setCursor(s)
                 else:
                     char = event.unicode
                     if char != "" and (char == " " or not char.isspace()):
                         s, e = self._sort(SELECTION, CURSOR)
-                        if self._validation(self._text[:s] + char + self._text[e:], self._text, self):
+                        if self._validation(self.text[:s] + char + self.text[e:], self.text, self):
                             self.delete(SELECTION, CURSOR)
                             self.insert(s, char)
                             self.setCursor(s + 1)
@@ -136,13 +136,13 @@ class Entry(SelectionTextWidget):
         return values:  pygame.Surface the underlying Widget's appearance
         """
         surface = super(Entry, self)._getAppearance(*args)
-        linesize = self._font.get_linesize()
-        surface.blit(self._font.render(str(self._text), True, self._foreground), (0, (self._bounds.height - linesize) / 2))
+        linesize = self.font.get_linesize()
+        surface.blit(self._render(str(self.text)), (0, (self.bounds.height - linesize) / 2))
         if self.isFocused():
             cursor = pygame.Surface((2, linesize))
-            cursor.fill(self._foreground)
-            surface.blit(cursor, (self._indexToPos(CURSOR), (self._bounds.height - linesize) / 2))
+            cursor.fill(self.foreground)
+            surface.blit(cursor, (self._indexToPos(CURSOR), (self.bounds.height - linesize) / 2))
             selection = pygame.Surface((abs(self._indexToPos(CURSOR) - self._indexToPos(SELECTION)), linesize), pygame.SRCALPHA, 32)
-            selection.fill(self._selectioncolor)
-            surface.blit(selection, (self._sort(self._indexToPos(CURSOR), self._indexToPos(SELECTION))[0] , (self._bounds.height - linesize) / 2))
+            selection.fill(self.selection_overlay)
+            surface.blit(selection, (self._sort(self._indexToPos(CURSOR), self._indexToPos(SELECTION))[0] , (self.bounds.height - linesize) / 2))
         return surface

@@ -12,7 +12,7 @@ class Listbox(SelectionTextWidget):
     Listbox for displaying lists of multiple objects as strings
     """
 
-    def __init__(self, x, y, width, height, editable = False, font = getDefaultDesign().font, selectioncolor = getDefaultDesign().selection_color):
+    def __init__(self, x, y, width, height, editable = False, font = getDefaultDesign().font, selection_overlay=getDefaultDesign().selection_overlay):
         """
         Initialisation of an Listbox
 
@@ -25,10 +25,10 @@ class Listbox(SelectionTextWidget):
                         tuple of format pygame.Color representing the Listbox's selection-color
         return values:  -
         """
-        super(Listbox, self).__init__(x, y, width, height, "", font, selectioncolor)
+        super(Listbox, self).__init__(x, y, width, height, "", font, selection_overlay)
         self._list      = []
         self._editable  = editable
-        self._viewpoint = self._cursor
+        self._viewpoint = self.cursor
 
     def setEditable(self, editable):
         """
@@ -87,7 +87,7 @@ class Listbox(SelectionTextWidget):
         if self._indexToPos(index) < 0:
             self.setViewpoint(index)
         elif self._indexToPos(index) > self.rect.h:
-            self.setViewpoint(index - (self.rect.h / self._font.get_linesize()))
+            self.setViewpoint(index - (self.rect.h / self.font.get_linesize()))
         super(Listbox, self).setCursor(index)
 
     def setText(self, text):
@@ -175,7 +175,7 @@ class Listbox(SelectionTextWidget):
         parameters:     int index given
         return values:  int relative y-coordinate
         """
-        return self._font.get_linesize() * (index - self._viewpoint)
+        return self.font.get_linesize() * (index - self._viewpoint)
 
     def _posToIndex(self, y):
         """
@@ -186,7 +186,7 @@ class Listbox(SelectionTextWidget):
         parameters:     int relative y-coordinate
         return values:  int resulting index
         """
-        return (y / self._font.get_linesize()) + self._viewpoint
+        return (y / self.font.get_linesize()) + self._viewpoint
 
     def update(self, *args):
         """
@@ -204,12 +204,12 @@ class Listbox(SelectionTextWidget):
                     self.moveCursor(1)
                 elif event.key == pygame.K_BACKSPACE or event.key == pygame.K_DELETE:
                     if self.isEditable():
-                        if self._selection == self._cursor:
-                            self.delete(self._selection - 1, CURSOR)
+                        if self.selection_index == self.cursor:
+                            self.delete(self.selection_index - 1, CURSOR)
                             self.moveCursor(-1)
                         else:
                             self.delete(SELECTION, CURSOR)
-                            self.setCursor(self._selection)
+                            self.setCursor(self.selection_index)
             elif event.type == pygame.MOUSEBUTTONUP:
                 if event.button in (1, 3):
                     if self.rect.collidepoint(event.pos):
@@ -236,13 +236,13 @@ class Listbox(SelectionTextWidget):
         return values:  pygame.Surface the underlying Widget's appearance
         """
         surface     = super(Listbox, self)._getAppearance(*args)
-        linesize    = self._font.get_linesize()
+        linesize    = self.font.get_linesize()
         for n in range(self._viewpoint, len(self._list)):
-            surface.blit(self._font.render(str(self._list[n]), pygame.SRCALPHA, self._foreground), (0, linesize * (n - self._viewpoint)))
+            surface.blit(self._render(str(self._list[n])), (0, linesize * (n - self._viewpoint)))
         if self.isFocused():
             s, e = self._sort(CURSOR, SELECTION)
             for n in range(s, e + 1):
-                selection = pygame.Surface((self._bounds.width, linesize), pygame.SRCALPHA, 32)
-                selection.fill(self._selectioncolor)
+                selection = pygame.Surface((self.bounds.width, linesize), pygame.SRCALPHA, 32)
+                selection.fill(self.selection_overlay)
                 surface.blit(selection, (0, linesize * (n - self._viewpoint)))
         return surface
