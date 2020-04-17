@@ -40,6 +40,11 @@ class Widget(pygame.sprite.DirtySprite):
     """
     Underlying class for interactive GUI-objects with pygame;
     intended for use together with pygame.sprite.LayeredDirty.
+
+    Note: If you change any widget's visual characteristics (e.g. its background-color)
+    via its methods or properties (e.g. setBackground()),
+    its appearance will not change until it is redrawn.
+    You can force this by calling widget.update() after you modified its characteristics.
     """
 
     def __init__(self, x, y, width, height):
