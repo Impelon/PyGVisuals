@@ -221,13 +221,16 @@ class SelectionTextWidget(TextWidget):
         """
         return self._sort(self.selection_index, self.cursor)
 
-    def getActualIndex(self, index):
+    def getActualIndex(self, index, constrain=True):
         """
         Return the actual index corresponding to the given representation.
         This converts known constants (e.g. END, CURSOR) to the corresponding integers.
 
         Args:
             index: An integer (or known constant) to be converted.
+            constrain: A boolean indicating whether the given index should be constrained to
+                valid indices for the content or not.
+                The default value is True, meaning that the returned index is constrained.
 
         Returns:
             An integer representing the actual index the given value corresponds to.
@@ -238,7 +241,9 @@ class SelectionTextWidget(TextWidget):
             return len(self.text)
         if index == SELECTION:
             return self.selection_index
-        return abs(int(index))
+        if constrain:
+            return min(max(int(index), START), self.getActualIndex(END))
+        return index
 
     def _indexToPos(self, index):
         """
@@ -282,7 +287,7 @@ class SelectionTextWidget(TextWidget):
                 index += 1
         return index
 
-    def _sort(self, i, j):
+    def _sort(self, i, j, constrain=True):
         """
         Return the indices in ascending order.
 
@@ -291,12 +296,15 @@ class SelectionTextWidget(TextWidget):
         Args:
             i: An integer (or known constant) to sort.
             j: Another integer (or known constant) to sort.
+            constrain: A boolean indicating whether the given indices should be constrained to
+                valid indices for the content or not.
+                The default value is True, meaning that the returned index is constrained.
 
         Returns:
             A tuple (min, max) of the numbers which have been sorted.
         """
-        i = self.getActualIndex(i)
-        j = self.getActualIndex(j)
+        i = self.getActualIndex(i, constrain)
+        j = self.getActualIndex(j, constrain)
         if i > j:
             return j, i
         return i, j
@@ -305,4 +313,4 @@ class SelectionTextWidget(TextWidget):
     selection_overlay = property(lambda obj: obj.getSelectionOverlay(), lambda obj, arg: obj.setSelectionOverlay(arg), doc="""The widget's color to overlay for content that has been selected.""")
     selection_index = property(lambda obj: obj.getSelectionIndex(), lambda obj, arg: obj.setSelectionIndex(arg), doc="""The widget's index representing an endpoint for the range of selected content.""")
     cursor = property(lambda obj: obj.getCursor(), lambda obj, arg: obj.setCursor(arg), doc="""The widget's position of the cursor as a index. This is another endpoint for the range of selected content.""")
-    selection = property(lambda obj: obj.getSelection(), lambda obj, tuple: obj.setSelection(*tuple), doc="""The widget's indicies spanning the range of selected content.""")
+    selection = property(lambda obj: obj.getSelection(), lambda obj, tuple: obj.setSelection(*tuple), doc="""The widget's indices spanning the range of selected content.""")

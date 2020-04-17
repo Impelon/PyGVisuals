@@ -93,11 +93,11 @@ class Entry(SelectionTextWidget):
                     self.moveCursor(-1)
                 elif event.key == pygame.K_RIGHT:
                     self.moveCursor(1)
-                elif event.key == pygame.K_BACKSPACE or event.key == pygame.K_DELETE:
+                elif event.key in (pygame.K_BACKSPACE, pygame.K_DELETE):
                     if self.selection_index == self.cursor:
                         if event.key == pygame.K_DELETE:
-                            if self._validation_function(self.text[:self.selection_index] + self.text[self.selection_index + 1:], self.text, self):
-                                self.delete(self.selection_index + 1, CURSOR)
+                            #if self._validation_function(self.text[:self.selection_index] + self.text[self.selection_index + 1:], self.text, self):
+                            self.delete(self.selection_index + 1, CURSOR)
                         else:
                             if self._validation_function(self.text[:self.selection_index - 1] + self.text[self.selection_index:], self.text, self):
                                 self.delete(self.selection_index - 1, CURSOR)
@@ -134,12 +134,14 @@ class Entry(SelectionTextWidget):
         linesize = self.font.get_linesize()
         surface.blit(self._render(str(self.text)), (0, (self.bounds.height - linesize) / 2))
         if self.isFocused():
+            cursor_pos = self._indexToPos(CURSOR)
+            selection_pos = self._indexToPos(SELECTION)
             cursor = pygame.Surface((2, linesize))
             cursor.fill(self.foreground)
-            surface.blit(cursor, (self._indexToPos(CURSOR), (self.bounds.height - linesize) / 2))
-            selection = pygame.Surface((abs(self._indexToPos(CURSOR) - self._indexToPos(SELECTION)), linesize), pygame.SRCALPHA, 32)
+            surface.blit(cursor, (cursor_pos, (self.bounds.height - linesize) / 2))
+            selection = pygame.Surface((abs(cursor_pos - selection_pos), linesize), pygame.SRCALPHA, 32)
             selection.fill(self.selection_overlay)
-            surface.blit(selection, (self._sort(self._indexToPos(CURSOR), self._indexToPos(SELECTION))[0] , (self.bounds.height - linesize) / 2))
+            surface.blit(selection, (self._sort(cursor_pos, selection_pos, False)[0], (self.bounds.height - linesize) / 2))
         return surface
 
     validation_function = property(lambda obj: obj.getValidation(), lambda obj, arg: obj.setValidation(arg), doc="""The widget's function used for validating input to its content.""")

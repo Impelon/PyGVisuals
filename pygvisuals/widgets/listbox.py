@@ -134,12 +134,12 @@ class Listbox(SelectionTextWidget):
         del self._list[startindex:endindex]
         self.markDirty()
 
-    def getActualIndex(self, index):
+    def getActualIndex(self, index, constrain=True):
         if index == END:
             return len(self._list)
         if index == VIEWPOINT:
             return self._viewpoint
-        return super(Listbox, self).getActualIndex(index)
+        return super(Listbox, self).getActualIndex(index, constrain)
 
     def _indexToPos(self, index):
         """
