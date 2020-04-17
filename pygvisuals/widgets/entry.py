@@ -35,12 +35,13 @@ class Entry(SelectionTextWidget):
                 this is used as an overlay for content that has been selected.
                 The default value is the global default for the selection-color.
             validation_function: A function that validates input.
-                It will receive three arguments (the new text, the old text and the entry-object)
+                It will receive three arguments (the new content, the old content and the widget-object)
                 and should return a boolean indicating whether the input is valid (True when valid).
+                The old content can be None if it was not set before; the new content can be anything that is being passed to setText().
                 The default value is a function that accepts every input.
         """
-        super(Entry, self).__init__(x, y, width, height, text, font, editable, selection_overlay)
         self.validation_function = validation_function
+        super(Entry, self).__init__(x, y, width, height, text, font, editable, selection_overlay)
 
     def setText(self, text):
         """
@@ -49,7 +50,7 @@ class Entry(SelectionTextWidget):
         parameters:     string the text to be set
         return values:  Entry Entry returned for convenience
         """
-        if self.validation_function and self.validation_function(text, self.text, self):
+        if self.validation_function and callable(self.validation_function) and self.validation_function(text, getattr(self, "text", None), self):
             super(Entry, self).setText(text)
         return self
 
@@ -65,8 +66,7 @@ class Entry(SelectionTextWidget):
         Returns:
             Itsself (the widget) for convenience.
         """
-        if callable(validation_function):
-            self._validation_function = validation_function
+        self._validation_function = validation_function
         return self
 
     def getValidation(self):
@@ -142,7 +142,7 @@ class Entry(SelectionTextWidget):
             surface.blit(selection, (self._sort(self._indexToPos(CURSOR), self._indexToPos(SELECTION))[0] , (self.bounds.height - linesize) / 2))
         return surface
 
-    validation_function = property(getValidation, setValidation, doc="""The widget's function used for validating input to its content.""")
+    validation_function = property(lambda obj: obj.getValidation(), lambda obj, arg: obj.setValidation(arg), doc="""The widget's function used for validating input to its content.""")
 
 # inherit docs from superclass
 Entry = inherit_docstrings_from_superclass(Entry)

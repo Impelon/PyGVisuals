@@ -182,11 +182,11 @@ class Button(Label):
             surface.blit(overlay, (0, 0))
         return surface
 
-    hovered_overlay = property(getHoveredOverlay, setHoveredOverlay, doc="The widget's color to overlay when it is hovered over.")
-    pressed_overlay = property(getPressedOverlay, setPressedOverlay, doc="The widget's color to overlay when it is pressed.")
-    callback = property(getCallback, setCallback, doc="The widget's function to be called when it is pressed.")
-    hovered = property(isHovered, doc="The widget' status as a boolean regarding whether it is hovered over.")
-    pressed = property(isPressed, doc="The widget' status as a boolean regarding whether it is pressed.")
+    hovered_overlay = property(lambda obj: obj.getHoveredOverlay(), lambda obj, arg: obj.setHoveredOverlay(arg), doc="The widget's color to overlay when it is hovered over.")
+    pressed_overlay = property(lambda obj: obj.getPressedOverlay(), lambda obj, arg: obj.setPressedOverlay(arg), doc="The widget's color to overlay when it is pressed.")
+    callback = property(lambda obj: obj.getCallback(), lambda obj, arg: obj.setCallback(arg), doc="The widget's function to be called when it is pressed.")
+    hovered = property(lambda obj: obj.isHovered(), doc="The widget' status as a boolean regarding whether it is hovered over.")
+    pressed = property(lambda obj: obj.isPressed(), doc="The widget' status as a boolean regarding whether it is pressed.")
 
 
 # inherit docs from superclass

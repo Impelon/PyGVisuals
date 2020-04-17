@@ -139,7 +139,7 @@ class TextWidget(Widget):
             color = self.foreground
         return self.font.render(text, self.antialiased, color, background)
 
-    text = property(getText, setText, doc="""The widget' string-representation of its content.""")
-    font = property(getFont, setFont, doc="""The widget's font used when rendering text.""")
-    antialiased = property(isAntialiasing, setAntialiasing, doc="The widget' status as a boolean "
+    text = property(lambda obj: obj.getText(), lambda obj, arg: obj.setText(arg), doc="""The widget' string-representation of its content.""")
+    font = property(lambda obj: obj.getFont(), lambda obj, arg: obj.setFont(arg), doc="""The widget's font used when rendering text.""")
+    antialiased = property(lambda obj: obj.isAntialiasing(), lambda obj, arg: obj.setAntialiasing(arg), doc="The widget' status as a boolean "
                            "regarding whether antialiasing is used when rendering text.")

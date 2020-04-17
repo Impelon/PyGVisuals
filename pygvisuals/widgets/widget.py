@@ -474,21 +474,21 @@ class Widget(pygame.sprite.DirtySprite):
 
         return surface
 
-    foreground = property(getForeground, setForeground, doc="The widget's foreground color.")
-    background = property(getBackground, setBackground, doc="The widget's background color.")
-    background_image = property(getBackgroundImage, setBackgroundImage, doc="""The widget's background-image.
+    foreground = property(lambda obj: obj.getForeground(), lambda obj, arg: obj.setForeground(arg), doc="The widget's foreground color.")
+    background = property(lambda obj: obj.getBackground(), lambda obj, arg: obj.setBackground(arg), doc="The widget's background color.")
+    background_image = property(lambda obj: obj.getBackgroundImage(), lambda obj, arg: obj.setBackgroundImage(arg), doc="""The widget's background-image.
         If this is a falsy value (e.g. None), no image will be drawn.""")
-    disabeled_overlay = property(getDisabeledOverlay, setDisabeledOverlay, doc="The widget's color to overlay when it is disabled.")
-    smooth_scaling = property(hasSmoothScaling, setSmoothScaling, doc="The widget' status as a boolean "
+    disabeled_overlay = property(lambda obj: obj.getDisabeledOverlay(), lambda obj, arg: obj.setDisabeledOverlay(arg), doc="The widget's color to overlay when it is disabled.")
+    smooth_scaling = property(lambda obj: obj.hasSmoothScaling(), lambda obj, arg: obj.setSmoothScaling(arg), doc="The widget' status as a boolean "
         """regarding whether the background-image will be scaled smoothly (with pygame.transform.smoothscale).
         Exact control of the scaling-function is given via the 'scaling_function' property.""")
-    scaling_function = property(getScalingFunction, setScalingFunction, doc="The widget's function used "
+    scaling_function = property(lambda obj: obj.getScalingFunction(), lambda obj, arg: obj.setScalingFunction(arg), doc="The widget's function used "
         """for scaling the background-image (to the widgets bounds).
         If this is a falsy value (e.g. None), the image will not be rescaled when drawn.""")
-    border = property(getBorder, setBorder, doc="The widget's border (a PyGVisuals' border).")
-    bounds = property(getBounds, setBounds, doc="The widget's base position and size as a pygame.Rect.")
-    rect = property(getActualBounds, doc="The widget's actual position and size as a pygame.Rect.")
-    active = property(isActive, setActive,doc="""The widget's active status as a boolean.
+    border = property(lambda obj: obj.getBorder(), lambda obj, arg: obj.setBorder(arg), doc="The widget's border (a PyGVisuals' border).")
+    bounds = property(lambda obj: obj.getBounds(), lambda obj, arg: obj.setBounds(arg), doc="The widget's base position and size as a pygame.Rect.")
+    rect = property(lambda obj: obj.getActualBounds(), doc="The widget's actual position and size as a pygame.Rect.")
+    active = property(lambda obj: obj.isActive(), lambda obj, arg: obj.setActive(arg),doc="""The widget's active status as a boolean.
         An inactive widget will should not respond to user-input and will have a grey overlay.""")
-    focused = property(isFocused, setFocused, doc="""The widget's focus status as a boolean.
+    focused = property(lambda obj: obj.isFocused(), lambda obj, arg: obj.setFocused(arg), doc="""The widget's focus status as a boolean.
         A widget will be focused automatically if it is clicked on.""")
