@@ -13,7 +13,7 @@ class Entry(SelectionTextWidget):
     Entry-fields that accept keyboard-input.
     """
 
-    def __init__(self, x, y, width, height, text = "", font = getDefaultDesign().font, editable=True, selection_overlay=getDefaultDesign().selection_overlay, validation_function = (lambda *x: True)):
+    def __init__(self, x, y, width, height, text = "", font = getDefaultDesign().font, editable=True, validation_function=(lambda *x: True), selection_overlay=getDefaultDesign().selection_overlay):
         """
         Initialisation of an Entry.
 
@@ -31,54 +31,16 @@ class Entry(SelectionTextWidget):
                 The default value is the global default for fonts.
             editable: A boolean indicating whether the widget's content is editable by the user.
                 The default value is True, meaning it can be edited by user-input.
+            validation_function: A function that validates changed content.
+                It will receive three arguments (the new content, the old content and the widget-object)
+                and should return a boolean indicating whether the change is valid (True when valid).
+                The old content can be None if it was not set before; the new content can be anything that is being passed to setText().
+                The default value is a function that accepts every change.
             selection_overlay: A color-like object that can be interpreted as a color by pygame (such as a tuple with RGB values);
                 this is used as an overlay for content that has been selected.
                 The default value is the global default for the selection-color.
-            validation_function: A function that validates input.
-                It will receive three arguments (the new content, the old content and the widget-object)
-                and should return a boolean indicating whether the input is valid (True when valid).
-                The old content can be None if it was not set before; the new content can be anything that is being passed to setText().
-                The default value is a function that accepts every input.
         """
-        self.validation_function = validation_function
-        super(Entry, self).__init__(x, y, width, height, text, font, editable, selection_overlay)
-
-    def setText(self, text):
-        """
-        Set the Entry's text; needs to be valid according to the Entry's validation-function
-
-        parameters:     string the text to be set
-        return values:  Entry Entry returned for convenience
-        """
-        if self.validation_function and callable(self.validation_function) and self.validation_function(text, getattr(self, "text", None), self):
-            super(Entry, self).setText(text)
-        return self
-
-    def setValidation(self, validation_function):
-        """
-        Set the entry's validation-function.
-
-        Args:
-            validation_function: A function that validates input.
-                It will receive three arguments (the new text, the old text and the entry-object)
-                and should return a boolean indicating whether the input is valid (True when valid).
-
-        Returns:
-            Itsself (the widget) for convenience.
-        """
-        self._validation_function = validation_function
-        return self
-
-    def getValidation(self):
-        """
-        Return the entry's validation-function.
-
-        Returns:
-            A function that validates input.
-            It receives three arguments (the new text, the old text and the entry-object)
-            and returns a boolean indicating whether the input is valid (True when valid).
-        """
-        return self._validation_function
+        super(Entry, self).__init__(x, y, width, height, text, font, editable, validation_function, selection_overlay)
 
     def update(self, *args):
         """
@@ -93,28 +55,24 @@ class Entry(SelectionTextWidget):
                     self.moveCursor(-1)
                 elif event.key == pygame.K_RIGHT:
                     self.moveCursor(1)
-                elif event.key in (pygame.K_BACKSPACE, pygame.K_DELETE):
-                    if self.selection_index == self.cursor:
-                        if event.key == pygame.K_DELETE:
-                            #if self._validation_function(self.text[:self.selection_index] + self.text[self.selection_index + 1:], self.text, self):
-                            self.delete(self.selection_index + 1, CURSOR)
+                elif self.isEditable():
+                    if event.key in (pygame.K_BACKSPACE, pygame.K_DELETE):
+                        if self.selection_index == self.cursor:
+                            if event.key == pygame.K_DELETE:
+                                self.delete(self.selection_index + 1, CURSOR)
+                            else:
+                                if self.delete(self.selection_index - 1, CURSOR):
+                                    self.moveCursor(-1)
                         else:
-                            if self._validation_function(self.text[:self.selection_index - 1] + self.text[self.selection_index:], self.text, self):
-                                self.delete(self.selection_index - 1, CURSOR)
-                                self.moveCursor(-1)
+                            s, c = self._sort(SELECTION, CURSOR)
+                            if self.delete(s, c):
+                                self.setCursor(s)
                     else:
-                        s, e = self._sort(SELECTION, CURSOR)
-                        if self._validation_function(self.text[:s] + self.text[e:], self.text, self):
-                            self.delete(SELECTION, CURSOR)
-                            self.setCursor(s)
-                else:
-                    char = event.unicode
-                    if char != "" and (char == " " or not char.isspace()):
-                        s, e = self._sort(SELECTION, CURSOR)
-                        if self._validation_function(self.text[:s] + char + self.text[e:], self.text, self):
-                            self.delete(SELECTION, CURSOR)
-                            self.insert(s, char)
-                            self.setCursor(s + 1)
+                        char = event.unicode
+                        if char != "" and (char == " " or not char.isspace()):
+                            s, c = self._sort(SELECTION, CURSOR)
+                            if self.setText(self.text[:s] + char + self.text[c:], True):
+                                self.setCursor(s + 1)
             elif event.type == pygame.MOUSEMOTION:
                 if self.rect.collidepoint(event.pos) and event.buttons[0]:
                     self.setSelection(SELECTION, self._posToIndex(event.pos[0] - self.rect.x))
@@ -143,8 +101,6 @@ class Entry(SelectionTextWidget):
             selection.fill(self.selection_overlay)
             surface.blit(selection, (self._sort(cursor_pos, selection_pos, False)[0], (self.bounds.height - linesize) / 2))
         return surface
-
-    validation_function = property(lambda obj: obj.getValidation(), lambda obj, arg: obj.setValidation(arg), doc="""The widget's function used for validating input to its content.""")
 
 # inherit docs from superclass
 Entry = inherit_docstrings_from_superclass(Entry)

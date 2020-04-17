@@ -2,6 +2,7 @@
 # local imports
 from .text_widget import TextWidget
 from ..designs import getDefaultDesign, getFallbackDesign
+from ..util import inherit_docstrings_from_superclass
 
 
 # constants
@@ -29,7 +30,7 @@ class SelectionTextWidget(TextWidget):
     Underlying class for widgets using selectable content.
     """
 
-    def __init__(self, x, y, width, height, text="", font=getDefaultDesign().font, editable=False, selection_overlay=getDefaultDesign().selection_overlay):
+    def __init__(self, x, y, width, height, text="", font=getDefaultDesign().font, editable=False, validation_function=(lambda *x: True), selection_overlay=getDefaultDesign().selection_overlay):
         """
         Initialisation of a SelectionTextWidget.
 
@@ -47,16 +48,21 @@ class SelectionTextWidget(TextWidget):
                 The default value is the global default for fonts.
             editable: A boolean indicating whether the widget's content is editable by the user.
                 The default value is False, meaning it can not be edited by user-input.
+            validation_function: A function that validates changed content.
+                It will receive three arguments (the new content, the old content and the widget-object)
+                and should return a boolean indicating whether the change is valid (True when valid).
+                The old content can be None if it was not set before; the new content can be anything that is being passed to setText().
+                The default value is a function that accepts every change.
             selection_overlay: A color-like object that can be interpreted as a color by pygame (such as a tuple with RGB values);
                 this is used as an overlay for content that has been selected.
                 The default value is the global default for the selection-color.
         """
+        self.validation_function = validation_function
         super(SelectionTextWidget, self).__init__(x, y, width, height, text, font)
         self._cursor = 0
         self._selection_index = 0
         self.editable = editable
         self.selection_overlay = selection_overlay
-
 
     def setEditable(self, editable):
         """
@@ -80,6 +86,48 @@ class SelectionTextWidget(TextWidget):
         """
         return self._editable
 
+    def setValidation(self, validation_function):
+        """
+        Set the widget's validation-function.
+
+        Args:
+            validation_function: A function that validates changed content.
+                It will receive three arguments (the new content, the old content and the widget-object)
+                and should return a boolean indicating whether the change is valid (True when valid).
+                The old content can be None if it was not set before; the new content can be anything that is being passed to setText().
+
+        Returns:
+            Itsself (the widget) for convenience.
+        """
+        self._validation_function = validation_function
+        return self
+
+    def getValidation(self):
+        """
+        Return the widget's validation-function.
+
+        Returns:
+            A function that validates changed content.
+            It will receive three arguments (the new content, the old content and the widget-object)
+            and should return a boolean indicating whether the change is valid (True when valid).
+            The old content can be None if it was not set before; the new content can be anything that is being passed to setText().
+        """
+        return self._validation_function
+
+    def setText(self, text, return_success_boolean=False):
+        """
+        Additionally validate the change of content.
+
+        inherit_docstring::
+        """
+        if self.validation_function and callable(self.validation_function) and self.validation_function(text, getattr(self, "text", None), self):
+            super(SelectionTextWidget, self).setText(text)
+            if return_success_boolean:
+                return True
+        if return_success_boolean:
+            return False
+        return self
+
     def insert(self, index, text):
         """
         Insert a given text at the given index.
@@ -87,9 +135,12 @@ class SelectionTextWidget(TextWidget):
         Args:
             index: An integer (or known constant) representing the position the text should be insterted at.
             text: A string specifing the content to add to the content of the widget.
+
+        Returns:
+            A boolean indicating whether the change was successful.
         """
         index = self.getActualIndex(index)
-        self.setText(self.text[:index] + text + self.text[index:])
+        return self.setText(self.text[:index] + text + self.text[index:], True)
 
     def delete(self, start, end):
         """
@@ -98,9 +149,12 @@ class SelectionTextWidget(TextWidget):
         Args:
             start: An integer representing the index from which the content should be deleted.
             end: An integer representing the index until which the content should be deleted.
+
+        Returns:
+            A boolean indicating whether the change was successful.
         """
         start, end = self._sort(start, end)
-        self.setText(self.text[:start] + self.text[end:])
+        return self.setText(self.text[:start] + self.text[end:], True)
 
     def setSelectionOverlay(self, color):
         """
@@ -310,7 +364,11 @@ class SelectionTextWidget(TextWidget):
         return i, j
 
     editable = property(lambda obj: obj.isEditable(), lambda obj, arg: obj.setEditable(arg), doc="""The widget' status as a boolean whether its content is editable by the user.""")
+    validation_function = property(lambda obj: obj.getValidation(), lambda obj, arg: obj.setValidation(arg), doc="""The widget's function used for validating input to its content.""")
     selection_overlay = property(lambda obj: obj.getSelectionOverlay(), lambda obj, arg: obj.setSelectionOverlay(arg), doc="""The widget's color to overlay for content that has been selected.""")
     selection_index = property(lambda obj: obj.getSelectionIndex(), lambda obj, arg: obj.setSelectionIndex(arg), doc="""The widget's index representing an endpoint for the range of selected content.""")
     cursor = property(lambda obj: obj.getCursor(), lambda obj, arg: obj.setCursor(arg), doc="""The widget's position of the cursor as a index. This is another endpoint for the range of selected content.""")
     selection = property(lambda obj: obj.getSelection(), lambda obj, tuple: obj.setSelection(*tuple), doc="""The widget's indices spanning the range of selected content.""")
+
+# inherit docs from superclass
+SelectionTextWidget = inherit_docstrings_from_superclass(SelectionTextWidget)
