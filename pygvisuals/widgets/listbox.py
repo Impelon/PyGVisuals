@@ -148,7 +148,7 @@ class Listbox(SelectionTextWidget):
         Instead of the x-coordinate from the base implementation,
         this uses the y-coordinate.
 
-        inherit_docstring::
+        inherit_doc::
         """
         return self.font.get_linesize() * (index - self._viewpoint)
 
@@ -157,15 +157,15 @@ class Listbox(SelectionTextWidget):
         Instead of the x-coordinate from the base implementation,
         this uses the y-coordinate.
 
-        inherit_docstring::
+        inherit_doc::
         """
         return (y / self.font.get_linesize()) + self._viewpoint
 
     def update(self, *args):
         """
-        Handles the selection of content.
+        Additionally handles the selection of content and keyboard-input.
 
-        inherit_docstring::
+        inherit_doc::
         """
         if len(args) > 0 and self.isActive() and self.isFocused():
             event = args[0]
@@ -199,9 +199,9 @@ class Listbox(SelectionTextWidget):
 
     def _getAppearance(self, *args):
         """
-        Renders the listbox's list and selection.
+        Additionally renders the listbox's list and selection.
 
-        inherit_docstring::
+        inherit_doc::
         """
         surface = super(Listbox, self)._getAppearance(*args)
         linesize = self.font.get_linesize()

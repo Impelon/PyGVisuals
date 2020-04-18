@@ -118,7 +118,7 @@ class SelectionTextWidget(TextWidget):
         """
         Additionally validate the change of content.
 
-        inherit_docstring::
+        inherit_doc::
         """
         if self.validation_function and callable(self.validation_function) and self.validation_function(text, getattr(self, "text", None), self):
             super(SelectionTextWidget, self).setText(text)

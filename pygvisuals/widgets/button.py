@@ -138,9 +138,9 @@ class Button(Label):
 
     def update(self, *args):
         """
-        Handles the clicking of the Button and calls the callback-function.
+        Additionally handles the clicking of the button and calls the callback-function.
 
-        inherit_docstring::
+        inherit_doc::
         """
         if self._state:
             if self._state >= 2:
@@ -172,6 +172,11 @@ class Button(Label):
         super(Button, self).update(*args)
 
     def _getAppearance(self, *args):
+        """
+        Additionally fills the surface with the appropriate overlay.
+        
+        inherit_doc::
+        """
         surface = super(Button, self)._getAppearance(*args)
         if self.pressed or self.hovered:
             overlay = pygame.Surface(self.bounds.size, pygame.SRCALPHA)

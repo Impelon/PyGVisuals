@@ -31,9 +31,9 @@ class Label(TextWidget):
 
     def _getAppearance(self, *args):
         """
-        Blits the label's text to the underlying surface and returns the result.
+        Additionally blits the label's text to the underlying surface and returns the result.
 
-        inherit_docstring::
+        inherit_doc::
         """
         surface = super(Label, self)._getAppearance(*args)
         center = surface.get_rect().center

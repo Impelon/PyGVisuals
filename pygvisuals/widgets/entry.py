@@ -44,9 +44,9 @@ class Entry(SelectionTextWidget):
 
     def update(self, *args):
         """
-        Handles the selection of content and keyboard-input.
+        Additionally handles the selection of content and keyboard-input.
 
-        inherit_docstring::
+        inherit_doc::
         """
         if len(args) > 0 and self.isActive() and self.isFocused():
             event = args[0]
@@ -84,9 +84,9 @@ class Entry(SelectionTextWidget):
 
     def _getAppearance(self, *args):
         """
-        Renders the entry's text, cursor and selection.
+        Additionally renders the entry's text, cursor and selection.
 
-        inherit_docstring::
+        inherit_doc::
         """
         surface = super(Entry, self)._getAppearance(*args)
         linesize = self.font.get_linesize()
