@@ -216,6 +216,7 @@ class Listbox(SelectionTextWidget):
         return surface
 
     list = property(getList, setList)
+    viewpoint = property(getViewpoint, setViewpoint)
 
 # inherit docs from superclass
 Listbox = inherit_docstrings_from_superclass(Listbox)

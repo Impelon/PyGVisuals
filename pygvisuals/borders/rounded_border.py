@@ -47,6 +47,8 @@ class RoundedBorder(ColoredBorder):
         """
         Draw a rectangle with rounded corners and return the result.
 
+        This is an internal function.
+
         Args:
             rect: A rect-like object (e.g. pygame.Rect)
                 denoting the bounds of the rectangle to be drawn.
