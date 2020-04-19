@@ -354,18 +354,12 @@ class SelectionTextWidget(TextWidget):
             return j, i
         return i, j
 
-    editable = property(lambda obj: obj.isEditable(), lambda obj, arg: obj.setEditable(
-        arg), doc="""The widget' status as a boolean whether its content is editable by the user.""")
-    validation_function = property(lambda obj: obj.getValidation(), lambda obj, arg: obj.setValidation(arg),
-                                   doc="""The widget's function used for validating input to its content.""")
-    selection_overlay = property(lambda obj: obj.getSelectionOverlay(), lambda obj, arg: obj.setSelectionOverlay(arg),
-                                 doc="""The widget's color to overlay for content that has been selected.""")
-    selection_index = property(lambda obj: obj.getSelectionIndex(), lambda obj, arg: obj.setSelectionIndex(
-        arg), doc="""The widget's index representing an endpoint for the range of selected content.""")
-    cursor = property(lambda obj: obj.getCursor(), lambda obj, arg: obj.setCursor(
-        arg), doc="""The widget's position of the cursor as a index. This is another endpoint for the range of selected content.""")
-    selection = property(lambda obj: obj.getSelection(), lambda obj, tuple: obj.setSelection(
-        *tuple), doc="""The widget's indices spanning the range of selected content.""")
+    editable = property(lambda obj: obj.isEditable(), lambda obj, arg: obj.setEditable(arg), doc="""The widget' status as a boolean whether its content is editable by the user.""")
+    validation_function = property(lambda obj: obj.getValidation(), lambda obj, arg: obj.setValidation(arg), doc="""The widget's function used for validating input to its content.""")
+    selection_overlay = property(lambda obj: obj.getSelectionOverlay(), lambda obj, arg: obj.setSelectionOverlay(arg), doc="""The widget's color to overlay for content that has been selected.""")
+    selection_index = property(lambda obj: obj.getSelectionIndex(), lambda obj, arg: obj.setSelectionIndex(arg), doc="""The widget's index representing an endpoint for the range of selected content.""")
+    cursor = property(lambda obj: obj.getCursor(), lambda obj, arg: obj.setCursor(arg), doc="""The widget's position of the cursor as a index. This is another endpoint for the range of selected content.""")
+    selection = property(lambda obj: obj.getSelection(), lambda obj, tuple: obj.setSelection(*tuple), doc="""The widget's indices spanning the range of selected content.""")
 
 
 # inherit docs from superclass
