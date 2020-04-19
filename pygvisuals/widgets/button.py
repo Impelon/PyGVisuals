@@ -25,17 +25,7 @@ class Button(Label):
         Initialisation of a Button.
 
         Args:
-            x: An integer specifing the x-coordinate of the widget.
-                This is the horizontal distance from the left reference point.
-            y: An integer specifing the y-coordinate of the widget.
-                This is the vertical distance from the top reference point.
-            width: An integer specifing the width of the widget.
-            height: An integer specifing the height of the widget.
-            text: A string specifing the content of the widget.
-                The default value is an empty string.
-            font: A font-like object that can be interpreted by pygame.font as a Font;
-                this is used as the font for rendering text.
-                The default value is the global default for fonts.
+            inherit_doc:: arguments
             callback: A callable object to be called when the button is pressed.
                 There are no arguments passed and the return value will be ignored.
                 If this is a falsy value, no function will be called when the button is pressed;
@@ -174,7 +164,7 @@ class Button(Label):
     def _getAppearance(self, *args):
         """
         Additionally fills the surface with the appropriate overlay.
-        
+
         inherit_doc::
         """
         surface = super(Button, self)._getAppearance(*args)

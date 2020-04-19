@@ -20,14 +20,7 @@ class RoundedBorder(ColoredBorder):
         https://github.com/pygame/pygame/issues/1120
 
         Args:
-            width: The width of the border.
-                This can either be an integer for the width of both the left and right side
-                or a tuple for each side specifically (left, right).
-            height: The height of the border.
-                This can either be an integer for the height of both the top and bottom side
-                or a tuple for each side specifically (top, bottom).
-            color: A color-like object that can be interpreted as a color by pygame (such as a tuple with RGB values).
-                This will be used as the color for the border.
+            inherit_doc:: arguments
             radius: An integer denoting the radius in pixels of the circles on the corners of the RoundedBorder.
             surface_above_border: A boolean controling whether the border will be drawn behind the surface
                 or on top of it. The default value is False, meaning the border will be drawn on top of the surface.

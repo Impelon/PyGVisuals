@@ -15,12 +15,7 @@ class BevelBorder(Border):
         Initialisation of a BevelBorder.
 
         Args:
-            width: The width of the border.
-                This can either be an integer for the width of both the left and right side
-                or a tuple for each side specifically (left, right).
-            height: The height of the border.
-                This can either be an integer for the height of both the top and bottom side
-                or a tuple for each side specifically (top, bottom).
+            inherit_doc:: arguments
             upper: A color-like object that can be interpreted as a color by pygame (such as a tuple with RGB values).
                 This will be used as the color for the upper side of the border.
             lower: A color-like object that can be interpreted as a color by pygame (such as a tuple with RGB values).

@@ -23,25 +23,7 @@ class Listbox(SelectionTextWidget):
         Initialisation of an Listbox.
 
         Args:
-            x: An integer specifing the x-coordinate of the widget.
-                This is the horizontal distance from the left reference point.
-            y: An integer specifing the y-coordinate of the widget.
-                This is the vertical distance from the top reference point.
-            width: An integer specifing the width of the widget.
-            height: An integer specifing the height of the widget.
-            font: A font-like object that can be interpreted by pygame.font as a Font;
-                this is used as the font for rendering text.
-                The default value is the global default for fonts.
-            editable: A boolean indicating whether the widget's content is editable by the user.
-                The default value is False, meaning it can not be edited by user-input.
-            validation_function: A function that validates changed content.
-                It will receive three arguments (the new content, the old content and the widget-object)
-                and should return a boolean indicating whether the change is valid (True when valid).
-                The old content can be None if it was not set before; the new content can be anything that is being passed to setText().
-                The default value is a function that accepts every change.
-            selection_overlay: A color-like object that can be interpreted as a color by pygame (such as a tuple with RGB values);
-                this is used as an overlay for content that has been selected.
-                The default value is the global default for the selection-color.
+            inherit_doc:: arguments
         """
         super(Listbox, self).__init__(x, y, width, height, "", font, editable, validation_function, selection_overlay)
         self._list = []

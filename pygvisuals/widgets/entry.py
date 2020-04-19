@@ -7,13 +7,14 @@ from .selection_text_widget import *
 from ..designs import getDefaultDesign
 from ..util import inherit_docstrings_from_superclass
 
+
 class Entry(SelectionTextWidget):
 
     """
     Entry-fields that accept keyboard-input.
     """
 
-    def __init__(self, x, y, width, height, text = "", font = getDefaultDesign().font, editable=True, validation_function=(lambda *x: True), selection_overlay=getDefaultDesign().selection_overlay):
+    def __init__(self, x, y, width, height, text="", font=getDefaultDesign().font, editable=True, validation_function=(lambda *x: True), selection_overlay=getDefaultDesign().selection_overlay):
         """
         Initialisation of an Entry.
 
@@ -101,6 +102,7 @@ class Entry(SelectionTextWidget):
             selection.fill(self.selection_overlay)
             surface.blit(selection, (self._sort(cursor_pos, selection_pos, False)[0], (self.bounds.height - linesize) / 2))
         return surface
+
 
 # inherit docs from superclass
 Entry = inherit_docstrings_from_superclass(Entry)

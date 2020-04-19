@@ -6,6 +6,7 @@ import pygame.font as fnt
 # local imports
 from .widget import Widget
 from ..designs import getDefaultDesign, getFallbackDesign
+from ..util import inherit_docstrings_from_superclass
 
 fnt.init()
 
@@ -25,12 +26,7 @@ class TextWidget(Widget):
         Initialisation of a TextWidget.
 
         Args:
-            x: An integer specifing the x-coordinate of the widget.
-                This is the horizontal distance from the left reference point.
-            y: An integer specifing the y-coordinate of the widget.
-                This is the vertical distance from the top reference point.
-            width: An integer specifing the width of the widget.
-            height: An integer specifing the height of the widget.
+            inherit_doc:: arguments
             text: A string specifing the content of the widget.
                 The default value is an empty string.
             font: A font-like object that can be interpreted by pygame.font as a Font;
@@ -143,3 +139,7 @@ class TextWidget(Widget):
     font = property(lambda obj: obj.getFont(), lambda obj, arg: obj.setFont(arg), doc="""The widget's font used when rendering text.""")
     antialiased = property(lambda obj: obj.isAntialiasing(), lambda obj, arg: obj.setAntialiasing(arg), doc="The widget' status as a boolean "
                            "regarding whether antialiasing is used when rendering text.")
+
+
+# inherit docs from superclass
+TextWidget = inherit_docstrings_from_superclass(TextWidget)

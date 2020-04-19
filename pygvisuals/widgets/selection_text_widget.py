@@ -35,23 +35,14 @@ class SelectionTextWidget(TextWidget):
         Initialisation of a SelectionTextWidget.
 
         Args:
-            x: An integer specifing the x-coordinate of the widget.
-                This is the horizontal distance from the left reference point.
-            y: An integer specifing the y-coordinate of the widget.
-                This is the vertical distance from the top reference point.
-            width: An integer specifing the width of the widget.
-            height: An integer specifing the height of the widget.
-            text: A string specifing the content of the widget.
-                The default value is an empty string.
-            font: A font-like object that can be interpreted by pygame.font as a Font;
-                this is used as the font for rendering text.
-                The default value is the global default for fonts.
+            inherit_doc:: arguments
             editable: A boolean indicating whether the widget's content is editable by the user.
                 The default value is False, meaning it can not be edited by user-input.
             validation_function: A function that validates changed content.
                 It will receive three arguments (the new content, the old content and the widget-object)
                 and should return a boolean indicating whether the change is valid (True when valid).
-                The old content can be None if it was not set before; the new content can be anything that is being passed to setText().
+                The old content can be None if it was not set before;
+                the new content can be anything that is being passed to setText().
                 The default value is a function that accepts every change.
             selection_overlay: A color-like object that can be interpreted as a color by pygame (such as a tuple with RGB values);
                 this is used as an overlay for content that has been selected.
@@ -326,8 +317,8 @@ class SelectionTextWidget(TextWidget):
             An integer representing the index corresponding to the given relative x-coordinate.
         """
         length = len(self.text)
-        x = min(float(x), (self.font.size(self.text[:-1])[0] +
-                           self.font.size(self.text[-1:])[0] * 1.5))
+        x = min(float(x), (self.font.size(self.text[:-1])[0]
+                           + self.font.size(self.text[-1:])[0] * 1.5))
         index = 0
         n = 0
         if self.text:
@@ -363,12 +354,19 @@ class SelectionTextWidget(TextWidget):
             return j, i
         return i, j
 
-    editable = property(lambda obj: obj.isEditable(), lambda obj, arg: obj.setEditable(arg), doc="""The widget' status as a boolean whether its content is editable by the user.""")
-    validation_function = property(lambda obj: obj.getValidation(), lambda obj, arg: obj.setValidation(arg), doc="""The widget's function used for validating input to its content.""")
-    selection_overlay = property(lambda obj: obj.getSelectionOverlay(), lambda obj, arg: obj.setSelectionOverlay(arg), doc="""The widget's color to overlay for content that has been selected.""")
-    selection_index = property(lambda obj: obj.getSelectionIndex(), lambda obj, arg: obj.setSelectionIndex(arg), doc="""The widget's index representing an endpoint for the range of selected content.""")
-    cursor = property(lambda obj: obj.getCursor(), lambda obj, arg: obj.setCursor(arg), doc="""The widget's position of the cursor as a index. This is another endpoint for the range of selected content.""")
-    selection = property(lambda obj: obj.getSelection(), lambda obj, tuple: obj.setSelection(*tuple), doc="""The widget's indices spanning the range of selected content.""")
+    editable = property(lambda obj: obj.isEditable(), lambda obj, arg: obj.setEditable(
+        arg), doc="""The widget' status as a boolean whether its content is editable by the user.""")
+    validation_function = property(lambda obj: obj.getValidation(), lambda obj, arg: obj.setValidation(arg),
+                                   doc="""The widget's function used for validating input to its content.""")
+    selection_overlay = property(lambda obj: obj.getSelectionOverlay(), lambda obj, arg: obj.setSelectionOverlay(arg),
+                                 doc="""The widget's color to overlay for content that has been selected.""")
+    selection_index = property(lambda obj: obj.getSelectionIndex(), lambda obj, arg: obj.setSelectionIndex(
+        arg), doc="""The widget's index representing an endpoint for the range of selected content.""")
+    cursor = property(lambda obj: obj.getCursor(), lambda obj, arg: obj.setCursor(
+        arg), doc="""The widget's position of the cursor as a index. This is another endpoint for the range of selected content.""")
+    selection = property(lambda obj: obj.getSelection(), lambda obj, tuple: obj.setSelection(
+        *tuple), doc="""The widget's indices spanning the range of selected content.""")
+
 
 # inherit docs from superclass
 SelectionTextWidget = inherit_docstrings_from_superclass(SelectionTextWidget)
