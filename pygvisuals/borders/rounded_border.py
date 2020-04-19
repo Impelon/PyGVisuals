@@ -37,7 +37,7 @@ class RoundedBorder(ColoredBorder):
         self.remove_background_after_draw = surface_above_border
         self.draw_surface_above_border = surface_above_border
 
-    def _drawBorder(self, surface, original_rect, bordered_rect):
+    def _drawBorder(self, surface, original_rect, bordered_rect, *args):
         surface.blit(self._getRoundRect(bordered_rect, self.color), (0, 0))
         if not self.remove_background_after_draw:
             surface.blit(self._getRoundRect(original_rect, (255, 255, 255, 255)), (self.left, self.top), special_flags=pygame.BLEND_RGBA_SUB)

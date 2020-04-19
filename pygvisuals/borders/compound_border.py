@@ -23,10 +23,10 @@ class CompoundBorder(Border):
         self.inner = inner
         self.outer = outer
 
-    def getBorderedImage(self, surface):
+    def getBorderedImage(self, surface, *args):
         try:
             if not self.isEmptyBorder():
-                return self.outer.getBorderedImage(self.inner.getBorderedImage(surface))
+                return self.outer.getBorderedImage(self.inner.getBorderedImage(surface, *args), *args)
         except:
             pass
         return surface

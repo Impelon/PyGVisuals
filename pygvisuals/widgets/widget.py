@@ -430,7 +430,7 @@ class Widget(pygame.sprite.DirtySprite):
         used for interaction in more advanced widget-classes.
 
         Args:
-            *args: Any argument needed for the update. This can include an optional pygame.event.Event to process.
+            *args: Any arguments provided for the update. This can include an optional pygame.event.Event to process.
         """
         if self.isActive() and len(args) > 0:
             event = args[0]
@@ -443,7 +443,7 @@ class Widget(pygame.sprite.DirtySprite):
                 inactive = pygame.Surface(self.image.get_rect().size, 0, self.image)
                 inactive.fill(self.disabeled_overlay)
                 self.image.blit(inactive, (0, 0))
-            self.image = self.border.getBorderedImage(self.image)
+            self.image = self.border.getBorderedImage(self.image, *args)
 
     def _updateRect(self, *args):
         """
@@ -451,7 +451,7 @@ class Widget(pygame.sprite.DirtySprite):
         This is an internal function.
 
         Args:
-            *args: Any argument needed for the update. This can include an optional pygame.event.Event to process.
+            *args: Any arguments provided for the update. This can include an optional pygame.event.Event to process.
         """
         self._rect = self.border.getBounds(self.bounds)
 
@@ -464,7 +464,7 @@ class Widget(pygame.sprite.DirtySprite):
         This includes a basic implementation of background-coloring and display of background-image.
 
         Args:
-            *args: Any argument needed for the update. This can include an optional pygame.event.Event to process.
+            *args: Any arguments provided for the update. This can include an optional pygame.event.Event to process.
 
         Returns:
             The underlying widget's appearance as a pygame.Surface.

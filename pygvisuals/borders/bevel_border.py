@@ -34,7 +34,7 @@ class BevelBorder(Border):
         self.lower = lower
         self.lower_has_left_side = lower_has_left_side
 
-    def _drawBorder(self, surface, original_rect, bordered_rect):
+    def _drawBorder(self, surface, original_rect, bordered_rect, *args):
         surface.fill(self.upper)
         lower_rect = bordered_rect.move(self.right + self.left, self.right + self.top)
         if self.lower_has_left_side:

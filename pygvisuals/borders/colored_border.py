@@ -27,7 +27,7 @@ class ColoredBorder(Border):
         super(ColoredBorder, self).__init__(width, height)
         self.color = color
 
-    def _drawBorder(self, surface, original_rect, bordered_rect):
+    def _drawBorder(self, surface, original_rect, bordered_rect, *args):
         surface.fill(self.color)
         return surface
 

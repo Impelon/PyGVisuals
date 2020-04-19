@@ -20,14 +20,15 @@ class DecayedBorder(Border):
         super(DecayedBorder, self).__init__((border.left, border.right), (border.top, border.bottom))
         self.border = border
 
-    def getBorderedImage(self, surface):
+    def getBorderedImage(self, surface, *args):
         try:
             if not self.isEmptyBorder():
-                return self.border.getBorderedImage(surface)
+                # decay border-image
+                return self.border.getBorderedImage(surface, *args)
         except:
             pass
         return surface
 
 
 # inherit docs from superclass
-CompoundBorder = inherit_docstrings_from_superclass(CompoundBorder)
+DecayedBorder = inherit_docstrings_from_superclass(DecayedBorder)
