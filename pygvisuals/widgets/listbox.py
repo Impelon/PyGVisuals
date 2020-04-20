@@ -31,39 +31,40 @@ class Listbox(SelectionTextWidget):
 
     def setViewpoint(self, index):
         """
-        Set the Listbox's viewpoint
+        Set the widget's viewpoint-position.
 
-        parameters:     int the index the viewpoint should be set to
-        return values:  -
+        Args:
+            index: An integer (or known constant) representing the index the viewpoint should be set to.
+
+        Returns:
+            Itsself (the widget) for convenience.
         """
         self._viewpoint = self.getActualIndex(index)
         self.markDirty()
-
-    def getViewpoint(self):
-        """
-        Return the Listbox's viewpoint
-
-        parameters:     -
-        return values:  int the Listbox's viewpoint
-        """
-        return self._viewpoint
+        return self
 
     def moveViewpoint(self, index):
         """
-        Move the Listbox's cursor-position by the given amount
+        Move the widget's viewpoint-position by the given amount.
 
-        parameters:     int the amount the viewpoint should be moved by
-        return values:  -
+        Args:
+            amount: An integer representing the amount the viewpoint should be moved by.
+
+        Returns:
+            Itsself (the widget) for convenience.
         """
-        self.setViewpoint(self.viewpoint + int(index))
+        return self.setViewpoint(self.viewpoint + int(index))
+
+    def getViewpoint(self):
+        """
+        Return the widget's viewpoint-position.
+
+        Returns:
+            An integer representing the index the viewpoint is at.
+        """
+        return self._viewpoint
 
     def setCursor(self, index):
-        """
-        Set the Listbox's cursor-position
-
-        parameters:     int the index the cursor should be set to
-        return values:  -
-        """
         if self._indexToPos(index)[1] < 0:
             self.setViewpoint(index)
         elif self._indexToPos(index)[1] > self.rect.h:
@@ -72,39 +73,35 @@ class Listbox(SelectionTextWidget):
 
     def setText(self, text):
         """
-        Set the Listbox's text; any given text will be ignored; use insert or delete instead
+        Set the listbox's text; any given text will be ignored; use insert or delete instead.
 
-        parameters:     string the text to be set
-        return values:  Listbox Listbox returned for convenience
+        inherit_doc::
         """
         return self
 
     def getText(self):
-        """
-        Return the Listbox's text
+        return "\n".join(map(str, self.list))
 
-        parameters:     -
-        return values:  string the Listbox's text
+    def setList(self, list):
         """
-        return "\n".join(map(str, self.list))#str(self._list)[1:-1]
+        Set the widget' list-representation of its content.
 
-    def setList(self, l):
-        """
-        Set the Listbox's list
+        Args:
+            list: A list with the content to set.
 
-        parameters:     list the list to be set
-        return values:  Listbox Listbox returned for convenience
+        Returns:
+            Itsself (the widget) for convenience.
         """
-        self._list = l
+        self._list = list
         self.markDirty()
         return self
 
     def getList(self):
         """
-        Get the Listbox's list
+        Return the widget' list-representation of its content.
 
-        parameters:     -
-        return values:  list the Listbox's list
+        Returns:
+            A list representing the content of the widget.
         """
         return self._list
 
@@ -170,8 +167,8 @@ class Listbox(SelectionTextWidget):
                 surface.blit(selection, (0, linesize * (n - self._viewpoint)))
         return surface
 
-    list = property(getList, setList)
-    viewpoint = property(getViewpoint, setViewpoint)
+    list = property(getList, setList, doc="""The widget' list-representation of its content.""")
+    viewpoint = property(getViewpoint, setViewpoint, doc="""The widget's position of the viewpoint as a index. This is the first currently visible index.""")
 
 # inherit docs from superclass
 Listbox = inherit_docstrings_from_superclass(Listbox)
