@@ -59,7 +59,12 @@ class Entry(SelectionTextWidget):
                 elif self.isEditable():
                     if event.key not in (pygame.K_BACKSPACE, pygame.K_DELETE):
                         char = event.unicode
-                        if char and char.isprintable():
+                        valid = False
+                        if hasattr(char, "isprintable"):
+                            valid = char.isprintable()
+                        elif char == " " or not char.isspace():
+                            valid = True
+                        if char and valid:
                             s, c = self._sort(SELECTION, CURSOR)
                             if self.setText(self.text[:s] + char + self.text[c:], True):
                                 self.setCursor(s + 1)
@@ -74,7 +79,7 @@ class Entry(SelectionTextWidget):
         """
         surface = super(Entry, self)._getAppearance(*args)
         linesize = self.font.get_linesize()
-        surface.blit(self._render(str(self.text)), (0, (self.bounds.height - linesize) / 2))
+        surface.blit(self._render(self.text), (0, (self.bounds.height - linesize) / 2))
         if self.isFocused():
             cursor_pos = self._indexToPos(CURSOR)[0]
             selection_pos = self._indexToPos(SELECTION)[0]

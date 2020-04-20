@@ -59,7 +59,7 @@ print("Choose an example to execute with its index! (type 'exit' to exit)")
 
 index = None
 while index == None:
-    userinput = input("index: ")
+    userinput = str(input("index: "))
     if userinput.lower() == "exit":
         sys.exit()
         break
@@ -73,7 +73,10 @@ while index == None:
         index = None
 print("Executing:", examples[index])
 
-import importlib.util
-spec = importlib.util.spec_from_file_location(os.path.split(examples[index])[1], examples[index])
-module = importlib.util.module_from_spec(spec)
-spec.loader.exec_module(module)
+try:
+    import importlib.util
+    spec = importlib.util.spec_from_file_location(os.path.split(examples[index])[1], examples[index])
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+except Exception as ex:
+    __import__(examples[index].replace(os.sep, "."))

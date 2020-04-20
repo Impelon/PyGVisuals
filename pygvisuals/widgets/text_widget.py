@@ -48,7 +48,7 @@ class TextWidget(Widget):
         Returns:
             Itsself (the widget) for convenience.
         """
-        self._text = str(text)
+        self._text = text
         self.markDirty()
         return self
 
