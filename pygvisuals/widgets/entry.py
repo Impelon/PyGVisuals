@@ -45,7 +45,7 @@ class Entry(SelectionTextWidget):
 
     def update(self, *args):
         """
-        Additionally handles the selection of content and keyboard-input.
+        Additionally handles keyboard-input.
 
         inherit_doc::
         """
@@ -57,29 +57,12 @@ class Entry(SelectionTextWidget):
                 elif event.key == pygame.K_RIGHT:
                     self.moveCursor(1)
                 elif self.isEditable():
-                    if event.key in (pygame.K_BACKSPACE, pygame.K_DELETE):
-                        if self.selection_index == self.cursor:
-                            if event.key == pygame.K_DELETE:
-                                self.delete(self.selection_index + 1, CURSOR)
-                            else:
-                                if self.delete(self.selection_index - 1, CURSOR):
-                                    self.moveCursor(-1)
-                        else:
-                            s, c = self._sort(SELECTION, CURSOR)
-                            if self.delete(s, c):
-                                self.setCursor(s)
-                    else:
+                    if event.key not in (pygame.K_BACKSPACE, pygame.K_DELETE):
                         char = event.unicode
-                        if char != "" and (char == " " or not char.isspace()):
+                        if char and char.isprintable():
                             s, c = self._sort(SELECTION, CURSOR)
                             if self.setText(self.text[:s] + char + self.text[c:], True):
                                 self.setCursor(s + 1)
-            elif event.type == pygame.MOUSEMOTION:
-                if self.rect.collidepoint(event.pos) and event.buttons[0]:
-                    self.setSelection(SELECTION, self._posToIndex(event.pos[0] - self.rect.x))
-            elif event.type == pygame.MOUSEBUTTONDOWN:
-                if self.rect.collidepoint(event.pos) and event.button != 2:
-                    self.setCursor(self._posToIndex(event.pos[0] - self.rect.x))
 
         super(Entry, self).update(*args)
 
@@ -93,8 +76,8 @@ class Entry(SelectionTextWidget):
         linesize = self.font.get_linesize()
         surface.blit(self._render(str(self.text)), (0, (self.bounds.height - linesize) / 2))
         if self.isFocused():
-            cursor_pos = self._indexToPos(CURSOR)
-            selection_pos = self._indexToPos(SELECTION)
+            cursor_pos = self._indexToPos(CURSOR)[0]
+            selection_pos = self._indexToPos(SELECTION)[0]
             cursor = pygame.Surface((2, linesize))
             cursor.fill(self.foreground)
             surface.blit(cursor, (cursor_pos, (self.bounds.height - linesize) / 2))

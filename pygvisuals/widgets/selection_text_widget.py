@@ -1,4 +1,7 @@
 # --- imports
+# pygame imports
+import pygame
+
 # local imports
 from .text_widget import TextWidget
 from ..designs import getDefaultDesign, getFallbackDesign
@@ -292,7 +295,7 @@ class SelectionTextWidget(TextWidget):
 
     def _indexToPos(self, index):
         """
-        Return the relative x-coordinate corresponding to the given index.
+        Return the relative coordinate (x, y) corresponding to the given index.
 
         This is an internal function.
 
@@ -300,21 +303,22 @@ class SelectionTextWidget(TextWidget):
             index: An integer (or known constant) to be converted.
 
         Returns:
-            An integer representing a relative x-coordinate.
+            A pair of integers (x, y) representing a relative coordinate.
         """
-        return self.font.size(self.text[:self.getActualIndex(index)])[0]
+        return self.font.size(self.text[:self.getActualIndex(index)])[0], 0
 
-    def _posToIndex(self, x):
+    def _posToIndex(self, x, y):
         """
-        Return the index corresponding to the given relative x-coordinate.
+        Return the index corresponding to the given relative coordinate (x, y).
 
         This is an internal function.
 
         Args:
             x: An integer representing a relative x-coordinate.
+            y: An integer representing a relative y-coordinate.
 
         Returns:
-            An integer representing the index corresponding to the given relative x-coordinate.
+            An integer representing the index corresponding to the given relative coordinate.
         """
         length = len(self.text)
         x = min(float(x), (self.font.size(self.text[:-1])[0]
@@ -354,8 +358,37 @@ class SelectionTextWidget(TextWidget):
             return j, i
         return i, j
 
+    def update(self, *args):
+        """
+        Additionally handles the selection and deletion of content.
+
+        inherit_doc::
+        """
+        if len(args) > 0 and self.isActive() and self.isFocused():
+            event = args[0]
+            if event.type == pygame.KEYDOWN and self.isEditable():
+                if event.key in (pygame.K_BACKSPACE, pygame.K_DELETE):
+                    if self.selection_index == self.cursor:
+                        if event.key == pygame.K_DELETE:
+                            self.delete(self.selection_index + 1, CURSOR)
+                        else:
+                            if self.delete(self.selection_index - 1, CURSOR):
+                                self.moveCursor(-1)
+                    else:
+                        s, c = self._sort(SELECTION, CURSOR)
+                        if self.delete(s, c):
+                            self.setCursor(s)
+            elif event.type == pygame.MOUSEMOTION:
+                if (event.buttons[0] or event.buttons[2]) and self.rect.collidepoint(event.pos):
+                    self.setSelection(SELECTION, self._posToIndex(event.pos[0] - self.rect.x, event.pos[1] - self.rect.y))
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                if event.button in (1, 3) and self.rect.collidepoint(event.pos):
+                    self.setCursor(self._posToIndex(event.pos[0] - self.rect.x, event.pos[1] - self.rect.y))
+
+        super(SelectionTextWidget, self).update(*args)
+
     editable = property(lambda obj: obj.isEditable(), lambda obj, arg: obj.setEditable(arg), doc="""The widget' status as a boolean whether its content is editable by the user.""")
-    validation_function = property(lambda obj: obj.getValidation(), lambda obj, arg: obj.setValidation(arg), doc="""The widget's function used for validating input to its content.""")
+    validation_function = property(lambda obj: obj.getValidation(), lambda obj, arg: obj.setValidation(arg), doc="""The widget's function used for validating change of its content.""")
     selection_overlay = property(lambda obj: obj.getSelectionOverlay(), lambda obj, arg: obj.setSelectionOverlay(arg), doc="""The widget's color to overlay for content that has been selected.""")
     selection_index = property(lambda obj: obj.getSelectionIndex(), lambda obj, arg: obj.setSelectionIndex(arg), doc="""The widget's index representing an endpoint for the range of selected content.""")
     cursor = property(lambda obj: obj.getCursor(), lambda obj, arg: obj.setCursor(arg), doc="""The widget's position of the cursor as a index. This is another endpoint for the range of selected content.""")

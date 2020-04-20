@@ -64,9 +64,9 @@ class Listbox(SelectionTextWidget):
         parameters:     int the index the cursor should be set to
         return values:  -
         """
-        if self._indexToPos(index) < 0:
+        if self._indexToPos(index)[1] < 0:
             self.setViewpoint(index)
-        elif self._indexToPos(index) > self.rect.h:
+        elif self._indexToPos(index)[1] > self.rect.h:
             self.setViewpoint(index - (self.rect.h / self.font.get_linesize()))
         return super(Listbox, self).setCursor(index)
 
@@ -126,26 +126,14 @@ class Listbox(SelectionTextWidget):
         return super(Listbox, self).getActualIndex(index, constrain)
 
     def _indexToPos(self, index):
-        """
-        Instead of the x-coordinate from the base implementation,
-        this uses the y-coordinate.
+        return 0, self.font.get_linesize() * (index - self._viewpoint)
 
-        inherit_doc::
-        """
-        return self.font.get_linesize() * (index - self._viewpoint)
-
-    def _posToIndex(self, y):
-        """
-        Instead of the x-coordinate from the base implementation,
-        this uses the y-coordinate.
-
-        inherit_doc::
-        """
+    def _posToIndex(self, x, y):
         return (y / self.font.get_linesize()) + self._viewpoint
 
     def update(self, *args):
         """
-        Additionally handles the selection of content and keyboard-input.
+        Additionally handles keyboard-input.
 
         inherit_doc::
         """
@@ -156,26 +144,11 @@ class Listbox(SelectionTextWidget):
                     self.moveCursor(-1)
                 elif event.key == pygame.K_DOWN:
                     self.moveCursor(1)
-                elif self.isEditable():
-                    if event.key in (pygame.K_BACKSPACE, pygame.K_DELETE):
-                        if self.selection_index == self.cursor:
-                            self.delete(self.selection_index - 1, self.cursor)
-                            self.moveCursor(-1)
-                        else:
-                            self.delete(self.selection_index, self.cursor)
-                            self.setCursor(self.selection_index)
             elif event.type == pygame.MOUSEBUTTONUP:
-                if event.button in (1, 3):
-                    if self.rect.collidepoint(event.pos):
-                        self.setSelection(CURSOR, self._posToIndex(event.pos[1] - self.rect.y))
-                elif event.button == 4 and self.isFocused():
+                if event.button == 4:
                     self.moveViewpoint(-1)
-                elif event.button == 5 and self.isFocused():
+                elif event.button == 5:
                     self.moveViewpoint(1)
-            elif event.type == pygame.MOUSEBUTTONDOWN:
-                if event.button in (1, 3):
-                    if self.rect.collidepoint(event.pos):
-                        self.setCursor(self._posToIndex(event.pos[1] - self.rect.y))
 
         super(Listbox, self).update(*args)
 
