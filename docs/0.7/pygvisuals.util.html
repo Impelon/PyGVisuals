@@ -1,0 +1,268 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>pygvisuals.util package &mdash; PyGVisuals  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/graphviz.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> PyGVisuals
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">pygvisuals.util package</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-pygvisuals.util.constants">pygvisuals.util.constants module</a></li>
+<li><a class="reference internal" href="#module-pygvisuals.util">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">PyGVisuals</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>pygvisuals.util package</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/pygvisuals.util.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="pygvisuals-util-package">
+<h1>pygvisuals.util package<a class="headerlink" href="#pygvisuals-util-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-pygvisuals.util.constants">
+<span id="pygvisuals-util-constants-module"></span><h2>pygvisuals.util.constants module<a class="headerlink" href="#module-pygvisuals.util.constants" title="Permalink to this headline">¶</a></h2>
+<p>A collection of all constants defined in PyGVisuals.</p>
+</div>
+<div class="section" id="module-pygvisuals.util">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-pygvisuals.util" title="Permalink to this headline">¶</a></h2>
+<p>Package for useful functionalities not belonging to any other cathegory.</p>
+<dl class="py function">
+<dt id="pygvisuals.util.inherit_docstrings_from_superclass">
+<code class="sig-prename descclassname">pygvisuals.util.</code><code class="sig-name descname">inherit_docstrings_from_superclass</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">cls</span></em>, <em class="sig-param"><span class="n">doc_inheritance_specifier</span><span class="o">=</span><span class="default_value">'inherit_doc::'</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pygvisuals/util.html#inherit_docstrings_from_superclass"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pygvisuals.util.inherit_docstrings_from_superclass" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add docstrings for methods of the class from its superclasses and return it.</p>
+<p>Every function from the given class without a __doc__-attribute or with
+a __doc__-attribute containing the given specifier will get a copy of
+a __doc__-attribute from a function with the same name from one of its superclasses.</p>
+<p>This can be used as a decorator.</p>
+<p>This function was taken and modified from the ‘Stack Overflow’ network.
+The original author is Raymond Hettinger.
+- original source: <a class="reference external" href="https://stackoverflow.com/a/8101598">https://stackoverflow.com/a/8101598</a></p>
+<blockquote>
+<div><p>answered by: Raymond Hettinger (<a class="reference external" href="https://stackoverflow.com/users/1001643/raymond-hettinger">https://stackoverflow.com/users/1001643/raymond-hettinger</a>)</p>
+</div></blockquote>
+<ul class="simple">
+<li><dl class="simple">
+<dt>original question: <a class="reference external" href="https://stackoverflow.com/q/8100166">https://stackoverflow.com/q/8100166</a></dt><dd><p>asked by: Fred Foo (<a class="reference external" href="https://stackoverflow.com/users/166749/fred-foo">https://stackoverflow.com/users/166749/fred-foo</a>)</p>
+</dd>
+</dl>
+</li>
+</ul>
+<p>The original is licensed under Creative Commons Attribution-Share Alike.
+This function, the functions it relies on included this file and
+its documentation are therefore licensed under the same license (Adapter’s License).
+You can find a copy of this license here: <a class="reference external" href="https://creativecommons.org/licenses/by-sa/4.0/legalcode">https://creativecommons.org/licenses/by-sa/4.0/legalcode</a>
+And a more readable summary here: <a class="reference external" href="https://creativecommons.org/licenses/by-sa/4.0/">https://creativecommons.org/licenses/by-sa/4.0/</a></p>
+<p>The doc_inheritance_specifier will be interpreted similar to a reStructuredText-directive.
+It will accept <em>one</em> the following parameters:</p>
+<blockquote>
+<div><dl class="simple">
+<dt>description: Instead of replacing the specifier and this parameter with all of the superclass’</dt><dd><p>__doc__-attribute, only the description above the sections <code class="docutils literal notranslate"><span class="pre">Args</span></code> and <code class="docutils literal notranslate"><span class="pre">Returns</span></code> will be copied.</p>
+</dd>
+<dt>arguments: Instead of replacing the specifier and this parameter with all of the superclass’</dt><dd><p>__doc__-attribute, only the section <code class="docutils literal notranslate"><span class="pre">Args</span></code> will be copied.</p>
+</dd>
+<dt>return_values: Instead of replacing the specifier and this parameter with all of the superclass’</dt><dd><p>__doc__-attribute, only the section <code class="docutils literal notranslate"><span class="pre">Returns</span></code> will be copied.</p>
+</dd>
+<dt>all: Replaces the specifier and this parameter with all of the superclass’ __doc__-attribute,</dt><dd><p>same as if no parameter was given.</p>
+</dd>
+</dl>
+</div></blockquote>
+<p>Any replacement string from a superclass will have leading and trailing whitespace stripped off
+so it integrates seamlessly into existing docstrings.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>cls</strong> – A class to modify.</p></li>
+<li><p><strong>doc_inheritance_specifier</strong> – A string to search for in the __doc__-attributes of functions.
+If this string is found, it will be replaced with the found __doc__ from a superclass;
+the rest of the __doc__-attribute remains as before.
+If this is a falsy value (e.g. None), no such specifier will be searched for;
+instead only functions without a __doc__ attribute will inherit docstrings from superclasses.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The class supplied (with the modifications made).</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019-2020, Impelon &amp; kjkrigel
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

@@ -1,0 +1,309 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>pygvisuals.borders.border &mdash; PyGVisuals  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> PyGVisuals
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <!-- Local TOC -->
+              <div class="local-toc"></div>
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">PyGVisuals</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>pygvisuals.borders.border</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for pygvisuals.borders.border</h1><div class="highlight"><pre>
+<span></span><span class="c1"># --- imports</span>
+<span class="c1"># pygame imports</span>
+<span class="kn">import</span> <span class="nn">pygame</span>
+
+
+<div class="viewcode-block" id="Border"><a class="viewcode-back" href="../../../pygvisuals.borders.html#pygvisuals.borders.border.Border">[docs]</a><span class="k">class</span> <span class="nc">Border</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Underlying class for borders compatible with pygame&#39;s surfaces.</span>
+<span class="sd">    Intended to be used together with PyGVisuals&#39; widgets.</span>
+<span class="sd">    A border will have four sides, surrounding a provided surface.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialisation of a Border.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            width: The width of the border.</span>
+<span class="sd">                This can either be an integer for the width of both the left and right side</span>
+<span class="sd">                or a tuple for each side specifically (left, right).</span>
+<span class="sd">            height: The height of the border.</span>
+<span class="sd">                This can either be an integer for the height of both the top and bottom side</span>
+<span class="sd">                or a tuple for each side specifically (top, bottom).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">Border</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">remove_background_after_draw</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">draw_surface_above_border</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">left</span> <span class="o">=</span> <span class="n">width</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">right</span> <span class="o">=</span> <span class="n">width</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">left</span> <span class="o">=</span> <span class="n">width</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">right</span> <span class="o">=</span> <span class="n">width</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">top</span> <span class="o">=</span> <span class="n">height</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">bottom</span> <span class="o">=</span> <span class="n">height</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">top</span> <span class="o">=</span> <span class="n">height</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">bottom</span> <span class="o">=</span> <span class="n">height</span>
+
+<div class="viewcode-block" id="Border.getBorderedImage"><a class="viewcode-back" href="../../../pygvisuals.borders.html#pygvisuals.borders.border.Border.getBorderedImage">[docs]</a>    <span class="k">def</span> <span class="nf">getBorderedImage</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">surface</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Draw the border surrounding the given surface and return the bordered result.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            surface: A surface-like object (e.g. pygame.Surface) that should be bordered.</span>
+<span class="sd">            *args: Any arguments provided for the update. This can include an optional pygame.event.Event to process.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            A pygame.Surface with the bordered result.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">isEmptyBorder</span><span class="p">():</span>
+                <span class="n">rect</span> <span class="o">=</span> <span class="n">surface</span><span class="o">.</span><span class="n">get_rect</span><span class="p">()</span>
+                <span class="n">size</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getBounds</span><span class="p">(</span><span class="n">rect</span><span class="p">)</span>
+                <span class="n">result</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">Surface</span><span class="p">(</span><span class="n">size</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">surface</span><span class="p">)</span>
+                <span class="n">border</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+                <span class="n">border</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_drawBorder</span><span class="p">(</span><span class="n">border</span><span class="p">,</span> <span class="n">rect</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">remove_background_after_draw</span><span class="p">:</span>
+                    <span class="n">border</span><span class="o">.</span><span class="n">fill</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">rect</span><span class="o">.</span><span class="n">move</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">left</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">top</span><span class="p">))</span>
+                <span class="n">blit_sequence</span> <span class="o">=</span> <span class="p">[(</span><span class="n">border</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)),</span> <span class="p">(</span><span class="n">surface</span><span class="p">,</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">left</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">top</span><span class="p">))]</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">draw_surface_above_border</span><span class="p">:</span>
+                    <span class="n">blit_sequence</span><span class="o">.</span><span class="n">reverse</span><span class="p">()</span>
+                <span class="n">result</span><span class="o">.</span><span class="n">blits</span><span class="p">(</span><span class="n">blit_sequence</span><span class="p">)</span>
+                <span class="k">return</span> <span class="n">result</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="k">pass</span>
+        <span class="k">return</span> <span class="n">surface</span></div>
+
+    <span class="k">def</span> <span class="nf">_drawBorder</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">surface</span><span class="p">,</span> <span class="n">original_rect</span><span class="p">,</span> <span class="n">bordered_rect</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Draw the border on the given surface and return the result.</span>
+
+<span class="sd">        This is an internal function.</span>
+<span class="sd">        It will be called internally from getBorderedImage(...) and</span>
+<span class="sd">        the appropiate space will be painted over with the original surface.</span>
+<span class="sd">        This should not leave a hole, as the space for the original surface will be cleared by getBorderedImage(...),</span>
+<span class="sd">        except when the border&#39;s remove_background_after_draw-attribute is set to False.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            surface: A surface-like object (e.g. pygame.Surface) that will have the border drawn on.</span>
+<span class="sd">                It should be able to fit the border.</span>
+<span class="sd">                This is the case if its size is equal to the size bordered_size.</span>
+<span class="sd">            original_size: A rect-like object (e.g. pygame.Rect)</span>
+<span class="sd">                denoting the bounds of the original surface without the border.</span>
+<span class="sd">            bordered_size: A rect-like object (e.g. pygame.Rect)</span>
+<span class="sd">                denoting the bounds of the original surface with the border drawn on it.</span>
+<span class="sd">            *args: Any arguments provided for the update. This can include an optional pygame.event.Event to process.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            A surface-like object with the same size as the provided one, but with the border painted on top of it.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">surface</span><span class="o">.</span><span class="n">fill</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">surface</span>
+
+<div class="viewcode-block" id="Border.getBounds"><a class="viewcode-back" href="../../../pygvisuals.borders.html#pygvisuals.borders.border.Border.getBounds">[docs]</a>    <span class="k">def</span> <span class="nf">getBounds</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rect</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return the new size of a rect if it was to be bordered with this border.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            A rect-like object (e.g. pygame.Rect) to calculate the new bounds from.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            A rect-like object (e.g. pygame.Rect) with the size if it was to be bordered with this border.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">bordered</span> <span class="o">=</span> <span class="n">rect</span><span class="o">.</span><span class="n">inflate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">right</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">left</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">bottom</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">top</span><span class="p">)</span>
+            <span class="n">bordered</span><span class="o">.</span><span class="n">top</span> <span class="o">=</span> <span class="n">rect</span><span class="o">.</span><span class="n">top</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">top</span>
+            <span class="n">bordered</span><span class="o">.</span><span class="n">left</span> <span class="o">=</span> <span class="n">rect</span><span class="o">.</span><span class="n">left</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">left</span>
+            <span class="k">return</span> <span class="n">bordered</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">rect</span></div>
+
+<div class="viewcode-block" id="Border.isEmptyBorder"><a class="viewcode-back" href="../../../pygvisuals.borders.html#pygvisuals.borders.border.Border.isEmptyBorder">[docs]</a>    <span class="k">def</span> <span class="nf">isEmptyBorder</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return whether the border is empty and therefore of zero size.</span>
+<span class="sd">        An empty border needs not to be drawn.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            A boolean indicating whether all sides of the border have zero width.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">left</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">top</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">right</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">bottom</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span></div></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019-2020, Impelon &amp; kjkrigel
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

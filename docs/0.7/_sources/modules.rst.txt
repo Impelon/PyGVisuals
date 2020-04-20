@@ -1,0 +1,7 @@
+pygvisuals
+==========
+
+.. toctree::
+   :maxdepth: 4
+
+   pygvisuals
