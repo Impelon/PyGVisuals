@@ -8,7 +8,8 @@ __all__ = ["inherit_docstrings_from_superclass"]
 import types
 import re
 
-def inherit_docstrings_from_superclass(cls, doc_inheritance_specifier = "inherit_doc::"):
+
+def inherit_docstrings_from_superclass(cls, doc_inheritance_specifier="inherit_doc::"):
     """
     Add docstrings for methods of the class from its superclasses and return it.
 
@@ -89,6 +90,7 @@ def inherit_docstrings_from_superclass(cls, doc_inheritance_specifier = "inherit
                     func.__doc__ = func.__doc__.replace(doc_inheritance_specifier, "")
     return cls
 
+
 def extract_sections_from_doc(doc):
     """
     Extract sections from a given docstring.
@@ -106,6 +108,7 @@ def extract_sections_from_doc(doc):
     """
     sections = {"all": doc}
     index = 0
+
     def section_generator():
         last_index = -1
         possible = ("description", "arguments", "return_values")
@@ -124,7 +127,8 @@ def extract_sections_from_doc(doc):
 
     return {key: "\n".join(value) if isinstance(value, list) else value for key, value in sections.items()}
 
-def _extract_inheritance_parameters_from_doc(doc, doc_inheritance_specifier = None):
+
+def _extract_inheritance_parameters_from_doc(doc, doc_inheritance_specifier=None):
     """
     Return a iterator of Match-objects (from module re) with the span equal to the span of the "doc_inheritance-directive"
     and the group equal to the parameter. (If there was no parameter, the group is None.)
