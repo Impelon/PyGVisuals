@@ -7,7 +7,8 @@ import random
 
 import pygame
 import pygvisuals.widgets as gui
-import pygvisuals.widgets.border as brd
+import pygvisuals.borders as brd
+import pygvisuals.designs as des
 from pygame.locals import *
 
 #Initialization#
@@ -33,15 +34,16 @@ def main_loop():
             if event.type == QUIT:
                 going = False
             group.update(event)
-        screen.blit(background, (0, 0))
         if tree != None and tree.root != None and update:
-            print("HI")
+            screen.blit(background, (0, 0))
             screen.blit(pygame.transform.scale(getDrawnTree(tree, ((50, 55, 155, 200), (100, 155, 255, 200), (100, 155, 255, 200), (255, 0, 0, 200))), (600, 600)), (0, 0))
-            #screen.blit(getDrawnTree(tree, ((50, 55, 155, 200), (100, 155, 255, 200), (100, 155, 255, 200), (255, 0, 0, 200))), (0, 0))
+            for widget in group:
+                widget.markDirty()
+                widget.update()
             update = False
-        group.draw(screen)
+        group.draw(screen, background)
         pygame.display.update()
-        pygame.time.wait(50)
+        pygame.time.wait(100)
     pygame.quit()
     sys.exit()
 
@@ -213,17 +215,17 @@ h = 600
 screen = pygame.display.set_mode((w, h), 0, 32)
 pygame.display.set_caption("Tree-GUI | Python Game")
 pygame.mouse.set_visible(1)
-pygame.key.set_repeat(50, 10)
+pygame.key.set_repeat(50)
 
 background = pygame.Surface((w, h))
 background.fill((255, 255, 255))
 
 #Widgets#
 
-gui.widget.defaultBorder        = brd.CompoundBorder(brd.RoundedBorder(3, 3, (150, 190, 255, 200), 8), brd.RoundedBorder(2, 2, (30, 90, 150), 8))
-gui.widget.defaultBackground    = (120, 160, 200)
-w_w                             = 130
-w_h                             = 25
+des.getDefaultDesign().border     = brd.CompoundBorder(brd.RoundedBorder(3, 3, (150, 190, 255, 200), 8), brd.RoundedBorder(2, 2, (30, 90, 150), 8))
+des.getDefaultDesign().background = (120, 160, 200)
+w_w                               = 130
+w_h                               = 25
 
 w_bg        = gui.Widget(w * 0.8571428571428571 - w_w // 2 - 20, 10, w_w // 2 + w * 0.14285714285714285, h - 20).setBackground((220, 220, 250))
 l           = gui.Label(w * 0.8571428571428571 - w_w // 2, 10, w_w, w_h, "Tree-GUI").setBackground((0, 0, 0, 0)).setForeground((50, 50, 50)).setBorder(brd.Border(0, 0))
@@ -232,7 +234,7 @@ b_add       = gui.Button(w * 0.8571428571428571 - w_w // 2, h * 0.25, w_w, w_h, 
 b_delete    = gui.Button(w * 0.8571428571428571 - w_w // 2, h * 0.375, w_w, w_h, "Delete From Tree", callback = deleteFromTree)
 e_length    = gui.Entry(w * 0.8571428571428571 - w_w // 2, h * 0.5, w_w, w_h).setValidation(isSmallNumber).setText("100")
 b_create    = gui.Button(w * 0.8571428571428571 - w_w // 2, h * 0.625, w_w, w_h, "Create Random Tree", callback = createRandomTree)
-group = pygame.sprite.LayeredUpdates([w_bg, l, e_value, b_add, b_delete, e_length, b_create])
+group = pygame.sprite.LayeredDirty([w_bg, l, e_value, b_add, b_delete, e_length, b_create])
 
 #Automatic Start#
 
