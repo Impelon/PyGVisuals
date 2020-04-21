@@ -41,7 +41,7 @@ class Border(object):
 
     def getBorderedImage(self, surface, *args):
         """
-        Draw the border surrounding the given surface and return the bordered result.
+        Draw the border surrounding the given surface if needed and return the result.
 
         Args:
             surface: A surface-like object (e.g. pygame.Surface) that should be bordered.
@@ -99,7 +99,7 @@ class Border(object):
         Return the new size of a rect if it was to be bordered with this border.
 
         Args:
-            A rect-like object (e.g. pygame.Rect) to calculate the new bounds from.
+            rect: A rect-like object (e.g. pygame.Rect) to calculate the new bounds from.
 
         Returns:
             A rect-like object (e.g. pygame.Rect) with the size if it was to be bordered with this border.
