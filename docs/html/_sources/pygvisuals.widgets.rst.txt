@@ -1,0 +1,67 @@
+pygvisuals.widgets package
+==========================
+
+.. automodule:: pygvisuals.widgets
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Submodules
+----------
+
+pygvisuals.widgets.button module
+--------------------------------
+
+.. automodule:: pygvisuals.widgets.button
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+pygvisuals.widgets.entry module
+-------------------------------
+
+.. automodule:: pygvisuals.widgets.entry
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+pygvisuals.widgets.label module
+-------------------------------
+
+.. automodule:: pygvisuals.widgets.label
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+pygvisuals.widgets.listbox module
+---------------------------------
+
+.. automodule:: pygvisuals.widgets.listbox
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+pygvisuals.widgets.selection\_text\_widget module
+-------------------------------------------------
+
+.. automodule:: pygvisuals.widgets.selection_text_widget
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+pygvisuals.widgets.text\_widget module
+--------------------------------------
+
+.. automodule:: pygvisuals.widgets.text_widget
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+pygvisuals.widgets.widget module
+--------------------------------
+
+.. automodule:: pygvisuals.widgets.widget
+   :members:
+   :undoc-members:
+   :show-inheritance:
+

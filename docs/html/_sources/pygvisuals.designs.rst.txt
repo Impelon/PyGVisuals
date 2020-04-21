@@ -1,0 +1,27 @@
+pygvisuals.designs package
+==========================
+
+.. automodule:: pygvisuals.designs
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Submodules
+----------
+
+pygvisuals.designs.design module
+--------------------------------
+
+.. automodule:: pygvisuals.designs.design
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+pygvisuals.designs.hardcoded\_designs module
+--------------------------------------------
+
+.. automodule:: pygvisuals.designs.hardcoded_designs
+   :members:
+   :undoc-members:
+   :show-inheritance:
+

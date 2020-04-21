@@ -1,0 +1,19 @@
+pygvisuals.util package
+=======================
+
+.. automodule:: pygvisuals.util
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Submodules
+----------
+
+pygvisuals.util.constants module
+--------------------------------
+
+.. automodule:: pygvisuals.util.constants
+   :members:
+   :undoc-members:
+   :show-inheritance:
+

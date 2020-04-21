@@ -1,0 +1,254 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>pygvisuals.widgets.listbox &#8212; PyGVisuals  documentation</title>
+    <link rel="stylesheet" href="../../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css" />
+    
+    <script id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/jquery.js"></script>
+    <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/language_data.js"></script>
+    
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">PyGVisuals  documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for pygvisuals.widgets.listbox</h1><div class="highlight"><pre>
+<span></span><span class="c1"># --- imports</span>
+<span class="c1"># pygame imports</span>
+<span class="kn">import</span> <span class="nn">pygame</span>
+
+<span class="c1"># local imports</span>
+<span class="kn">from</span> <span class="nn">.selection_text_widget</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">..designs</span> <span class="kn">import</span> <span class="n">getDefaultDesign</span>
+<span class="kn">from</span> <span class="nn">..util</span> <span class="kn">import</span> <span class="n">inherit_docstrings_from_superclass</span>
+
+
+<span class="c1"># constants</span>
+<span class="n">VIEWPOINT</span> <span class="o">=</span> <span class="s1">&#39;v&#39;</span>
+
+
+<div class="viewcode-block" id="Listbox"><a class="viewcode-back" href="../../../pygvisuals.widgets.html#pygvisuals.widgets.Listbox">[docs]</a><span class="k">class</span> <span class="nc">Listbox</span><span class="p">(</span><span class="n">SelectionTextWidget</span><span class="p">):</span>
+
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Listbox for displaying lists of multiple objects as strings.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">,</span> <span class="n">font</span><span class="o">=</span><span class="n">getDefaultDesign</span><span class="p">()</span><span class="o">.</span><span class="n">font</span><span class="p">,</span> <span class="n">editable</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">validation_function</span><span class="o">=</span><span class="p">(</span><span class="k">lambda</span> <span class="o">*</span><span class="n">x</span><span class="p">:</span> <span class="kc">True</span><span class="p">),</span> <span class="n">selection_overlay</span><span class="o">=</span><span class="n">getDefaultDesign</span><span class="p">()</span><span class="o">.</span><span class="n">selection_overlay</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialisation of an Listbox.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            inherit_doc:: arguments</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">Listbox</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">font</span><span class="p">,</span> <span class="n">editable</span><span class="p">,</span> <span class="n">validation_function</span><span class="p">,</span> <span class="n">selection_overlay</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_list</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">viewpoint</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cursor</span>
+
+<div class="viewcode-block" id="Listbox.setViewpoint"><a class="viewcode-back" href="../../../pygvisuals.widgets.html#pygvisuals.widgets.Listbox.setViewpoint">[docs]</a>    <span class="k">def</span> <span class="nf">setViewpoint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Set the widget&#39;s viewpoint-position.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            index: An integer (or known constant) representing the index the viewpoint should be set to.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Itsself (the widget) for convenience.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_viewpoint</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getActualIndex</span><span class="p">(</span><span class="n">index</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">markDirty</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="Listbox.moveViewpoint"><a class="viewcode-back" href="../../../pygvisuals.widgets.html#pygvisuals.widgets.Listbox.moveViewpoint">[docs]</a>    <span class="k">def</span> <span class="nf">moveViewpoint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Move the widget&#39;s viewpoint-position by the given amount.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            amount: An integer representing the amount the viewpoint should be moved by.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Itsself (the widget) for convenience.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">setViewpoint</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">viewpoint</span> <span class="o">+</span> <span class="nb">int</span><span class="p">(</span><span class="n">index</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="Listbox.getViewpoint"><a class="viewcode-back" href="../../../pygvisuals.widgets.html#pygvisuals.widgets.Listbox.getViewpoint">[docs]</a>    <span class="k">def</span> <span class="nf">getViewpoint</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return the widget&#39;s viewpoint-position.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            An integer representing the index the viewpoint is at.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_viewpoint</span></div>
+
+<div class="viewcode-block" id="Listbox.setCursor"><a class="viewcode-back" href="../../../pygvisuals.widgets.html#pygvisuals.widgets.Listbox.setCursor">[docs]</a>    <span class="k">def</span> <span class="nf">setCursor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_indexToPos</span><span class="p">(</span><span class="n">index</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">setViewpoint</span><span class="p">(</span><span class="n">index</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">_indexToPos</span><span class="p">(</span><span class="n">index</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">rect</span><span class="o">.</span><span class="n">h</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">setViewpoint</span><span class="p">(</span><span class="n">index</span> <span class="o">-</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rect</span><span class="o">.</span><span class="n">h</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">font</span><span class="o">.</span><span class="n">get_linesize</span><span class="p">()))</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">Listbox</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">setCursor</span><span class="p">(</span><span class="n">index</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Listbox.setText"><a class="viewcode-back" href="../../../pygvisuals.widgets.html#pygvisuals.widgets.Listbox.setText">[docs]</a>    <span class="k">def</span> <span class="nf">setText</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Set the listbox&#39;s text; any given text will be ignored; use insert or delete instead.</span>
+
+<span class="sd">        inherit_doc::</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="Listbox.getText"><a class="viewcode-back" href="../../../pygvisuals.widgets.html#pygvisuals.widgets.Listbox.getText">[docs]</a>    <span class="k">def</span> <span class="nf">getText</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">list</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="Listbox.setList"><a class="viewcode-back" href="../../../pygvisuals.widgets.html#pygvisuals.widgets.Listbox.setList">[docs]</a>    <span class="k">def</span> <span class="nf">setList</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Set the widget&#39; list-representation of its content.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            list: A list with the content to set.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Itsself (the widget) for convenience.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_list</span> <span class="o">=</span> <span class="nb">list</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">markDirty</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="Listbox.getList"><a class="viewcode-back" href="../../../pygvisuals.widgets.html#pygvisuals.widgets.Listbox.getList">[docs]</a>    <span class="k">def</span> <span class="nf">getList</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return the widget&#39; list-representation of its content.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            A list representing the content of the widget.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_list</span></div>
+
+<div class="viewcode-block" id="Listbox.insert"><a class="viewcode-back" href="../../../pygvisuals.widgets.html#pygvisuals.widgets.Listbox.insert">[docs]</a>    <span class="k">def</span> <span class="nf">insert</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">obj</span><span class="p">):</span>
+        <span class="n">index</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getActualIndex</span><span class="p">(</span><span class="n">index</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">markDirty</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="Listbox.delete"><a class="viewcode-back" href="../../../pygvisuals.widgets.html#pygvisuals.widgets.Listbox.delete">[docs]</a>    <span class="k">def</span> <span class="nf">delete</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">startindex</span><span class="p">,</span> <span class="n">endindex</span><span class="p">):</span>
+        <span class="n">startindex</span><span class="p">,</span> <span class="n">endindex</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sort</span><span class="p">(</span><span class="n">startindex</span><span class="p">,</span> <span class="n">endindex</span><span class="p">)</span>
+        <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">_list</span><span class="p">[</span><span class="n">startindex</span><span class="p">:</span><span class="n">endindex</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">markDirty</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="Listbox.getActualIndex"><a class="viewcode-back" href="../../../pygvisuals.widgets.html#pygvisuals.widgets.Listbox.getActualIndex">[docs]</a>    <span class="k">def</span> <span class="nf">getActualIndex</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">constrain</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">index</span> <span class="o">==</span> <span class="n">END</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_list</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">index</span> <span class="o">==</span> <span class="n">VIEWPOINT</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_viewpoint</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">Listbox</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">getActualIndex</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="n">constrain</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">_indexToPos</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">):</span>
+        <span class="k">return</span> <span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">font</span><span class="o">.</span><span class="n">get_linesize</span><span class="p">()</span> <span class="o">*</span> <span class="p">(</span><span class="n">index</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">_viewpoint</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_posToIndex</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">y</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">font</span><span class="o">.</span><span class="n">get_linesize</span><span class="p">())</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_viewpoint</span>
+
+<div class="viewcode-block" id="Listbox.update"><a class="viewcode-back" href="../../../pygvisuals.widgets.html#pygvisuals.widgets.Listbox.update">[docs]</a>    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Additionally handles keyboard-input.</span>
+
+<span class="sd">        inherit_doc::</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">isActive</span><span class="p">()</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">isFocused</span><span class="p">():</span>
+            <span class="n">event</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">event</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">pygame</span><span class="o">.</span><span class="n">KEYDOWN</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">event</span><span class="o">.</span><span class="n">key</span> <span class="o">==</span> <span class="n">pygame</span><span class="o">.</span><span class="n">K_UP</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">moveCursor</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="n">event</span><span class="o">.</span><span class="n">key</span> <span class="o">==</span> <span class="n">pygame</span><span class="o">.</span><span class="n">K_DOWN</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">moveCursor</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">event</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">pygame</span><span class="o">.</span><span class="n">MOUSEBUTTONUP</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">event</span><span class="o">.</span><span class="n">button</span> <span class="o">==</span> <span class="mi">4</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">moveViewpoint</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="n">event</span><span class="o">.</span><span class="n">button</span> <span class="o">==</span> <span class="mi">5</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">moveViewpoint</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+        <span class="nb">super</span><span class="p">(</span><span class="n">Listbox</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">_getAppearance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Additionally renders the listbox&#39;s list and selection.</span>
+
+<span class="sd">        inherit_doc::</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">surface</span> <span class="o">=</span> <span class="nb">super</span><span class="p">(</span><span class="n">Listbox</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">_getAppearance</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span>
+        <span class="n">linesize</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">font</span><span class="o">.</span><span class="n">get_linesize</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_viewpoint</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_list</span><span class="p">)):</span>
+            <span class="n">surface</span><span class="o">.</span><span class="n">blit</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_render</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_list</span><span class="p">[</span><span class="n">n</span><span class="p">])),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">linesize</span> <span class="o">*</span> <span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">_viewpoint</span><span class="p">)))</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">isFocused</span><span class="p">():</span>
+            <span class="n">s</span><span class="p">,</span> <span class="n">e</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sort</span><span class="p">(</span><span class="n">CURSOR</span><span class="p">,</span> <span class="n">SELECTION</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">e</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+                <span class="n">selection</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">Surface</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">bounds</span><span class="o">.</span><span class="n">width</span><span class="p">,</span> <span class="n">linesize</span><span class="p">),</span> <span class="n">pygame</span><span class="o">.</span><span class="n">SRCALPHA</span><span class="p">,</span> <span class="mi">32</span><span class="p">)</span>
+                <span class="n">selection</span><span class="o">.</span><span class="n">fill</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">selection_overlay</span><span class="p">)</span>
+                <span class="n">surface</span><span class="o">.</span><span class="n">blit</span><span class="p">(</span><span class="n">selection</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">linesize</span> <span class="o">*</span> <span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">_viewpoint</span><span class="p">)))</span>
+        <span class="k">return</span> <span class="n">surface</span>
+
+    <span class="nb">list</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">getList</span><span class="p">,</span> <span class="n">setList</span><span class="p">,</span> <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;The widget&#39; list-representation of its content.&quot;&quot;&quot;</span><span class="p">)</span>
+    <span class="n">viewpoint</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">getViewpoint</span><span class="p">,</span> <span class="n">setViewpoint</span><span class="p">,</span> <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;The widget&#39;s position of the viewpoint as a index. This is the first currently visible index.&quot;&quot;&quot;</span><span class="p">)</span></div>
+
+<span class="c1"># inherit docs from superclass</span>
+<span class="n">Listbox</span> <span class="o">=</span> <span class="n">inherit_docstrings_from_superclass</span><span class="p">(</span><span class="n">Listbox</span><span class="p">)</span>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">PyGVisuals  documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2019-2020, Impelon &amp; kjkrigel.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.0.2.
+    </div>
+  </body>
+</html>

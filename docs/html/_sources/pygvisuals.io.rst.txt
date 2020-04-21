@@ -1,0 +1,19 @@
+pygvisuals.io package
+=====================
+
+.. automodule:: pygvisuals.io
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Submodules
+----------
+
+pygvisuals.io.stream\_redirector module
+---------------------------------------
+
+.. automodule:: pygvisuals.io.stream_redirector
+   :members:
+   :undoc-members:
+   :show-inheritance:
+

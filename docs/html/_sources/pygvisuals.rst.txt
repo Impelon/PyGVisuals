@@ -1,0 +1,19 @@
+pygvisuals package
+==================
+
+.. automodule:: pygvisuals
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   pygvisuals.borders
+   pygvisuals.designs
+   pygvisuals.io
+   pygvisuals.util
+   pygvisuals.widgets
