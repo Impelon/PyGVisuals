@@ -6,5 +6,6 @@
 !*.json
 !*.txt
 !*.gitignore
+!.*
 
 !docs*
