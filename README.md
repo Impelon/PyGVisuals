@@ -44,6 +44,7 @@ This can be done automatically via pip:
 Or you can manually download it from GitHub or via git.
 
 1. Download source and change directory into source: `git clone https://github.com/Impelon/PyGVisuals.git && cd PyGVisuals`
+  - You can now test the library. Try out the examples via the start-script: `python start_example.py`
   - Additionally you can install your desired branch with this. List all available branches: `git branch`
   - Switch to desired branch: `git switch <branch>`
 2. Install from current directory via pip: `python setup.py install`
