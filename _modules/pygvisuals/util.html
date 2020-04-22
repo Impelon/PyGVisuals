@@ -1,0 +1,341 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>pygvisuals.util &mdash; PyGVisuals  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> PyGVisuals
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/index.html">API-Reference</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">PyGVisuals</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>pygvisuals.util</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for pygvisuals.util</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Package for useful functionalities not belonging to any other cathegory.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;inherit_docstrings_from_superclass&quot;</span><span class="p">]</span>
+
+
+<span class="kn">import</span> <span class="nn">types</span>
+<span class="kn">import</span> <span class="nn">re</span>
+
+
+<div class="viewcode-block" id="inherit_docstrings_from_superclass"><a class="viewcode-back" href="../../api/0.7/pygvisuals.util.html#pygvisuals.util.inherit_docstrings_from_superclass">[docs]</a><span class="k">def</span> <span class="nf">inherit_docstrings_from_superclass</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">doc_inheritance_specifier</span><span class="o">=</span><span class="s2">&quot;inherit_doc::&quot;</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Add docstrings for methods of the class from its superclasses and return it.</span>
+
+<span class="sd">    Every function from the given class without a __doc__-attribute or with</span>
+<span class="sd">    a __doc__-attribute containing the given specifier will get a copy of</span>
+<span class="sd">    a __doc__-attribute from a function with the same name from one of its superclasses.</span>
+
+<span class="sd">    This can be used as a decorator.</span>
+
+<span class="sd">    This function was taken and modified from the &#39;Stack Overflow&#39; network.</span>
+<span class="sd">    The original author is Raymond Hettinger.</span>
+<span class="sd">    - original source: https://stackoverflow.com/a/8101598</span>
+<span class="sd">        answered by: Raymond Hettinger (https://stackoverflow.com/users/1001643/raymond-hettinger)</span>
+<span class="sd">    - original question: https://stackoverflow.com/q/8100166</span>
+<span class="sd">        asked by: Fred Foo (https://stackoverflow.com/users/166749/fred-foo)</span>
+
+<span class="sd">    The original is licensed under Creative Commons Attribution-Share Alike.</span>
+<span class="sd">    This function, the functions it relies on included this file and</span>
+<span class="sd">    its documentation are therefore licensed under the same license (Adapter&#39;s License).</span>
+<span class="sd">    You can find a copy of this license here: https://creativecommons.org/licenses/by-sa/4.0/legalcode</span>
+<span class="sd">    And a more readable summary here: https://creativecommons.org/licenses/by-sa/4.0/</span>
+
+<span class="sd">    The doc_inheritance_specifier will be interpreted similar to a reStructuredText-directive.</span>
+<span class="sd">    It will accept *one* the following parameters:</span>
+<span class="sd">        description: Instead of replacing the specifier and this parameter with all of the superclass&#39;</span>
+<span class="sd">            __doc__-attribute, only the description above the sections ``Args`` and ``Returns`` will be copied.</span>
+<span class="sd">        arguments: Instead of replacing the specifier and this parameter with all of the superclass&#39;</span>
+<span class="sd">            __doc__-attribute, only the section ``Args`` will be copied.</span>
+<span class="sd">        return_values: Instead of replacing the specifier and this parameter with all of the superclass&#39;</span>
+<span class="sd">            __doc__-attribute, only the section ``Returns`` will be copied.</span>
+<span class="sd">        all: Replaces the specifier and this parameter with all of the superclass&#39; __doc__-attribute,</span>
+<span class="sd">            same as if no parameter was given.</span>
+<span class="sd">    Any replacement string from a superclass will have leading and trailing whitespace stripped off</span>
+<span class="sd">    so it integrates seamlessly into existing docstrings.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        cls: A class to modify.</span>
+<span class="sd">        doc_inheritance_specifier: A string to search for in the __doc__-attributes of functions.</span>
+<span class="sd">            If this string is found, it will be replaced with the found __doc__ from a superclass;</span>
+<span class="sd">            the rest of the __doc__-attribute remains as before.</span>
+<span class="sd">            If this is a falsy value (e.g. None), no such specifier will be searched for;</span>
+<span class="sd">            instead only functions without a __doc__ attribute will inherit docstrings from superclasses.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        The class supplied (with the modifications made).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">func</span> <span class="ow">in</span> <span class="nb">vars</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">types</span><span class="o">.</span><span class="n">FunctionType</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">func</span><span class="o">.</span><span class="vm">__doc__</span> <span class="ow">and</span> <span class="p">(</span><span class="ow">not</span> <span class="n">doc_inheritance_specifier</span> <span class="ow">or</span> <span class="n">doc_inheritance_specifier</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">func</span><span class="o">.</span><span class="vm">__doc__</span><span class="p">):</span>
+                <span class="k">continue</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">superclasses</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="vm">__mro__</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+            <span class="k">except</span><span class="p">:</span>
+                <span class="n">superclasses</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="vm">__bases__</span>
+
+            <span class="k">for</span> <span class="n">supercls</span> <span class="ow">in</span> <span class="n">superclasses</span><span class="p">:</span>
+                <span class="n">superfunc</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">supercls</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">superfunc</span> <span class="ow">and</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">superfunc</span><span class="p">,</span> <span class="s2">&quot;__doc__&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">):</span>
+                    <span class="k">if</span> <span class="n">func</span><span class="o">.</span><span class="vm">__doc__</span><span class="p">:</span>
+                        <span class="n">matches</span> <span class="o">=</span> <span class="n">_extract_inheritance_parameters_from_doc</span><span class="p">(</span><span class="n">func</span><span class="o">.</span><span class="vm">__doc__</span><span class="p">,</span> <span class="n">doc_inheritance_specifier</span><span class="p">)</span>
+                        <span class="n">sections</span> <span class="o">=</span> <span class="n">extract_sections_from_doc</span><span class="p">(</span><span class="n">superfunc</span><span class="o">.</span><span class="vm">__doc__</span><span class="p">)</span>
+                        <span class="n">replaced_all</span> <span class="o">=</span> <span class="kc">True</span>
+                        <span class="k">for</span> <span class="n">match</span> <span class="ow">in</span> <span class="n">matches</span><span class="p">:</span>
+                            <span class="n">parameter</span> <span class="o">=</span> <span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+                            <span class="k">if</span> <span class="ow">not</span> <span class="n">parameter</span><span class="p">:</span>
+                                <span class="n">parameter</span> <span class="o">=</span> <span class="s2">&quot;all&quot;</span>
+                            <span class="k">if</span> <span class="n">parameter</span> <span class="ow">in</span> <span class="n">sections</span><span class="p">:</span>
+                                <span class="n">func</span><span class="o">.</span><span class="vm">__doc__</span> <span class="o">=</span> <span class="n">func</span><span class="o">.</span><span class="vm">__doc__</span><span class="p">[:</span><span class="n">match</span><span class="o">.</span><span class="n">start</span><span class="p">()]</span> <span class="o">+</span> <span class="n">sections</span><span class="p">[</span><span class="n">parameter</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="o">+</span> <span class="n">func</span><span class="o">.</span><span class="vm">__doc__</span><span class="p">[</span><span class="n">match</span><span class="o">.</span><span class="n">end</span><span class="p">():]</span>
+                            <span class="k">else</span><span class="p">:</span>
+                                <span class="n">replaced_all</span> <span class="o">=</span> <span class="kc">False</span>
+                        <span class="k">if</span> <span class="ow">not</span> <span class="n">replaced_all</span><span class="p">:</span>
+                            <span class="k">continue</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">func</span><span class="o">.</span><span class="vm">__doc__</span> <span class="o">=</span> <span class="n">superfunc</span><span class="o">.</span><span class="vm">__doc__</span>
+                    <span class="k">break</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">func</span><span class="o">.</span><span class="vm">__doc__</span><span class="p">:</span>
+                    <span class="n">func</span><span class="o">.</span><span class="vm">__doc__</span> <span class="o">=</span> <span class="n">func</span><span class="o">.</span><span class="vm">__doc__</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">doc_inheritance_specifier</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="bp">cls</span></div>
+
+
+<span class="k">def</span> <span class="nf">extract_sections_from_doc</span><span class="p">(</span><span class="n">doc</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Extract sections from a given docstring.</span>
+<span class="sd">    It will search for the following sections:</span>
+<span class="sd">        description: the description above the sections ``Args`` and ``Returns``</span>
+<span class="sd">        arguments: the section ``Args``</span>
+<span class="sd">        return_values: the section ``Returns``</span>
+<span class="sd">        all: all of the given docstring</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        doc: A (doc-)string to extract sections from.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        A dict with section-names as keys and their content as values.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">sections</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;all&quot;</span><span class="p">:</span> <span class="n">doc</span><span class="p">}</span>
+    <span class="n">index</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="k">def</span> <span class="nf">section_generator</span><span class="p">():</span>
+        <span class="n">last_index</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+        <span class="n">possible</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;description&quot;</span><span class="p">,</span> <span class="s2">&quot;arguments&quot;</span><span class="p">,</span> <span class="s2">&quot;return_values&quot;</span><span class="p">)</span>
+        <span class="k">while</span> <span class="n">index</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">possible</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">last_index</span> <span class="o">!=</span> <span class="n">index</span><span class="p">:</span>
+                <span class="n">sections</span><span class="p">[</span><span class="n">possible</span><span class="p">[</span><span class="n">index</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="n">last_index</span> <span class="o">=</span> <span class="n">index</span>
+            <span class="k">yield</span> <span class="n">possible</span><span class="p">[</span><span class="n">index</span><span class="p">]</span>
+
+    <span class="n">lines</span> <span class="o">=</span> <span class="n">doc</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">line</span><span class="p">,</span> <span class="n">section</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">lines</span><span class="p">,</span> <span class="n">section_generator</span><span class="p">()):</span>
+        <span class="k">if</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;Args:&quot;</span><span class="p">,</span> <span class="s2">&quot;Returns:&quot;</span><span class="p">):</span>
+            <span class="n">index</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">sections</span><span class="p">[</span><span class="n">section</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="p">{</span><span class="n">key</span><span class="p">:</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span> <span class="k">else</span> <span class="n">value</span> <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">sections</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+
+
+<span class="k">def</span> <span class="nf">_extract_inheritance_parameters_from_doc</span><span class="p">(</span><span class="n">doc</span><span class="p">,</span> <span class="n">doc_inheritance_specifier</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Return a iterator of Match-objects (from module re) with the span equal to the span of the &quot;doc_inheritance-directive&quot;</span>
+<span class="sd">    and the group equal to the parameter. (If there was no parameter, the group is None.)</span>
+
+<span class="sd">    This is an internal function.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        doc: A (doc-)string to extract matches from.</span>
+<span class="sd">        doc_inheritance_specifier: A string to search for in the doc-attribute.</span>
+<span class="sd">            If this is a falsy value (e.g. None), the default value</span>
+<span class="sd">            &#39;inherit_doc::&#39; will be used.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        The iterator with the Match-objects.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">doc_inheritance_specifier</span><span class="p">:</span>
+        <span class="n">doc_inheritance_specifier</span> <span class="o">=</span> <span class="s2">&quot;inherit_doc::&quot;</span>
+    <span class="n">pattern</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">s</span><span class="p">:</span> <span class="s2">&quot;[&quot;</span> <span class="o">+</span> <span class="n">s</span> <span class="o">+</span> <span class="s2">&quot;]&quot;</span><span class="p">,</span> <span class="n">doc_inheritance_specifier</span><span class="p">))</span> <span class="o">+</span> <span class="s2">&quot;(?:[ ](</span><span class="se">\\</span><span class="s2">S*))?&quot;</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">MULTILINE</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">re</span><span class="o">.</span><span class="n">finditer</span><span class="p">(</span><span class="n">pattern</span><span class="p">,</span> <span class="n">doc</span><span class="p">)</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019-2020, Impelon &amp; kjkrigel
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

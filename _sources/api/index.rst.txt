@@ -1,0 +1,20 @@
+API-Reference
+=============
+
+Inheritance-Diagrams
+--------------------
+
+.. inheritance-diagram:: pygvisuals.borders.BevelBorder pygvisuals.borders.ColoredBorder pygvisuals.borders.CompoundBorder pygvisuals.borders.RoundedBorder
+  :parts: 1
+  :caption: inheritance diagram for borders
+
+.. inheritance-diagram:: pygvisuals.widgets.Label pygvisuals.widgets.Button pygvisuals.widgets.Entry pygvisuals.widgets.Listbox
+  :top-classes: pygame.sprite.DirtySprite
+  :parts: 1
+  :caption: inheritance diagram for widgets
+
+Index
+-----
+
+* :ref:`genindex`
+* :ref:`modindex`

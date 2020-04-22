@@ -1,0 +1,21 @@
+Welcome to PyGVisuals's homepage!
+=================================
+
+.. toctree::
+   :maxdepth: 2
+   :name: mastertoc
+   :caption: Contents:
+   :glob:
+
+   license
+   install
+   tutorial
+   api/index
+
+Helpful Links
+-------------
+
+-  `Homepage <https://impelon.github.io/PyGVisuals/>`__
+-  `Documentation <https://impelon.github.io/PyGVisuals/api/>`__
+-  `GitHub <https://github.com/Impelon/PyGVisuals>`__
+-  Also check out `Pygame GUI <https://github.com/MyreMylar/pygame_gui>`__ for a more modern and extensive GUI Library for pygame

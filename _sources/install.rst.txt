@@ -1,0 +1,23 @@
+Installation
+============
+
+Currently to install this library to your python-modules you need to download
+the project's sourcecode from GitHub.
+
+from GitHub via pip
+-------------------
+
+This can be done automatically via pip: ``pip install git+https://github.com/Impelon/PyGVisuals.git``
+
+Clone, Switch and Install
+-------------------------
+
+Additionally you can also manually download the sourcecode. Simply clone the repository and install from it.
+This allows you to install a desired branch.
+
+1. Download source and change directory into source:
+   ``git clone https://github.com/Impelon/PyGVisuals.git && cd PyGVisuals``
+  -  Now you can install your desired branch with this. List all
+     available branches: ``git branch``
+  -  Switch to desired branch: ``git switch <branch>``
+2. Install from current directory via pip: ``python setup.py install``
