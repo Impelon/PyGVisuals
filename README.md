@@ -13,7 +13,7 @@ The project is (hopefully) well documented and includes most basic widgets.
 ## Helpful Links
 
 - [Homepage](https://impelon.github.io/PyGVisuals/)
-- [Documentation](https://impelon.github.io/PyGVisuals/docs/)
+- [Documentation](https://impelon.github.io/PyGVisuals/api/)
 - [GitHub](https://github.com/Impelon/PyGVisuals)
 - Also check out [Pygame GUI](https://github.com/MyreMylar/pygame_gui) for a more modern and extensive GUI Library for pygame
 

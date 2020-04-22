@@ -73,7 +73,7 @@ class Listbox(SelectionTextWidget):
 
     def setText(self, text):
         """
-        Set the listbox's text; any given text will be ignored; use insert or delete instead.
+        Note: Any given text will be ignored; use insert or delete instead.
 
         inherit_doc::
         """
@@ -107,9 +107,9 @@ class Listbox(SelectionTextWidget):
 
     def insert(self, index, text):
         """
-        inherit_doc::
+        Note: The argument 'text' can be of any type, not only a string.
 
-        Note: The argument 'text' can be any object, not only strings.
+        inherit_doc::
         """
         index = self.getActualIndex(index)
         self._list.append(text)
