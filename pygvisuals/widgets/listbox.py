@@ -105,14 +105,19 @@ class Listbox(SelectionTextWidget):
         """
         return self._list
 
-    def insert(self, index, obj):
+    def insert(self, index, text):
+        """
+        inherit_doc::
+
+        Note: The argument 'text' can be any object, not only strings.
+        """
         index = self.getActualIndex(index)
-        self._list.append(obj)
+        self._list.append(text)
         self.markDirty()
 
-    def delete(self, startindex, endindex):
-        startindex, endindex = self._sort(startindex, endindex)
-        del self._list[startindex:endindex]
+    def delete(self, start, end):
+        start, end = self._sort(start, end)
+        del self._list[start:end]
         self.markDirty()
 
     def getActualIndex(self, index, constrain=True):
