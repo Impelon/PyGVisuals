@@ -7,7 +7,6 @@ Welcome to PyGVisuals's homepage!
    :caption: Contents:
    :glob:
 
-   license
    install
    tutorial
    api/index
