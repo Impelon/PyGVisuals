@@ -52,7 +52,7 @@ Or you can manually download it from GitHub or via git.
 ## Epiloge
 
 If you need help with using PyGVisuals, you can open an issue and I will try to help.
-Also if you need any other features, you can also open an issue and add the label 'request'. I will work on new features that I thing are worth adding.
+Also if you need any other features, you can also open an issue and add the label 'request'. I will work on new features that I think are worth adding.
 
 Currently, because PyGVisuals is not actively used anywhere (I do not even use it myself), I do not have much motivation to add new features without any reasons.
 
