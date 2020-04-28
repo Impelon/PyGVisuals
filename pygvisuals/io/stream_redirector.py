@@ -53,12 +53,6 @@ class StreamRedirector(io.IOBase):
         if not self.closed:
             self._stream.flush()
 
-    def read(self, *args):
-        """
-        Raise io.UnsupportedOperation as this stream-like object can not be read from.
-        """
-        raise io.UnsupportedOperation("read")
-
     def writable(self):
         """
         Return True as this stream-like object is writable.
@@ -98,3 +92,9 @@ class StreamRedirector(io.IOBase):
             if self._timestampFormat:
                 data = time.strftime(self._timestampFormat) + data
             self._callback(data)
+
+    def __getattr__(self, name):
+        """
+        Redirect any other accesses to the underlying stream.
+        """
+        return getattr(self._stream, name)
