@@ -26,7 +26,7 @@ class Listbox(SelectionTextWidget):
             inherit_doc:: arguments
         """
         super(Listbox, self).__init__(x, y, width, height, "", font, editable, validation_function, selection_overlay)
-        self._list = []
+        self.list = []
         self.viewpoint = self.cursor
 
     def setViewpoint(self, index):
