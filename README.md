@@ -28,11 +28,15 @@ I would be happy to see you use the contents of this repository. You are encoura
 ![bintree-gui](examples/bintree-gui/screenshot.png)
 _A screenshot taken from the bintree-gui example_
 
-## Usage
+## License
 
-According to the [BSD-Licence](LICENSE.md) PyGVisuals is using, you can use the contens of this repository to your liking as long as you follow the licence's terms and conditions.
+According to the [BSD-License](LICENSE.md) PyGVisuals is using, you can use the contents of this repository to your liking as long as you follow the license's terms and conditions.
 If you want to include PyGVisuals or parts of it in your own project, include the files you need into your project's package (be sure to also include the [license](LICENSE.md)).
-You can also install pygvisuals via pip from source. See down below.
+**Please note that not all parts of PyGVisuals are licensed under the [BSD-License](LICENSE.md).**
+Content from third-parties which is embedded into PyGVisuals will be licensed under a separate license.
+Here is a (potentially non-exhaustive) list of content which is not licensed with [PyGVisuals' license](LICENSE.md):
+- The doc-inheritance mechanism is licensed under [Creative Commons Attribution-Share Alike](https://creativecommons.org/licenses/by-sa/4.0/). You can find a detailed disclaimer in the sourcecode.
+- PyGVisuals' default font `Trueno` is licensed under [SIL Open Font License (OFL)](https://scripts.sil.org/cms/scripts/page.php?item_id=OFL_web). You can find a detailed copy of the license in the font's sourcefiles.
 
 ## Install
 
