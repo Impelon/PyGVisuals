@@ -41,7 +41,7 @@ pygame.font.init()
 
 def create_font(size, type=FONT_REGULAR, italic=False, default=None):
     """
-    Create a pygame.Font-object with a Truano-font.
+    Create a Font-pygame-object with a Truano-font.
 
     Args:
         size: An integer denoting the height of the font in pixels.
@@ -53,7 +53,7 @@ def create_font(size, type=FONT_REGULAR, italic=False, default=None):
             This is None by default.
 
     Returns:
-        A pygame.Font-object with the specified configuration.
+        A Font-pygame-object with the specified configuration.
     """
     suffix = ""
     if italic and not type.endswith(__italic_suffix):
