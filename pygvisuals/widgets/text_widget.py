@@ -6,7 +6,7 @@ import pygame.font
 from .widget import Widget
 from ..designs import getDefaultDesign, getFallbackDesign
 from ..util import inherit_docstrings_from_superclass
-from ..trueno import create_font, TRUENO_SEMIBOLD
+from ..util.trueno import create_font, TRUENO_SEMIBOLD
 
 pygame.font.init()
 
