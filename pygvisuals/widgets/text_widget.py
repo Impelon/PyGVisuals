@@ -6,13 +6,14 @@ import pygame.font
 from .widget import Widget
 from ..designs import getDefaultDesign, getFallbackDesign
 from ..util import inherit_docstrings_from_superclass
-from ..util.trueno import create_font, TRUENO_SEMIBOLD
+from ..util.default_font import create_font, FONT_SEMIBOLD
 
 pygame.font.init()
 
 # set defaults
-getFallbackDesign().font = create_font(type = TRUENO_SEMIBOLD, default = pygame.font.Font(None, 18))
+getFallbackDesign().font = create_font(size=11, type=FONT_SEMIBOLD, default=pygame.font.Font(None, 18))
 """Font to be used by default by widgets displaying text."""
+
 
 class TextWidget(Widget):
 
