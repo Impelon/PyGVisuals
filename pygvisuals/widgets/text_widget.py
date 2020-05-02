@@ -140,6 +140,18 @@ class TextWidget(Widget):
     antialiased = property(lambda obj: obj.isAntialiasing(), lambda obj, arg: obj.setAntialiasing(arg), doc="The widget' status as a boolean "
                            "regarding whether antialiasing is used when rendering text.")
 
+    def __contains__(self, item):
+        """
+        Return whether the given string is in the widget's text.
+
+        Args:
+            item: A string to check if it is contained inside the widget's text.
+
+        Returns:
+            A boolean indicating whether the given string is in the widget's text (same as `item in widget.text`).
+        """
+        return item in self.text
+
 
 # inherit docs from superclass
 TextWidget = inherit_docstrings_from_superclass(TextWidget)

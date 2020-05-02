@@ -172,6 +172,18 @@ class Listbox(SelectionTextWidget):
                 surface.blit(selection, (0, linesize * (n - self._viewpoint)))
         return surface
 
+    def __contains__(self, item):
+        """
+        Return whether the given object is in the widget's list.
+
+        Args:
+            item: An object to check if it is contained inside the widget's list.
+
+        Returns:
+            A boolean indicating whether the given object is in the widget's list (same as `item in widget.list`).
+        """
+        return item in self.list
+
     list = property(getList, setList, doc="""The widget' list-representation of its content.""")
     viewpoint = property(getViewpoint, setViewpoint, doc="""The widget's position of the viewpoint as a index. This is the first currently visible index.""")
 
