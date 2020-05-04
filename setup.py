@@ -14,6 +14,7 @@ setup(name="PyGVisuals",
                 "pygvisuals.designs",
                 "pygvisuals.io",
                 "pygvisuals.util",
+                "pygvisuals.util.default_font",
                 "pygvisuals.widgets",],
       install_requires=["pygame"],
       zip_safe=False,)
