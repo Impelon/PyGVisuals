@@ -3,7 +3,7 @@
 from setuptools import setup
 
 setup(name="PyGVisuals",
-      version="0.7",
+      version="0.8",
       description="A collection of classes to create GUIs and more based purely on pygame.",
       url="https://github.com/Impelon/PyGVisuals",
       author="Impelon & kjkriegel",
