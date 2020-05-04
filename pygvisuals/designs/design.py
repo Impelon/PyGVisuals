@@ -48,7 +48,7 @@ class Design(object):
         Returns:
             A new design-instance with the same attributes and fallback as this design.
         """
-        return type(self)(self.fallback, **vars(self))
+        return type(self)(**vars(self))
 
     def copy(self):
         """
