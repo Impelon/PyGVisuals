@@ -123,7 +123,6 @@ class Widget(pygame.sprite.DirtySprite):
         visible = bool(visible)
         if self.visible != visible:
             self.visible = visible
-            self.setActive(visible)
         return self
 
     def isVisible(self):
@@ -193,7 +192,7 @@ class Widget(pygame.sprite.DirtySprite):
         Returns:
             A boolean indicating whether the widget is active.
         """
-        return self._active
+        return self._active and self.visible
 
     def setBounds(self, rect):
         """
