@@ -59,7 +59,7 @@ class TextWidget(Widget):
         Returns:
             A string representing the content of the widget.
         """
-        return getattr(self, "_text", None)
+        return getattr(self, "_text", "")
 
     def setFont(self, font):
         """
