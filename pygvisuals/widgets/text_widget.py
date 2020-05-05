@@ -131,6 +131,8 @@ class TextWidget(Widget):
         Returns:
             A pygame.Surface with the text drawn on it.
         """
+        if not text:
+            text = ""
         if not color:
             color = self.foreground
         return self.font.render(text, self.antialiased, color, background)

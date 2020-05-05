@@ -148,7 +148,7 @@ class Button(Label):
                 self._state = 1
                 if pressed:
                     if event.type == pygame.MOUSEBUTTONUP:
-                        if self.isFocused() and self.callback:
+                        if self.isFocused() and getattr(self, "callback", None):
                             try:
                                 self.callback()
                             except Exception as e:
