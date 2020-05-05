@@ -89,14 +89,12 @@ class Button(Label):
 
         Args:
             callback: A callable object to be called when the button is pressed.
-                If this is a falsy value, no function will be called when the button is pressed;
-                The default value is None, meaning that the button will not have any special behaivour when pressed.
+                If this is a falsy value, no function will be called when the button is pressed.
 
         Returns:
             Itsself (the widget) for convenience.
         """
-        if callable(callback):
-            self._callback = callback
+        self._callback = callback
         return self
 
     def getCallback(self):
@@ -150,7 +148,7 @@ class Button(Label):
                 self._state = 1
                 if pressed:
                     if event.type == pygame.MOUSEBUTTONUP:
-                        if self.isFocused():
+                        if self.isFocused() and self.callback:
                             try:
                                 self.callback()
                             except Exception as e:
