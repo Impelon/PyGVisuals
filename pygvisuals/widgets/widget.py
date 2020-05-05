@@ -112,7 +112,7 @@ class Widget(pygame.sprite.DirtySprite):
     def setVisible(self, visible):
         """
         Set the widget's visibility.
-        Invisible widgets will not be drawn and are inactive.
+        An invisible widget will not be drawn and is inactive.
 
         Args:
             visible: A boolean indicating whether the widget should be visible.
@@ -122,18 +122,18 @@ class Widget(pygame.sprite.DirtySprite):
         """
         visible = bool(visible)
         if self.visible != visible:
-            self.visible = visible
+            pygame.sprite.DirtySprite.visible.fset(self, visible)
         return self
 
     def isVisible(self):
         """
         Return whether the widget is visible.
-        Invisible widgets will not be drawn and are inactive.
+        An invisible widget will not be drawn and is inactive.
 
         Returns:
             A boolean indicating whether the widget is declared visible.
         """
-        return self.visible
+        return super(Widget, self).visible
 
     def setFocused(self, focused):
         """
@@ -240,9 +240,8 @@ class Widget(pygame.sprite.DirtySprite):
         """
         if not border:
             border = Border(0, 0)
-        if isinstance(border, Border):
-            self._border = border
-            self.markDirty()
+        self._border = border
+        self.markDirty()
         return self
 
     def getBorder(self):
@@ -431,10 +430,10 @@ class Widget(pygame.sprite.DirtySprite):
         Args:
             *args: Any arguments provided for the update. This can include an optional pygame.event.Event to process.
         """
-        if self.isActive() and len(args) > 0:
-            event = args[0]
-            if event.type == pygame.MOUSEBUTTONDOWN and event.button in (1, 2, 3):
-                self.setFocused(self.rect.collidepoint(event.pos))
+        if self.isActive():
+            for arg in args:
+                if hasattr(arg, "type"):
+                    self._handleEvent(arg)
         if self.isDirty():
             self._updateRect(*args)
             self.image = self._getAppearance(*args)
@@ -443,6 +442,17 @@ class Widget(pygame.sprite.DirtySprite):
                 inactive.fill(self.disabeled_overlay)
                 self.image.blit(inactive, (0, 0))
             self.image = self.border.getBorderedImage(self.image, *args)
+
+    def _handleEvent(self, event):
+        """
+        Handle a given event.
+        This is an internal function.
+
+        Args:
+            event: A object assumed to be an event. Guaranteed to have an `type`-attribute.
+        """
+        if event.type == pygame.MOUSEBUTTONDOWN and event.button in (1, 2, 3):
+            self.setFocused(self.rect.collidepoint(event.pos))
 
     def _updateRect(self, *args):
         """
@@ -496,3 +506,5 @@ class Widget(pygame.sprite.DirtySprite):
         An inactive widget will should not respond to user-input and will have a grey overlay.""")
     focused = property(lambda obj: obj.isFocused(), lambda obj, arg: obj.setFocused(arg), doc="""The widget's focus status as a boolean.
         A widget will be focused automatically if it is clicked on.""")
+    visible = property(lambda obj: obj.isVisible(), lambda obj, arg: obj.setVisible(arg), doc="""The widget's visibility status as a boolean.
+        An invisible widget will not be drawn and is inactive.""")
