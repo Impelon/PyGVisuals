@@ -71,12 +71,14 @@ class Listbox(SelectionTextWidget):
             self.setViewpoint(index - (self.rect.h / self.font.get_linesize()))
         return super(Listbox, self).setCursor(index)
 
-    def setText(self, text):
+    def setText(self, text, return_success_boolean=False):
         """
         Note: Any given text will be ignored; use insert or delete instead.
 
         inherit_doc::
         """
+        if return_success_boolean:
+            return False
         return self
 
     def getText(self):

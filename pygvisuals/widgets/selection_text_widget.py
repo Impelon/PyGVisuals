@@ -6,7 +6,7 @@ import pygame
 from .text_widget import TextWidget
 from ..designs import getDefaultDesign, getFallbackDesign
 from ..util import inherit_docstrings_from_superclass
-
+from ..util import clipboard
 
 # constants
 START = 0
@@ -366,18 +366,28 @@ class SelectionTextWidget(TextWidget):
         """
         if len(args) > 0 and self.isActive() and self.isFocused():
             event = args[0]
-            if event.type == pygame.KEYDOWN and self.isEditable():
-                if event.key in (pygame.K_BACKSPACE, pygame.K_DELETE):
-                    if self.selection_index == self.cursor:
-                        if event.key == pygame.K_DELETE:
-                            self.delete(self.selection_index + 1, CURSOR)
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_c and event.mod & pygame.KMOD_CTRL:
+                    s, c = self._sort(SELECTION, CURSOR)
+                    clipboard.copy(self.text[s:c])
+                if self.isEditable():
+                    if event.key in (pygame.K_BACKSPACE, pygame.K_DELETE):
+                        if self.selection_index == self.cursor:
+                            if event.key == pygame.K_DELETE:
+                                self.delete(self.selection_index + 1, CURSOR)
+                            else:
+                                if self.delete(self.selection_index - 1, CURSOR):
+                                    self.moveCursor(-1)
                         else:
-                            if self.delete(self.selection_index - 1, CURSOR):
-                                self.moveCursor(-1)
-                    else:
-                        s, c = self._sort(SELECTION, CURSOR)
-                        if self.delete(s, c):
-                            self.setCursor(s)
+                            s, c = self._sort(SELECTION, CURSOR)
+                            if self.delete(s, c):
+                                self.setCursor(s)
+                    elif event.key == pygame.K_v and event.mod & pygame.KMOD_CTRL:
+                        paste_text = clipboard.paste()
+                        if paste_text:
+                            s, c = self._sort(SELECTION, CURSOR)
+                            if self.setText(self.text[:s] + paste_text + self.text[c:], True):
+                                self.setCursor(s + len(paste_text))
             elif event.type == pygame.MOUSEMOTION:
                 if (event.buttons[0] or event.buttons[2]) and self.rect.collidepoint(event.pos):
                     self.setSelection(SELECTION, self._posToIndex(event.pos[0] - self.rect.x, event.pos[1] - self.rect.y))

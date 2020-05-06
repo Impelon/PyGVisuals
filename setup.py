@@ -17,4 +17,5 @@ setup(name="PyGVisuals",
                 "pygvisuals.util.default_font",
                 "pygvisuals.widgets",],
       install_requires=["pygame"],
+      extras_require={"clipboard": ["pyperclip"]},
       zip_safe=False,)
