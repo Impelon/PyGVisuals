@@ -43,6 +43,8 @@ def bind_clipboard():
                             pass
             return return_value
         robust_paste.__doc__ = pygame.scrap.get.__doc__
+        robust_paste()
+        paste = robust_paste
 
         def robust_copy(text):
             pygame.scrap.set_mode(SCRAP_CLIPBOARD)
@@ -58,7 +60,6 @@ def bind_clipboard():
             return return_value
         robust_copy.__doc__ = pygame.scrap.put.__doc__
         copy = robust_copy
-        paste = robust_paste
         return
     except:
         pass

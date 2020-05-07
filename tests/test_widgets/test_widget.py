@@ -1,7 +1,10 @@
 # --- imports
 # preinstalled python libraries
 import unittest
-from unittest.mock import Mock
+try:
+    from unittest.mock import Mock
+except:
+    from mock import Mock
 import types
 
 # pygame imports
@@ -38,13 +41,13 @@ class TestWidget(unittest.TestCase):
                        "button": button,
                        "pos": pos})
 
-    def mockBorder(self):
+    def mockBorder(self, size=0):
         """
         Return a Mock-object of an empty border.
         """
         return Mock(**{"getBorderedImage.side_effect": lambda x, *args: x,
-                       "getBounds.side_effect": lambda x, *args: x,
-                       "isEmptyBorder.return_value": True})
+                       "getBounds.side_effect": lambda x, *args: x.inflate(size*2, size*2),
+                       "isEmptyBorder.return_value": size == 0})
 
     def assertColorsIn(self, colors, surface, rect, should_check=None):
         """
